@@ -1,6 +1,6 @@
 // Generated journey data — the 24 books of the Tanakh as regions of one world.
-// Content scripted by the tanakh-journey-script workflow; do not hand-edit story text here
-// without also updating the workflow output.
+// Structural/visual fields scripted by the tanakh-journey-script workflow.
+// Story text is King James Version scripture (public domain), curated per beat.
 
 export const SECTION_NAMES = { Torah: 'Torah', Neviim: "Nevi\u2019im", Ketuvim: 'Ketuvim' };
 
@@ -65,43 +65,93 @@ export const BOOKS = [
     "stories": [
       {
         "title": "Let There Be Light",
-        "caption": "Dark water lies waiting under no sky. A word crosses it, and light spills over the deep.",
+        "verses": [
+          {
+            "t": "And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.",
+            "ref": "Genesis 1:2"
+          },
+          {
+            "t": "And God said, Let there be light: and there was light.",
+            "ref": "Genesis 1:3"
+          }
+        ],
         "echo": null,
         "prop": null,
         "flare": false
       },
       {
         "title": "The Garden",
-        "caption": "Two trees rise at the heart of the green, heavy with fruit. Something slow and glittering moves through the grass, and the gate fills with flame.",
-        "echo": "Her seed will crush the serpent",
+        "verses": [
+          {
+            "t": "And out of the ground made the LORD God to grow every tree that is pleasant to the sight, and good for food; the tree of life also in the midst of the garden, and the tree of knowledge of good and evil.",
+            "ref": "Genesis 2:9"
+          }
+        ],
+        "echo": {
+          "t": "And I will put enmity between thee and the woman, and between thy seed and her seed; it shall bruise thy head, and thou shalt bruise his heel.",
+          "ref": "Genesis 3:15"
+        },
         "prop": "gardenTree",
         "flare": false
       },
       {
         "title": "The Flood",
-        "caption": "Rain unmakes the world. A wooden hull rides the dark with one window lit, and a dove goes out over the water.",
+        "verses": [
+          {
+            "t": "And the flood was forty days upon the earth; and the waters increased, and bare up the ark, and it was lift up above the earth.",
+            "ref": "Genesis 7:17"
+          },
+          {
+            "t": "And the dove came in to him in the evening; and, lo, in her mouth was an olive leaf pluckt off: so Noah knew that the waters were abated from off the earth.",
+            "ref": "Genesis 8:11"
+          }
+        ],
         "echo": null,
         "prop": "ark",
         "flare": false
       },
       {
         "title": "The Ram in the Thicket",
-        "caption": "Father and fire climb the bare summit; the wood is laid in order. In the thicket, horns tangle and wait.",
-        "echo": "God himself will provide the lamb",
+        "verses": [
+          {
+            "t": "And Abraham lifted up his eyes, and looked, and behold behind him a ram caught in a thicket by his horns: and Abraham went and took the ram, and offered him up for a burnt offering in the stead of his son.",
+            "ref": "Genesis 22:13"
+          }
+        ],
+        "echo": {
+          "t": "And Abraham said, My son, God will provide himself a lamb for a burnt offering: so they went both of them together.",
+          "ref": "Genesis 22:8"
+        },
         "prop": "altar",
         "flare": true
       },
       {
         "title": "The Ladder",
-        "caption": "A stone for a pillow under a torn sky. Light climbs down, rung by rung, into the sleeping land.",
-        "echo": "The gate of heaven stands open",
+        "verses": [
+          {
+            "t": "And he dreamed, and behold a ladder set up on the earth, and the top of it reached to heaven: and behold the angels of God ascending and descending on it.",
+            "ref": "Genesis 28:12"
+          }
+        ],
+        "echo": {
+          "t": "And he was afraid, and said, How dreadful is this place! this is none other but the house of God, and this is the gate of heaven.",
+          "ref": "Genesis 28:17"
+        },
         "prop": "ladder",
         "flare": false
       },
       {
         "title": "The Brother Sold",
-        "caption": "An empty cistern in dry grass; a coat's colors drift south with the caravans. Far off, granaries rise like mountains against the famine sky.",
-        "echo": "Sold for silver, he feeds nations",
+        "verses": [
+          {
+            "t": "Then there passed by Midianites merchantmen; and they drew and lifted up Joseph out of the pit, and sold Joseph to the Ishmeelites for twenty pieces of silver: and they brought Joseph into Egypt.",
+            "ref": "Genesis 37:28"
+          }
+        ],
+        "echo": {
+          "t": "But as for you, ye thought evil against me; but God meant it unto good, to bring to pass, as it is this day, to save much people alive.",
+          "ref": "Genesis 50:20"
+        },
         "prop": null,
         "flare": false
       }
@@ -165,36 +215,78 @@ export const BOOKS = [
     "stories": [
       {
         "title": "Night of the Lamb",
-        "caption": "A cry rises over Egypt's dark. Where blood marks the doorframe, the house sleeps unharmed.",
-        "echo": "The lamb dies; the household lives.",
+        "verses": [
+          {
+            "t": "And they shall take of the blood, and strike it on the two side posts and on the upper door post of the houses, wherein they shall eat it.",
+            "ref": "Exodus 12:7"
+          }
+        ],
+        "echo": {
+          "t": "And the blood shall be to you for a token upon the houses where ye are: and when I see the blood, I will pass over you, and the plague shall not be upon you to destroy you, when I smite the land of Egypt.",
+          "ref": "Exodus 12:13"
+        },
         "prop": null,
         "flare": true
       },
       {
         "title": "The Sea Stands Open",
-        "caption": "Two walls of water tremble and hold. Between them, wind-dried sand and a column of fire guarding the way.",
+        "verses": [
+          {
+            "t": "And Moses stretched out his hand over the sea; and the LORD caused the sea to go back by a strong east wind all that night, and made the sea dry land, and the waters were divided.",
+            "ref": "Exodus 14:21"
+          },
+          {
+            "t": "And the children of Israel went into the midst of the sea upon the dry ground: and the waters were a wall unto them on their right hand, and on their left.",
+            "ref": "Exodus 14:22"
+          }
+        ],
         "echo": null,
         "prop": "pillarOfFire",
         "flare": false
       },
       {
         "title": "Bread with the Dew",
-        "caption": "Dawn whitens the desert floor with thin flakes, sweet as honey, gone by noon.",
-        "echo": "Bread comes down from heaven.",
+        "verses": [
+          {
+            "t": "And when the dew that lay was gone up, behold, upon the face of the wilderness there lay a small round thing, as small as the hoar frost on the ground.",
+            "ref": "Exodus 16:14"
+          },
+          {
+            "t": "And when the children of Israel saw it, they said one to another, It is manna: for they wist not what it was. And Moses said unto them, This is the bread which the LORD hath given you to eat.",
+            "ref": "Exodus 16:15"
+          }
+        ],
+        "echo": {
+          "t": "Then said the LORD unto Moses, Behold, I will rain bread from heaven for you; and the people shall go out and gather a certain rate every day, that I may prove them, whether they will walk in my law, or no.",
+          "ref": "Exodus 16:4"
+        },
         "prop": null,
         "flare": false
       },
       {
         "title": "The Mountain in Smoke",
-        "caption": "Thunder without rain. The peak shakes under its wrapping of smoke, and two stones wait in the fire above.",
+        "verses": [
+          {
+            "t": "And mount Sinai was altogether on a smoke, because the LORD descended upon it in fire: and the smoke thereof ascended as the smoke of a furnace, and the whole mount quaked greatly.",
+            "ref": "Exodus 19:18"
+          }
+        ],
         "echo": null,
         "prop": "tablets",
         "flare": false
       },
       {
         "title": "Glory Fills the Tent",
-        "caption": "A small tent of woven cloth stands in the wide plain. Cloud settles over it; light spills from the seams.",
-        "echo": "Glory pitches its tent among the tents.",
+        "verses": [
+          {
+            "t": "Then a cloud covered the tent of the congregation, and the glory of the LORD filled the tabernacle.",
+            "ref": "Exodus 40:34"
+          }
+        ],
+        "echo": {
+          "t": "And let them make me a sanctuary; that I may dwell among them.",
+          "ref": "Exodus 25:8"
+        },
         "prop": "tent",
         "flare": false
       }
@@ -253,22 +345,43 @@ export const BOOKS = [
     "stories": [
       {
         "title": "A Voice From the Tent",
-        "caption": "The cloud settles low and the camp goes quiet. From inside the tent a voice calls, and smoke begins to rise.",
-        "echo": "Without blemish, offered in your place.",
+        "verses": [
+          {
+            "t": "Speak unto the children of Israel, and say unto them, If any man of you bring an offering unto the LORD, ye shall bring your offering of the cattle, even of the herd, and of the flock.",
+            "ref": "Leviticus 1:2"
+          }
+        ],
+        "echo": {
+          "t": "If his offering be a burnt sacrifice of the herd, let him offer a male without blemish: he shall offer it of his own voluntary will at the door of the tabernacle of the congregation before the LORD.",
+          "ref": "Leviticus 1:3"
+        },
         "prop": "tent",
         "flare": false
       },
       {
         "title": "Fire From the Presence",
-        "caption": "Glory flickers at the tent's door. Fire leaps out and takes the offering whole, and the whole plain kneels in its light.",
+        "verses": [
+          {
+            "t": "And there came a fire out from before the LORD, and consumed upon the altar the burnt offering and the fat: which when all the people saw, they shouted, and fell on their faces.",
+            "ref": "Leviticus 9:24"
+          }
+        ],
         "echo": null,
         "prop": "altar",
         "flare": false
       },
       {
         "title": "The Goat That Leaves",
-        "caption": "Two goats stand at the entrance. One stays beside the altar; the other walks into the empty land and does not come back.",
-        "echo": "He bears it away, outside the camp.",
+        "verses": [
+          {
+            "t": "And Aaron shall lay both his hands upon the head of the live goat, and confess over him all the iniquities of the children of Israel, and all their transgressions in all their sins, putting them upon the head of the goat, and shall send him away by the hand of a fit man into the wilderness:",
+            "ref": "Leviticus 16:21"
+          }
+        ],
+        "echo": {
+          "t": "And the goat shall bear upon him all their iniquities unto a land not inhabited: and he shall let go the goat in the wilderness.",
+          "ref": "Leviticus 16:22"
+        },
         "prop": null,
         "flare": false
       }
@@ -331,29 +444,52 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Camp in Order",
-        "caption": "Tents ring a single tent at the heart of the waste. When the cloud lifts, everything moves.",
-        "echo": "One tent stands among the many.",
+        "verses": [
+          {
+            "t": "Then the tabernacle of the congregation shall set forward with the camp of the Levites in the midst of the camp: as they encamp, so shall they set forward, every man in his place by their standards.",
+            "ref": "Numbers 2:17"
+          }
+        ],
+        "echo": null,
         "prop": "tent",
         "flare": false
       },
       {
         "title": "Grapes of Eshcol",
-        "caption": "A green cleft opens in the rock, vines bowed with fruit. One cluster needs a pole to carry.",
+        "verses": [
+          {
+            "t": "And they came unto the brook of Eshcol, and cut down from thence a branch with one cluster of grapes, and they bare it between two upon a staff; and they brought of the pomegranates, and of the figs.",
+            "ref": "Numbers 13:23"
+          }
+        ],
         "echo": null,
         "prop": "vineyard",
         "flare": false
       },
       {
         "title": "The Bronze Serpent",
-        "caption": "Serpents of fire thread the sand. Above the camp, bronze coils burn on a raised pole.",
-        "echo": "Look up, and live.",
+        "verses": [
+          {
+            "t": "And Moses made a serpent of brass, and put it upon a pole, and it came to pass, that if a serpent had bitten any man, when he beheld the serpent of brass, he lived.",
+            "ref": "Numbers 21:9"
+          }
+        ],
+        "echo": {
+          "t": "And the LORD said unto Moses, Make thee a fiery serpent, and set it upon a pole: and it shall come to pass, that every one that is bitten, when he looketh upon it, shall live.",
+          "ref": "Numbers 21:8"
+        },
         "prop": "serpentPole",
         "flare": false
       },
       {
         "title": "The Star of Jacob",
-        "caption": "Seven altars smolder on the clifftop. Far below, the camp spreads like spilled light, and one star holds its place.",
-        "echo": "A star rises out of Jacob.",
+        "verses": [
+          {
+            "t": "I shall see him, but not now: I shall behold him, but not nigh: there shall come a Star out of Jacob, and a Sceptre shall rise out of Israel, and shall smite the corners of Moab, and destroy all the children of Sheth.",
+            "ref": "Numbers 24:17"
+          }
+        ],
+        "echo": null,
         "prop": "altar",
         "flare": false
       }
@@ -416,22 +552,54 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Words on the Plain",
-        "caption": "Evening settles over the tents. One old voice retells the whole road — sea, mountain, wilderness — while the river shines below.",
-        "echo": "The word is very near you.",
+        "verses": [
+          {
+            "t": "Hear, O Israel: The LORD our God is one LORD:",
+            "ref": "Deuteronomy 6:4"
+          },
+          {
+            "t": "And thou shalt love the LORD thy God with all thine heart, and with all thy soul, and with all thy might.",
+            "ref": "Deuteronomy 6:5"
+          }
+        ],
+        "echo": {
+          "t": "The LORD thy God will raise up unto thee a Prophet from the midst of thee, of thy brethren, like unto me; unto him ye shall hearken;",
+          "ref": "Deuteronomy 18:15"
+        },
         "prop": "tent",
         "flare": false
       },
       {
         "title": "Blessing and Curse",
-        "caption": "The law stands written on plastered stones. Two slopes face each other, and the wind carries blessing from one, curse from the other.",
-        "echo": "Cursed is the one hung on a tree.",
+        "verses": [
+          {
+            "t": "I call heaven and earth to record this day against you, that I have set before you life and death, blessing and cursing: therefore choose life, that both thou and thy seed may live:",
+            "ref": "Deuteronomy 30:19"
+          }
+        ],
+        "echo": {
+          "t": "His body shall not remain all night upon the tree, but thou shalt in any wise bury him that day; (for he that is hanged is accursed of God;) that thy land be not defiled, which the LORD thy God giveth thee for an inheritance.",
+          "ref": "Deuteronomy 21:23"
+        },
         "prop": "stones",
         "flare": false
       },
       {
         "title": "Mount Nebo",
-        "caption": "From the summit the whole land unrolls: palms by the river, hills going blue, a far shimmer of sea. Below, an unmarked valley keeps its grave.",
-        "echo": "One like him will yet arise.",
+        "verses": [
+          {
+            "t": "And Moses went up from the plains of Moab unto the mountain of Nebo, to the top of Pisgah, that is over against Jericho. And the LORD shewed him all the land of Gilead, unto Dan,",
+            "ref": "Deuteronomy 34:1"
+          },
+          {
+            "t": "So Moses the servant of the LORD died there in the land of Moab, according to the word of the LORD.",
+            "ref": "Deuteronomy 34:5"
+          }
+        ],
+        "echo": {
+          "t": "And there arose not a prophet since in Israel like unto Moses, whom the LORD knew face to face,",
+          "ref": "Deuteronomy 34:10"
+        },
         "prop": "palms",
         "flare": false
       }
@@ -494,21 +662,39 @@ export const BOOKS = [
     "stories": [
       {
         "title": "Crossing on Dry Ground",
-        "caption": "The ark goes first into the riverbed. Upstream, the whole Jordan stands in a single trembling heap.",
-        "echo": "After three days, the waters open.",
+        "verses": [
+          {
+            "t": "And the priests that bare the ark of the covenant of the LORD stood firm on dry ground in the midst of Jordan, and all the Israelites passed over on dry ground, until all the people were passed clean over Jordan.",
+            "ref": "Joshua 3:17"
+          }
+        ],
+        "echo": null,
         "prop": "ark",
         "flare": false
       },
       {
         "title": "The Seventh Day",
-        "caption": "Seven silent circuits, then the horns. The wall lies down in its own dust; one scarlet cord hangs in a standing window.",
-        "echo": "A scarlet thread spares the house.",
+        "verses": [
+          {
+            "t": "So the people shouted when the priests blew with the trumpets: and it came to pass, when the people heard the sound of the trumpet, and the people shouted with a great shout, that the wall fell down flat, so that the people went up into the city, every man straight before him, and they took the city.",
+            "ref": "Joshua 6:20"
+          }
+        ],
+        "echo": {
+          "t": "And she said, According unto your words, so be it. And she sent them away, and they departed: and she bound the scarlet line in the window.",
+          "ref": "Joshua 2:21"
+        },
         "prop": "wall",
         "flare": true
       },
       {
         "title": "Sun Over Gibeon",
-        "caption": "The light stops mid-sky and holds. Shadows keep their places until the day's work is done.",
+        "verses": [
+          {
+            "t": "And the sun stood still, and the moon stayed, until the people had avenged themselves upon their enemies. Is not this written in the book of Jasher? So the sun stood still in the midst of heaven, and hasted not to go down about a whole day.",
+            "ref": "Joshua 10:13"
+          }
+        ],
         "echo": null,
         "prop": null,
         "flare": false
@@ -573,29 +759,59 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Palm of Deborah",
-        "caption": "A single palm stands over the mustering hills. Storm bursts on the Kishon; the stars fight from their courses.",
-        "echo": "A woman's hand crushes the head",
+        "verses": [
+          {
+            "t": "And she dwelt under the palm tree of Deborah between Ramah and Bethel in mount Ephraim: and the children of Israel came up to her for judgment.",
+            "ref": "Judges 4:5"
+          },
+          {
+            "t": "Blessed above women shall Jael the wife of Heber the Kenite be, blessed shall she be above women in the tent.",
+            "ref": "Judges 5:24"
+          }
+        ],
+        "echo": {
+          "t": "She put her hand to the nail, and her right hand to the workmen’s hammer; and with the hammer she smote Sisera, she smote off his head, when she had pierced and stricken through his temples.",
+          "ref": "Judges 5:26"
+        },
         "prop": "palms",
         "flare": false
       },
       {
         "title": "Torches in the Jars",
-        "caption": "Dew silvers one fleece on a dry threshing floor. In the dark, three hundred small flames wait shut inside clay jars.",
-        "echo": "When the jars break, light blazes",
+        "verses": [
+          {
+            "t": "And the three companies blew the trumpets, and brake the pitchers, and held the lamps in their left hands, and the trumpets in their right hands to blow withal: and they cried, The sword of the LORD, and of Gideon.",
+            "ref": "Judges 7:20"
+          }
+        ],
+        "echo": null,
         "prop": "altar",
         "flare": false
       },
       {
         "title": "Honey from the Lion",
-        "caption": "Bees thread a lion's white ribs among the vines. Honey gleams in the hollow of the carcass.",
-        "echo": "Out of the eater, something sweet",
+        "verses": [
+          {
+            "t": "And after a time he returned to take her, and he turned aside to see the carcase of the lion: and, behold, there was a swarm of bees and honey in the carcase of the lion.",
+            "ref": "Judges 14:8"
+          }
+        ],
+        "echo": {
+          "t": "And he said unto them, Out of the eater came forth meat, and out of the strong came forth sweetness. And they could not in three days expound the riddle.",
+          "ref": "Judges 14:14"
+        },
         "prop": "vineyard",
         "flare": false
       },
       {
         "title": "Between the Pillars",
-        "caption": "In Dagon's hall the two pillars begin to lean. Dust sifts through the shouting, then a great stillness.",
-        "echo": "Arms stretched wide, the house comes down",
+        "verses": [
+          {
+            "t": "And Samson said, Let me die with the Philistines. And he bowed himself with all his might; and the house fell upon the lords, and upon all the people that were therein. So the dead which he slew at his death were more than they which he slew in his life.",
+            "ref": "Judges 16:30"
+          }
+        ],
+        "echo": null,
         "prop": "temple",
         "flare": false
       }
@@ -658,29 +874,59 @@ export const BOOKS = [
     "stories": [
       {
         "title": "A Voice at Shiloh",
-        "caption": "The lamp of God still burns in the tent. Before dawn, a name is called into the dark, three times.",
+        "verses": [
+          {
+            "t": "And the LORD came, and stood, and called as at other times, Samuel, Samuel. Then Samuel answered, Speak; for thy servant heareth.",
+            "ref": "1 Samuel 3:10"
+          }
+        ],
         "echo": null,
         "prop": "tent",
         "flare": false
       },
       {
         "title": "Oil in Bethlehem",
-        "caption": "By the well, the youngest is called in from the sheep. Oil runs down his hair, and the hills lean closer.",
-        "echo": "A shepherd rises out of Bethlehem.",
+        "verses": [
+          {
+            "t": "And he sent, and brought him in. Now he was ruddy, and withal of a beautiful countenance, and goodly to look to. And the LORD said, Arise, anoint him: for this is he.",
+            "ref": "1 Samuel 16:12"
+          },
+          {
+            "t": "Then Samuel took the horn of oil, and anointed him in the midst of his brethren: and the Spirit of the LORD came upon David from that day forward. So Samuel rose up, and went to Ramah.",
+            "ref": "1 Samuel 16:13"
+          }
+        ],
+        "echo": null,
         "prop": "well",
         "flare": false
       },
       {
         "title": "Five Smooth Stones",
-        "caption": "A giant's shadow lies across the valley. From the brook, five stones; only one leaves the sling.",
-        "echo": "One champion stands for the many.",
+        "verses": [
+          {
+            "t": "And he took his staff in his hand, and chose him five smooth stones out of the brook, and put them in a shepherd’s bag which he had, even in a scrip; and his sling was in his hand: and he drew near to the Philistine.",
+            "ref": "1 Samuel 17:40"
+          }
+        ],
+        "echo": {
+          "t": "And all this assembly shall know that the LORD saveth not with sword and spear: for the battle is the LORD’s, and he will give you into our hands.",
+          "ref": "1 Samuel 17:47"
+        },
         "prop": "stones",
         "flare": false
       },
       {
         "title": "A House Forever",
-        "caption": "Cedar beams and lamplight in the new city. A word arrives by night: a house, a throne.",
-        "echo": "His house and his throne, forever.",
+        "verses": [
+          {
+            "t": "And when thy days be fulfilled, and thou shalt sleep with thy fathers, I will set up thy seed after thee, which shall proceed out of thy bowels, and I will establish his kingdom.",
+            "ref": "2 Samuel 7:12"
+          }
+        ],
+        "echo": {
+          "t": "And thine house and thy kingdom shall be established for ever before thee: thy throne shall be established for ever.",
+          "ref": "2 Samuel 7:16"
+        },
         "prop": "throne",
         "flare": false
       }
@@ -743,36 +989,75 @@ export const BOOKS = [
     "stories": [
       {
         "title": "Gold on the Height",
-        "caption": "Cedar crosses gold-leafed stone on the highest terrace. When the doors shut, a cloud fills the house and will not lift.",
-        "echo": "A greater house will rise.",
+        "verses": [
+          {
+            "t": "So Solomon overlaid the house within with pure gold: and he made a partition by the chains of gold before the oracle; and he overlaid it with gold.",
+            "ref": "1 Kings 6:21"
+          },
+          {
+            "t": "So that the priests could not stand to minister because of the cloud: for the glory of the LORD had filled the house of the LORD.",
+            "ref": "1 Kings 8:11"
+          }
+        ],
+        "echo": {
+          "t": "But will God indeed dwell on the earth? behold, the heaven and heaven of heavens cannot contain thee; how much less this house that I have builded?",
+          "ref": "1 Kings 8:27"
+        },
         "prop": "temple",
         "flare": false
       },
       {
         "title": "Ravens at the Brook",
-        "caption": "Drought browns the ridges. At a hidden stream, black wings come at morning and evening, carrying bread.",
-        "echo": "Bread still falls in the wilderness.",
+        "verses": [
+          {
+            "t": "And the ravens brought him bread and flesh in the morning, and bread and flesh in the evening; and he drank of the brook.",
+            "ref": "1 Kings 17:6"
+          }
+        ],
+        "echo": null,
         "prop": null,
         "flare": false
       },
       {
         "title": "Fire on Carmel",
-        "caption": "Twelve stones stand drenched on the ridge, the trench brimming. Fire drops out of a clean sky and takes even the water.",
+        "verses": [
+          {
+            "t": "Then the fire of the LORD fell, and consumed the burnt sacrifice, and the wood, and the stones, and the dust, and licked up the water that was in the trench.",
+            "ref": "1 Kings 18:38"
+          },
+          {
+            "t": "And when all the people saw it, they fell on their faces: and they said, The LORD, he is the God; the LORD, he is the God.",
+            "ref": "1 Kings 18:39"
+          }
+        ],
         "echo": null,
         "prop": "altar",
         "flare": false
       },
       {
         "title": "A Whirlwind of Fire",
-        "caption": "Beyond the parted river, horses of flame turn upward in a spiral of wind. An empty mantle drifts down.",
+        "verses": [
+          {
+            "t": "And it came to pass, as they still went on, and talked, that, behold, there appeared a chariot of fire, and horses of fire, and parted them both asunder; and Elijah went up by a whirlwind into heaven.",
+            "ref": "2 Kings 2:11"
+          }
+        ],
         "echo": null,
         "prop": null,
         "flare": false
       },
       {
         "title": "The Long Road East",
-        "caption": "Ramps lean against the walls and the gold house is burning. A road runs east under low smoke.",
-        "echo": "A lamp for David still burns.",
+        "verses": [
+          {
+            "t": "And he burnt the house of the LORD, and the king’s house, and all the houses of Jerusalem, and every great man’s house burnt he with fire.",
+            "ref": "2 Kings 25:9"
+          }
+        ],
+        "echo": {
+          "t": "Yet the LORD would not destroy Judah for David his servant’s sake, as he promised him to give him alway a light, and to his children.",
+          "ref": "2 Kings 8:19"
+        },
         "prop": "city",
         "flare": false
       }
@@ -835,29 +1120,71 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Vineyard Song",
-        "caption": "A terraced vineyard on a fat hillside, tower and winepress standing ready. The hedge lies open; the vines have gone wild.",
+        "verses": [
+          {
+            "t": "Now will I sing to my wellbeloved a song of my beloved touching his vineyard. My wellbeloved hath a vineyard in a very fruitful hill:",
+            "ref": "Isaiah 5:1"
+          },
+          {
+            "t": "For the vineyard of the LORD of hosts is the house of Israel, and the men of Judah his pleasant plant: and he looked for judgment, but behold oppression; for righteousness, but behold a cry.",
+            "ref": "Isaiah 5:7"
+          }
+        ],
         "echo": null,
         "prop": "vineyard",
         "flare": false
       },
       {
         "title": "The Throne in the Smoke",
-        "caption": "Smoke fills the summit temple, and the hem of a robe pours down the stairs like light. From the altar, a live coal lifts, still burning.",
+        "verses": [
+          {
+            "t": "In the year that king Uzziah died I saw also the LORD sitting upon a throne, high and lifted up, and his train filled the temple.",
+            "ref": "Isaiah 6:1"
+          },
+          {
+            "t": "And one cried unto another, and said, Holy, holy, holy, is the LORD of hosts: the whole earth is full of his glory.",
+            "ref": "Isaiah 6:3"
+          }
+        ],
         "echo": null,
         "prop": "throne",
         "flare": false
       },
       {
         "title": "A Shoot from the Stump",
-        "caption": "A forest lies felled to its stumps. From one dead stump a green shoot rises, and lion eyes watch from the grass, gentle.",
-        "echo": "Unto us a child is born.",
+        "verses": [
+          {
+            "t": "And there shall come forth a rod out of the stem of Jesse, and a Branch shall grow out of his roots:",
+            "ref": "Isaiah 11:1"
+          },
+          {
+            "t": "Therefore the Lord himself shall give you a sign; Behold, a virgin shall conceive, and bear a son, and shall call his name Immanuel.",
+            "ref": "Isaiah 7:14"
+          }
+        ],
+        "echo": {
+          "t": "For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.",
+          "ref": "Isaiah 9:6"
+        },
         "prop": "tree",
         "flare": false
       },
       {
         "title": "The Servant's Hill",
-        "caption": "A narrow path leaves the highway for a bare hill and a single altar. Wool clings to the thorns; everything is very quiet.",
-        "echo": "Led like a lamb, and silent.",
+        "verses": [
+          {
+            "t": "He is despised and rejected of men; a man of sorrows, and acquainted with grief: and we hid as it were our faces from him; he was despised, and we esteemed him not.",
+            "ref": "Isaiah 53:3"
+          },
+          {
+            "t": "But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed.",
+            "ref": "Isaiah 53:5"
+          }
+        ],
+        "echo": {
+          "t": "He was oppressed, and he was afflicted, yet he opened not his mouth: he is brought as a lamb to the slaughter, and as a sheep before her shearers is dumb, so he openeth not his mouth.",
+          "ref": "Isaiah 53:7"
+        },
         "prop": "altar",
         "flare": true
       }
@@ -920,22 +1247,48 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Potter's House",
-        "caption": "A vessel slumps mid-turn on the wheel. Wet hands gather the ruin and begin again.",
+        "verses": [
+          {
+            "t": "And the vessel that he made of clay was marred in the hand of the potter: so he made it again another vessel, as seemed good to the potter to make it.",
+            "ref": "Jeremiah 18:4"
+          },
+          {
+            "t": "O house of Israel, cannot I do with you as this potter? saith the LORD. Behold, as the clay is in the potter’s hand, so are ye in mine hand, O house of Israel.",
+            "ref": "Jeremiah 18:6"
+          }
+        ],
         "echo": null,
         "prop": null,
         "flare": false
       },
       {
         "title": "Written on the Heart",
-        "caption": "Cracked tablets lie face-down in the dust. Between them a green shoot splits the stone.",
-        "echo": "Not on stone this time.",
+        "verses": [
+          {
+            "t": "But this shall be the covenant that I will make with the house of Israel; After those days, saith the LORD, I will put my law in their inward parts, and write it in their hearts; and will be their God, and they shall be my people.",
+            "ref": "Jeremiah 31:33"
+          }
+        ],
+        "echo": {
+          "t": "Behold, the days come, saith the LORD, that I will make a new covenant with the house of Israel, and with the house of Judah:",
+          "ref": "Jeremiah 31:31"
+        },
         "prop": "tablets",
         "flare": false
       },
       {
         "title": "Down in the Cistern",
-        "caption": "A rope drops into the dark mouth of the earth. The mire lets go; light returns.",
-        "echo": "Drawn up alive from the mire.",
+        "verses": [
+          {
+            "t": "Then took they Jeremiah, and cast him into the dungeon of Malchiah the son of Hammelech, that was in the court of the prison: and they let down Jeremiah with cords. And in the dungeon there was no water, but mire: so Jeremiah sunk in the mire.",
+            "ref": "Jeremiah 38:6"
+          },
+          {
+            "t": "So they drew up Jeremiah with cords, and took him up out of the dungeon: and Jeremiah remained in the court of the prison.",
+            "ref": "Jeremiah 38:13"
+          }
+        ],
+        "echo": null,
         "prop": "well",
         "flare": false
       }
@@ -995,22 +1348,50 @@ export const BOOKS = [
     "stories": [
       {
         "title": "Wheels Within Wheels",
-        "caption": "A storm wind comes out of the north, fire folding in on itself. Wheels full of eyes turn beneath a sapphire throne.",
-        "echo": "A voice says: stand, son of man.",
+        "verses": [
+          {
+            "t": "The appearance of the wheels and their work was like unto the colour of a beryl: and they four had one likeness: and their appearance and their work was as it were a wheel in the middle of a wheel.",
+            "ref": "Ezekiel 1:16"
+          }
+        ],
+        "echo": {
+          "t": "And he said unto me, Son of man, stand upon thy feet, and I will speak unto thee.",
+          "ref": "Ezekiel 2:1"
+        },
         "prop": "throne",
         "flare": false
       },
       {
         "title": "The Valley of Bones",
-        "caption": "The valley floor is white with bones, very dry. A rattling, bone to bone, and breath comes in from the four winds.",
-        "echo": "One shepherd, one flock, forever.",
+        "verses": [
+          {
+            "t": "Thus saith the Lord GOD unto these bones; Behold, I will cause breath to enter into you, and ye shall live:",
+            "ref": "Ezekiel 37:5"
+          },
+          {
+            "t": "So I prophesied as he commanded me, and the breath came into them, and they lived, and stood up upon their feet, an exceeding great army.",
+            "ref": "Ezekiel 37:10"
+          }
+        ],
+        "echo": {
+          "t": "And David my servant shall be king over them; and they all shall have one shepherd: they shall also walk in my judgments, and observe my statutes, and do them.",
+          "ref": "Ezekiel 37:24"
+        },
         "prop": "bones",
         "flare": false
       },
       {
         "title": "The River from the Threshold",
-        "caption": "Water seeps from under the temple door and deepens into a river too wide to cross. On both banks, trees whose leaves never fail.",
-        "echo": "Everything lives where the river goes.",
+        "verses": [
+          {
+            "t": "Afterward he brought me again unto the door of the house; and, behold, waters issued out from under the threshold of the house eastward: for the forefront of the house stood toward the east, and the waters came down from under from the right side of the house, at the south side of the altar.",
+            "ref": "Ezekiel 47:1"
+          }
+        ],
+        "echo": {
+          "t": "And it shall come to pass, that every thing that liveth, which moveth, whithersoever the rivers shall come, shall live: and there shall be a very great multitude of fish, because these waters shall come thither: for they shall be healed; and every thing shall live whither the river cometh.",
+          "ref": "Ezekiel 47:9"
+        },
         "prop": "temple",
         "flare": false
       }
@@ -1074,43 +1455,93 @@ export const BOOKS = [
     "stories": [
       {
         "title": "A Door of Hope",
-        "caption": "Fifteen pieces of silver and a measure of barley lie on a threshold. Beyond it, vines bloom in the Valley of Trouble.",
-        "echo": "The beloved is bought back",
+        "verses": [
+          {
+            "t": "And I will give her her vineyards from thence, and the valley of Achor for a door of hope: and she shall sing there, as in the days of her youth, and as in the day when she came up out of the land of Egypt.",
+            "ref": "Hosea 2:15"
+          }
+        ],
+        "echo": {
+          "t": "After two days will he revive us: in the third day he will raise us up, and we shall live in his sight.",
+          "ref": "Hosea 6:2"
+        },
         "prop": "vineyard",
         "flare": false
       },
       {
         "title": "The Locust Years",
-        "caption": "A dark swarm lifts from stripped fields. Behind it the rain begins, and the threshing floors stand full again.",
-        "echo": null,
+        "verses": [
+          {
+            "t": "That which the palmerworm hath left hath the locust eaten; and that which the locust hath left hath the cankerworm eaten; and that which the cankerworm hath left hath the caterpiller eaten.",
+            "ref": "Joel 1:4"
+          },
+          {
+            "t": "The sun shall be turned into darkness, and the moon into blood, before the great and the terrible day of the LORD come.",
+            "ref": "Joel 2:31"
+          }
+        ],
+        "echo": {
+          "t": "And it shall come to pass afterward, that I will pour out my spirit upon all flesh; and your sons and your daughters shall prophesy, your old men shall dream dreams, your young men shall see visions:",
+          "ref": "Joel 2:28"
+        },
         "prop": null,
         "flare": false
       },
       {
         "title": "Flight to Tarshish",
-        "caption": "A ship strains against a black squall. One splash, and the sea goes glass-calm; a vast shadow rises beneath the hull.",
+        "verses": [
+          {
+            "t": "But the LORD sent out a great wind into the sea, and there was a mighty tempest in the sea, so that the ship was like to be broken.",
+            "ref": "Jonah 1:4"
+          }
+        ],
         "echo": null,
         "prop": "boat",
         "flare": false
       },
       {
         "title": "Out of the Deep",
-        "caption": "Seaweed and darkness at the roots of the mountains. On the third morning: dry sand, and a great city gone quiet in sackcloth.",
-        "echo": "Three days in the deep, then morning",
+        "verses": [
+          {
+            "t": "Now the LORD had prepared a great fish to swallow up Jonah. And Jonah was in the belly of the fish three days and three nights.",
+            "ref": "Jonah 1:17"
+          },
+          {
+            "t": "I went down to the bottoms of the mountains; the earth with her bars was about me for ever: yet hast thou brought up my life from corruption, O LORD my God.",
+            "ref": "Jonah 2:6"
+          }
+        ],
+        "echo": null,
         "prop": "city",
         "flare": false
       },
       {
         "title": "The Smallest Clan",
-        "caption": "Sheep paths thread the hills toward a little town. In a stone fold, an empty feeding trough waits.",
-        "echo": "From the least clan, a shepherd of old",
+        "verses": [
+          {
+            "t": "But thou, Bethlehem Ephratah, though thou be little among the thousands of Judah, yet out of thee shall he come forth unto me that is to be ruler in Israel; whose goings forth have been from of old, from everlasting.",
+            "ref": "Micah 5:2"
+          }
+        ],
+        "echo": {
+          "t": "And he shall stand and feed in the strength of the LORD, in the majesty of the name of the LORD his God; and they shall abide: for now shall he be great unto the ends of the earth.",
+          "ref": "Micah 5:4"
+        },
         "prop": "manger",
         "flare": false
       },
       {
         "title": "The Opened Fountain",
-        "caption": "Two olive trees flank a golden lampstand. Below the city a fountain breaks open, running clear over the stones.",
-        "echo": "They look on the one they pierced",
+        "verses": [
+          {
+            "t": "In that day there shall be a fountain opened to the house of David and to the inhabitants of Jerusalem for sin and for uncleanness.",
+            "ref": "Zechariah 13:1"
+          }
+        ],
+        "echo": {
+          "t": "And I will pour upon the house of David, and upon the inhabitants of Jerusalem, the spirit of grace and of supplications: and they shall look upon me whom they have pierced, and they shall mourn for him, as one mourneth for his only son, and shall be in bitterness for him, as one that is in bitterness for his firstborn.",
+          "ref": "Zechariah 12:10"
+        },
         "prop": "menorah",
         "flare": false
       }
@@ -1174,22 +1605,55 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Forsaken Hour",
-        "caption": "The path drops into a dry ravine and the noon light fails. Low eyes glitter between the rocks; every bone of the land shows.",
-        "echo": "Pierced — and the song turns toward dawn",
+        "verses": [
+          {
+            "t": "My God, my God, why hast thou forsaken me? why art thou so far from helping me, and from the words of my roaring?",
+            "ref": "Psalms 22:1"
+          },
+          {
+            "t": "They part my garments among them, and cast lots upon my vesture.",
+            "ref": "Psalms 22:18"
+          }
+        ],
+        "echo": {
+          "t": "For dogs have compassed me: the assembly of the wicked have inclosed me: they pierced my hands and my feet.",
+          "ref": "Psalms 22:16"
+        },
         "prop": null,
         "flare": false
       },
       {
         "title": "Shepherd Valley",
-        "caption": "The ravine opens into green pasture. Water lies still enough to hold the whole sky.",
-        "echo": "The shepherd himself becomes the lamb",
+        "verses": [
+          {
+            "t": "The LORD is my shepherd; I shall not want.",
+            "ref": "Psalms 23:1"
+          },
+          {
+            "t": "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+            "ref": "Psalms 23:4"
+          }
+        ],
+        "echo": null,
         "prop": null,
         "flare": false
       },
       {
         "title": "Hallelujah Dawn",
-        "caption": "Dawn floods the valley end to end. On the height the temple doors stand open; every wing lifts into the light.",
-        "echo": null,
+        "verses": [
+          {
+            "t": "This is the LORD’s doing; it is marvellous in our eyes.",
+            "ref": "Psalms 118:23"
+          },
+          {
+            "t": "This is the day which the LORD hath made; we will rejoice and be glad in it.",
+            "ref": "Psalms 118:24"
+          }
+        ],
+        "echo": {
+          "t": "The stone which the builders refused is become the head stone of the corner.",
+          "ref": "Psalms 118:22"
+        },
         "prop": "temple",
         "flare": false
       }
@@ -1253,43 +1717,95 @@ export const BOOKS = [
     "stories": [
       {
         "title": "A Voice in the Streets",
-        "caption": "Lamps gutter in the empty market. From the gates a voice keeps calling, up stairway after stairway, and the doors stay shut.",
+        "verses": [
+          {
+            "t": "Wisdom crieth without; she uttereth her voice in the streets:",
+            "ref": "Proverbs 1:20"
+          },
+          {
+            "t": "She crieth in the chief place of concourse, in the openings of the gates: in the city she uttereth her words, saying,",
+            "ref": "Proverbs 1:21"
+          }
+        ],
         "echo": null,
         "prop": "city",
         "flare": false
       },
       {
         "title": "A Tree of Life",
-        "caption": "On the terraces one tree holds its green. Its lowest branches lean out over the road, in reach of anyone passing.",
-        "echo": "A tree of life, within reach again.",
+        "verses": [
+          {
+            "t": "She is a tree of life to them that lay hold upon her: and happy is every one that retaineth her.",
+            "ref": "Proverbs 3:18"
+          }
+        ],
+        "echo": null,
         "prop": "tree",
         "flare": false
       },
       {
         "title": "Before the Deeps",
-        "caption": "The well at the crossroads goes down past all rope. Far below, dark water shivers with a light older than the hills.",
-        "echo": "A craftsman at his side, daily delighting.",
+        "verses": [
+          {
+            "t": "When he prepared the heavens, I was there: when he set a compass upon the face of the depth:",
+            "ref": "Proverbs 8:27"
+          },
+          {
+            "t": "When he gave to the sea his decree, that the waters should not pass his commandment: when he appointed the foundations of the earth:",
+            "ref": "Proverbs 8:29"
+          }
+        ],
+        "echo": {
+          "t": "Then I was by him, as one brought up with him: and I was daily his delight, rejoicing always before him;",
+          "ref": "Proverbs 8:30"
+        },
         "prop": "well",
         "flare": false
       },
       {
         "title": "Her Table Is Set",
-        "caption": "On the highest terrace seven pillars stand open to the sky. A long table waits with bread and mixed wine, and no one has come.",
-        "echo": "Come, eat the bread; drink the wine.",
+        "verses": [
+          {
+            "t": "Wisdom hath builded her house, she hath hewn out her seven pillars:",
+            "ref": "Proverbs 9:1"
+          },
+          {
+            "t": "She hath killed her beasts; she hath mingled her wine; she hath also furnished her table.",
+            "ref": "Proverbs 9:2"
+          }
+        ],
+        "echo": {
+          "t": "Come, eat of my bread, and drink of the wine which I have mingled.",
+          "ref": "Proverbs 9:5"
+        },
         "prop": null,
         "flare": false
       },
       {
         "title": "The Sluggard's Vineyard",
-        "caption": "Thorns have taken a hillside plot. The stone wall lies open to the road, and dew beads the nettles like a mock harvest.",
+        "verses": [
+          {
+            "t": "I went by the field of the slothful, and by the vineyard of the man void of understanding;",
+            "ref": "Proverbs 24:30"
+          },
+          {
+            "t": "And, lo, it was all grown over with thorns, and nettles had covered the face thereof, and the stone wall thereof was broken down.",
+            "ref": "Proverbs 24:31"
+          }
+        ],
         "echo": null,
         "prop": "vineyard",
         "flare": false
       },
       {
         "title": "The Gathered Wind",
-        "caption": "On the ridge above the city the wind suddenly stills, as if held in a fist. The stones keep a question they cannot answer.",
-        "echo": "What is his name, and his son's?",
+        "verses": [
+          {
+            "t": "Who hath ascended up into heaven, or descended? who hath gathered the wind in his fists? who hath bound the waters in a garment? who hath established all the ends of the earth? what is his name, and what is his son’s name, if thou canst tell?",
+            "ref": "Proverbs 30:4"
+          }
+        ],
+        "echo": null,
         "prop": null,
         "flare": false
       }
@@ -1345,22 +1861,51 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Ash Heap",
-        "caption": "Four shadows cross the plain, each bringing worse news. A man tears his robe, sits down in the ashes, and blesses the Name.",
-        "echo": "The blameless one is stricken.",
+        "verses": [
+          {
+            "t": "There was a man in the land of Uz, whose name was Job; and that man was perfect and upright, and one that feared God, and eschewed evil.",
+            "ref": "Job 1:1"
+          },
+          {
+            "t": "And he took him a potsherd to scrape himself withal; and he sat down among the ashes.",
+            "ref": "Job 2:8"
+          }
+        ],
+        "echo": null,
         "prop": "stones",
         "flare": false
       },
       {
         "title": "My Redeemer Lives",
-        "caption": "Three friends sit in the dust seven days, saying nothing. Then the arguments blow like weather, and one cry cuts through them all.",
-        "echo": "My redeemer lives, and shall stand on dust",
+        "verses": [
+          {
+            "t": "And though after my skin worms destroy this body, yet in my flesh shall I see God:",
+            "ref": "Job 19:26"
+          }
+        ],
+        "echo": {
+          "t": "For I know that my redeemer liveth, and that he shall stand at the latter day upon the earth:",
+          "ref": "Job 19:25"
+        },
         "prop": null,
         "flare": false
       },
       {
         "title": "Out of the Whirlwind",
-        "caption": "The standing storm bends low and asks of morning stars, sea-gates, the raven's food. When it lifts, the man prays for his friends, and the plain turns green.",
-        "echo": "The sufferer prays; his friends are spared.",
+        "verses": [
+          {
+            "t": "Then the LORD answered Job out of the whirlwind, and said,",
+            "ref": "Job 38:1"
+          },
+          {
+            "t": "Where wast thou when I laid the foundations of the earth? declare, if thou hast understanding.",
+            "ref": "Job 38:4"
+          }
+        ],
+        "echo": {
+          "t": "And the LORD turned the captivity of Job, when he prayed for his friends: also the LORD gave Job twice as much as he had before.",
+          "ref": "Job 42:10"
+        },
         "prop": "altar",
         "flare": false
       }
@@ -1424,15 +1969,32 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Voice of the Beloved",
-        "caption": "The hills shake off winter. Vines break into blossom as a voice comes leaping from ridge to ridge, and every terrace turns toward it.",
-        "echo": "The bridegroom comes over the mountains.",
+        "verses": [
+          {
+            "t": "The voice of my beloved! behold, he cometh leaping upon the mountains, skipping upon the hills.",
+            "ref": "Song of Songs 2:8"
+          },
+          {
+            "t": "My beloved spake, and said unto me, Rise up, my love, my fair one, and come away.",
+            "ref": "Song of Songs 2:10"
+          }
+        ],
+        "echo": null,
         "prop": "vineyard",
         "flare": false
       },
       {
         "title": "A Seal on the Heart",
-        "caption": "Night rivers rise against one small flame and fall back, quenching nothing. Morning finds it still burning on the mountains of spice.",
-        "echo": "A love the grave cannot hold.",
+        "verses": [
+          {
+            "t": "Set me as a seal upon thine heart, as a seal upon thine arm: for love is strong as death; jealousy is cruel as the grave: the coals thereof are coals of fire, which hath a most vehement flame.",
+            "ref": "Song of Songs 8:6"
+          }
+        ],
+        "echo": {
+          "t": "Many waters cannot quench love, neither can the floods drown it: if a man would give all the substance of his house for love, it would utterly be contemned.",
+          "ref": "Song of Songs 8:7"
+        },
         "prop": null,
         "flare": false
       }
@@ -1492,22 +2054,44 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Road from Moab",
-        "caption": "A road winds down from the high country into green barley. Two lines of footprints hold close together, all the way in.",
+        "verses": [
+          {
+            "t": "And Ruth said, Intreat me not to leave thee, or to return from following after thee: for whither thou goest, I will go; and where thou lodgest, I will lodge: thy people shall be my people, and thy God my God:",
+            "ref": "Ruth 1:16"
+          }
+        ],
         "echo": null,
         "prop": null,
         "flare": false
       },
       {
         "title": "Gleaning in the Barley",
-        "caption": "Sheaves lean in the warm wind. Along the rows, handfuls of grain lie dropped — too many to be an accident.",
-        "echo": "Bread left on purpose for the stranger",
+        "verses": [
+          {
+            "t": "And she went, and came, and gleaned in the field after the reapers: and her hap was to light on a part of the field belonging unto Boaz, who was of the kindred of Elimelech.",
+            "ref": "Ruth 2:3"
+          },
+          {
+            "t": "And let fall also some of the handfuls of purpose for her, and leave them, that she may glean them, and rebuke her not.",
+            "ref": "Ruth 2:16"
+          }
+        ],
+        "echo": null,
         "prop": "well",
         "flare": false
       },
       {
         "title": "The Sandal at the Gate",
-        "caption": "Morning light falls through the open gate onto a single sandal, left on the worn threshold. Beyond the wall the harvest stands finished, heavy and gold.",
-        "echo": "The redeemer is near of kin",
+        "verses": [
+          {
+            "t": "Moreover Ruth the Moabitess, the wife of Mahlon, have I purchased to be my wife, to raise up the name of the dead upon his inheritance, that the name of the dead be not cut off from among his brethren, and from the gate of his place: ye are witnesses this day.",
+            "ref": "Ruth 4:10"
+          }
+        ],
+        "echo": {
+          "t": "And the women said unto Naomi, Blessed be the LORD, which hath not left thee this day without a kinsman, that his name may be famous in Israel.",
+          "ref": "Ruth 4:14"
+        },
         "prop": "city",
         "flare": true
       }
@@ -1566,15 +2150,35 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Lonely City",
-        "caption": "The gates stand open onto empty streets. Ash drifts down the roads the pilgrims climbed.",
-        "echo": "Is any sorrow like this sorrow?",
+        "verses": [
+          {
+            "t": "How doth the city sit solitary, that was full of people! how is she become as a widow! she that was great among the nations, and princess among the provinces, how is she become tributary!",
+            "ref": "Lamentations 1:1"
+          }
+        ],
+        "echo": {
+          "t": "Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow, which is done unto me, wherewith the LORD hath afflicted me in the day of his fierce anger.",
+          "ref": "Lamentations 1:12"
+        },
         "prop": "city",
         "flare": false
       },
       {
         "title": "New Every Morning",
-        "caption": "Night lies heavy on the broken stones. Then, faithful as dew, a thin gray light returns.",
-        "echo": "He gives his cheek to the smiter",
+        "verses": [
+          {
+            "t": "It is of the LORD’s mercies that we are not consumed, because his compassions fail not.",
+            "ref": "Lamentations 3:22"
+          },
+          {
+            "t": "They are new every morning: great is thy faithfulness.",
+            "ref": "Lamentations 3:23"
+          }
+        ],
+        "echo": {
+          "t": "He giveth his cheek to him that smiteth him: he is filled full with reproach.",
+          "ref": "Lamentations 3:30"
+        },
         "prop": null,
         "flare": false
       }
@@ -1633,15 +2237,36 @@ export const BOOKS = [
     "stories": [
       {
         "title": "Vapor of Vapors",
-        "caption": "Mist moves through the king's vineyards and planted gardens, and the sun hurries to its setting. Every river runs to a sea that is never full.",
+        "verses": [
+          {
+            "t": "Vanity of vanities, saith the Preacher, vanity of vanities; all is vanity.",
+            "ref": "Ecclesiastes 1:2"
+          },
+          {
+            "t": "I have seen all the works that are done under the sun; and, behold, all is vanity and vexation of spirit.",
+            "ref": "Ecclesiastes 1:14"
+          }
+        ],
         "echo": null,
         "prop": "vineyard",
         "flare": false
       },
       {
         "title": "The Broken Pitcher",
-        "caption": "A pitcher lies in shards at the well, the wheel gone still. Dust lifts from the road and settles back to earth.",
-        "echo": "One Shepherd gave all these words.",
+        "verses": [
+          {
+            "t": "Or ever the silver cord be loosed, or the golden bowl be broken, or the pitcher be broken at the fountain, or the wheel broken at the cistern.",
+            "ref": "Ecclesiastes 12:6"
+          },
+          {
+            "t": "Then shall the dust return to the earth as it was: and the spirit shall return unto God who gave it.",
+            "ref": "Ecclesiastes 12:7"
+          }
+        ],
+        "echo": {
+          "t": "The words of the wise are as goads, and as nails fastened by the masters of assemblies, which are given from one shepherd.",
+          "ref": "Ecclesiastes 12:11"
+        },
         "prop": "well",
         "flare": false
       }
@@ -1699,22 +2324,40 @@ export const BOOKS = [
     "stories": [
       {
         "title": "A Hidden Crown",
-        "caption": "Feast-light pours from Susa's gates. Deep in the citadel, a crown settles on a name no one speaks.",
+        "verses": [
+          {
+            "t": "And the king loved Esther above all the women, and she obtained grace and favour in his sight more than all the virgins; so that he set the royal crown upon her head, and made her queen instead of Vashti.",
+            "ref": "Esther 2:17"
+          }
+        ],
         "echo": null,
         "prop": "city",
         "flare": false
       },
       {
         "title": "The Gold Scepter",
-        "caption": "Beyond the door waits the throne no one approaches and lives. Slowly, a gold scepter lowers toward the light.",
-        "echo": "If I perish, I perish.",
+        "verses": [
+          {
+            "t": "And it was so, when the king saw Esther the queen standing in the court, that she obtained favour in his sight: and the king held out to Esther the golden sceptre that was in his hand. So Esther drew near, and touched the top of the sceptre.",
+            "ref": "Esther 5:2"
+          }
+        ],
+        "echo": {
+          "t": "Go, gather together all the Jews that are present in Shushan, and fast ye for me, and neither eat nor drink three days, night or day: I also and my maidens will fast likewise; and so will I go in unto the king, which is not according to the law: and if I perish, I perish.",
+          "ref": "Esther 4:16"
+        },
         "prop": "throne",
         "flare": false
       },
       {
         "title": "Fifty Cubits High",
-        "caption": "A gallows-tree goes up in a single night. By evening it bears the one who built it, and the streets break into feasting.",
-        "echo": "On a tree, the curse undone.",
+        "verses": [
+          {
+            "t": "So they hanged Haman on the gallows that he had prepared for Mordecai. Then was the king’s wrath pacified.",
+            "ref": "Esther 7:10"
+          }
+        ],
+        "echo": null,
         "prop": "tree",
         "flare": false
       }
@@ -1776,29 +2419,66 @@ export const BOOKS = [
     "stories": [
       {
         "title": "The Fourth in the Fire",
-        "caption": "A furnace on the plain, heated seven times over. Through the open door, four shapes walk unbound in the white heat.",
-        "echo": "One like a son of the gods.",
+        "verses": [
+          {
+            "t": "And the princes, governors, and captains, and the king’s counsellors, being gathered together, saw these men, upon whose bodies the fire had no power, nor was an hair of their head singed, neither were their coats changed, nor the smell of fire had passed on them.",
+            "ref": "Daniel 3:27"
+          }
+        ],
+        "echo": {
+          "t": "He answered and said, Lo, I see four men loose, walking in the midst of the fire, and they have no hurt; and the form of the fourth is like the Son of God.",
+          "ref": "Daniel 3:25"
+        },
         "prop": "furnace",
         "flare": false
       },
       {
         "title": "Writing on the Wall",
-        "caption": "Torchlight and gold cups in the banquet hall. Letters of fire appear on the plaster, and the music stops.",
+        "verses": [
+          {
+            "t": "In the same hour came forth fingers of a man’s hand, and wrote over against the candlestick upon the plaister of the wall of the king’s palace: and the king saw the part of the hand that wrote.",
+            "ref": "Daniel 5:5"
+          },
+          {
+            "t": "And this is the writing that was written, MENE, MENE, TEKEL, UPHARSIN.",
+            "ref": "Daniel 5:25"
+          }
+        ],
         "echo": null,
         "prop": "wall",
         "flare": false
       },
       {
         "title": "The Den of Lions",
-        "caption": "A stone seals the mouth of the pit. In the dark below, golden eyes wait all night, and no jaw opens.",
-        "echo": "Sealed under stone, alive at dawn.",
+        "verses": [
+          {
+            "t": "Then the king commanded, and they brought Daniel, and cast him into the den of lions. Now the king spake and said unto Daniel, Thy God whom thou servest continually, he will deliver thee.",
+            "ref": "Daniel 6:16"
+          },
+          {
+            "t": "My God hath sent his angel, and hath shut the lions’ mouths, that they have not hurt me: forasmuch as before him innocency was found in me; and also before thee, O king, have I done no hurt.",
+            "ref": "Daniel 6:22"
+          }
+        ],
+        "echo": {
+          "t": "And a stone was brought, and laid upon the mouth of the den; and the king sealed it with his own signet, and with the signet of his lords; that the purpose might not be changed concerning Daniel.",
+          "ref": "Daniel 6:17"
+        },
         "prop": null,
         "flare": false
       },
       {
         "title": "One on the Clouds",
-        "caption": "Four beasts climb from a churning night sea and fade. Fire streams from a throne, and the clouds carry one who does not fade.",
-        "echo": "A kingdom that shall not pass away.",
+        "verses": [
+          {
+            "t": "And there was given him dominion, and glory, and a kingdom, that all people, nations, and languages, should serve him: his dominion is an everlasting dominion, which shall not pass away, and his kingdom that which shall not be destroyed.",
+            "ref": "Daniel 7:14"
+          }
+        ],
+        "echo": {
+          "t": "I saw in the night visions, and, behold, one like the Son of man came with the clouds of heaven, and came to the Ancient of days, and they brought him near before him.",
+          "ref": "Daniel 7:13"
+        },
         "prop": "throne",
         "flare": false
       }
@@ -1861,22 +2541,47 @@ export const BOOKS = [
     "stories": [
       {
         "title": "Songs at the Foundation",
-        "caption": "The exiles return carrying silver and cedar. At the temple's bare foundation, weeping and shouting rise as one sound.",
-        "echo": "A greater glory will fill this house.",
+        "verses": [
+          {
+            "t": "And they sang together by course in praising and giving thanks unto the LORD; because he is good, for his mercy endureth for ever toward Israel. And all the people shouted with a great shout, when they praised the LORD, because the foundation of the house of the LORD was laid.",
+            "ref": "Ezra 3:11"
+          }
+        ],
+        "echo": {
+          "t": "The glory of this latter house shall be greater than of the former, saith the LORD of hosts: and in this place will I give peace, saith the LORD of hosts.",
+          "ref": "Haggai 2:9"
+        },
         "prop": "temple",
         "flare": false
       },
       {
         "title": "Sword and Trowel",
-        "caption": "The wall climbs out of its own rubble. Each builder holds a trowel in one hand, a blade in the other.",
+        "verses": [
+          {
+            "t": "They which builded on the wall, and they that bare burdens, with those that laded, every one with one of his hands wrought in the work, and with the other hand held a weapon.",
+            "ref": "Nehemiah 4:17"
+          },
+          {
+            "t": "For the builders, every one had his sword girded by his side, and so builded. And he that sounded the trumpet was by me.",
+            "ref": "Nehemiah 4:18"
+          }
+        ],
         "echo": null,
         "prop": "wall",
         "flare": false
       },
       {
         "title": "The Water Gate",
-        "caption": "A wooden platform stands above the square. A scroll opens at first light; the crowd weeps, then feasts.",
-        "echo": "The word is lifted up on wood.",
+        "verses": [
+          {
+            "t": "And Ezra opened the book in the sight of all the people; (for he was above all the people;) and when he opened it, all the people stood up:",
+            "ref": "Nehemiah 8:5"
+          }
+        ],
+        "echo": {
+          "t": "And Ezra the scribe stood upon a pulpit of wood, which they had made for the purpose; and beside him stood Mattithiah, and Shema, and Anaiah, and Urijah, and Hilkiah, and Maaseiah, on his right hand; and on his left hand, Pedaiah, and Mishael, and Malchiah, and Hashum, and Hashbadana, Zechariah, and Meshullam.",
+          "ref": "Nehemiah 8:4"
+        },
         "prop": null,
         "flare": false
       }
@@ -1939,43 +2644,84 @@ export const BOOKS = [
     "stories": [
       {
         "title": "A River of Names",
-        "caption": "Standing stones fill the first valley, thousands of them, each cut with a name. The oldest reads Adam.",
-        "echo": "the names run toward a son",
+        "verses": [
+          {
+            "t": "Adam, Sheth, Enosh,",
+            "ref": "1 Chronicles 1:1"
+          },
+          {
+            "t": "Noah, Shem, Ham, and Japheth.",
+            "ref": "1 Chronicles 1:4"
+          }
+        ],
+        "echo": null,
         "prop": "stones",
         "flare": false
       },
       {
         "title": "A House Promised",
-        "caption": "An empty throne waits on a bare rise, facing a hill where nothing is built yet. Evening light gathers in the seat.",
-        "echo": "the son's throne has no end",
+        "verses": [
+          {
+            "t": "He shall build me an house, and I will stablish his throne for ever.",
+            "ref": "1 Chronicles 17:12"
+          }
+        ],
+        "echo": {
+          "t": "But I will settle him in mine house and in my kingdom for ever: and his throne shall be established for evermore.",
+          "ref": "1 Chronicles 17:14"
+        },
         "prop": "throne",
         "flare": false
       },
       {
         "title": "The Threshing Floor",
-        "caption": "Where the plague halted, an altar stands on bought ground, the sword over the hill sheathed. Fire answers from a clear sky.",
-        "echo": "he will not offer what costs nothing",
+        "verses": [
+          {
+            "t": "And king David said to Ornan, Nay; but I will verily buy it for the full price: for I will not take that which is thine for the LORD, nor offer burnt offerings without cost.",
+            "ref": "1 Chronicles 21:24"
+          },
+          {
+            "t": "And David built there an altar unto the LORD, and offered burnt offerings and peace offerings, and called upon the LORD; and he answered him from heaven by fire upon the altar of burnt offering.",
+            "ref": "1 Chronicles 21:26"
+          }
+        ],
+        "echo": null,
         "prop": "altar",
         "flare": false
       },
       {
         "title": "Glory Fills the House",
-        "caption": "Cedar and gold rise from the threshing floor. A cloud settles into the innermost room until the doors shine.",
+        "verses": [
+          {
+            "t": "Now when Solomon had made an end of praying, the fire came down from heaven, and consumed the burnt offering and the sacrifices; and the glory of the LORD filled the house.",
+            "ref": "2 Chronicles 7:1"
+          }
+        ],
         "echo": null,
         "prop": "temple",
         "flare": false
       },
       {
         "title": "The Long Sabbath",
-        "caption": "Smoke where the gold was. The fallow terraces keep their sabbaths, seventy quiet years of them.",
+        "verses": [
+          {
+            "t": "To fulfil the word of the LORD by the mouth of Jeremiah, until the land had enjoyed her sabbaths: for as long as she lay desolate she kept sabbath, to fulfil threescore and ten years.",
+            "ref": "2 Chronicles 36:21"
+          }
+        ],
         "echo": null,
         "prop": null,
         "flare": false
       },
       {
         "title": "Let Him Go Up",
-        "caption": "A word crosses the empire like wind through grass. At the road's end a gate stands open, and the way climbs into light.",
-        "echo": "a son will yet go up",
+        "verses": [
+          {
+            "t": "Thus saith Cyrus king of Persia, All the kingdoms of the earth hath the LORD God of heaven given me; and he hath charged me to build him an house in Jerusalem, which is in Judah. Who is there among you of all his people? The LORD his God be with him, and let him go up.",
+            "ref": "2 Chronicles 36:23"
+          }
+        ],
+        "echo": null,
         "prop": "city",
         "flare": false
       }

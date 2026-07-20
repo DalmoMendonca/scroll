@@ -47,15 +47,19 @@ export class Overlay {
       this.items.push({ kind: 'head', elem: head, r, shown: false });
 
       for (const s of r.stories) {
-        const echo = s.data.echo ? `<div class="st-echo">${s.data.echo}</div>` : '';
+        const versesHtml = s.data.verses.map(v =>
+          `<p class="st-verse">${v.t}<span class="st-ref">${v.ref}</span></p>`).join('');
+        const echoHtml = s.data.echo
+          ? `<div class="st-echo">${s.data.echo.t}<span class="st-ref">${s.data.echo.ref}</span></div>`
+          : '';
         const st = el('div', 'story', `
           <div class="st-title">${s.data.title}</div>
-          <p class="st-cap">${s.data.caption}</p>
-          ${echo}
+          ${versesHtml}
+          ${echoHtml}
         `);
         st.style.setProperty('--accent', b.palette.accent);
         this.root.appendChild(st);
-        this.items.push({ kind: 'story', elem: st, s, shown: false, echoEl: s.data.echo ? st.querySelector('.st-echo') : null });
+        this.items.push({ kind: 'story', elem: st, s, shown: false, side: null, echoEl: st.querySelector('.st-echo') });
       }
     }
 
@@ -133,21 +137,27 @@ export class Overlay {
         it.elem.style.transform = `translate(-50%, -50%) translateY(${ty.toFixed(2)}vh) scale(${(0.97 + q * 0.05).toFixed(3)})`;
       } else {
         const delta = it.s.d - d;
-        const vis = delta > -75 && delta < 215 && it.s.worldPos;
+        const vis = delta > -120 && delta < 330 && it.s.worldPos;
         this.setShown(it.elem, vis);
-        if (!vis) continue;
-        _v.copy(it.s.worldPos).project(camera);
-        if (_v.z > 1 || _v.z < -1) { this.setShown(it.elem, false); continue; }
-        // fade in while approaching, out just after passing
-        const opIn = 1 - smoothstep(150, 212, delta);
-        const opOut = smoothstep(-75, -30, delta);
+        if (!vis) { it.side = null; continue; }
+        // Decide a stable side (left/right of screen) once, from where the
+        // set piece first projects — then pin the panel so scripture holds
+        // still long enough to read instead of drifting with the camera.
+        if (it.side === null) {
+          _v.copy(it.s.worldPos).project(camera);
+          it.side = _v.x <= 0 ? 'L' : 'R';
+        }
+        const opIn = 1 - smoothstep(230, 330, delta);   // appear on approach
+        const opOut = smoothstep(-120, -55, delta);      // linger past the beat
         const opacity = clamp(opIn * opOut, 0, 1);
-        const px = clamp((_v.x * 0.5 + 0.5) * W, 22, Math.max(22, W - 360));
-        const py = clamp((-_v.y * 0.5 + 0.5) * H, 76, Math.max(76, H - 280));
+        const panelW = Math.min(360, W - 48);
+        const left = it.side === 'L' ? Math.round(W * 0.055) : Math.round(W - panelW - W * 0.055);
+        const top = Math.round(clamp(H * (it.side === 'L' ? 0.28 : 0.40), 88, H - 320));
         it.elem.style.opacity = opacity.toFixed(3);
-        it.elem.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0)`;
+        it.elem.style.left = left + 'px';
+        it.elem.style.top = top + 'px';
         if (it.echoEl) {
-          it.echoEl.style.opacity = (opacity * (1 - smoothstep(55, 105, delta))).toFixed(3);
+          it.echoEl.style.opacity = (opacity * (1 - smoothstep(70, 155, delta))).toFixed(3);
         }
       }
     }

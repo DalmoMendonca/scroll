@@ -94,8 +94,10 @@ let roll = 0;
 let frameCount = 0;
 let emaFrame = 16;
 let firstFrame = true;
+let paused = false;
 
 function frame(now) {
+  if (paused) return;
   if (!document.hidden) requestAnimationFrame(frame);
   let dt = (now - last) / 1000;
   last = now;
@@ -224,6 +226,16 @@ window.__scroll = {
   book(id) {
     const r = journey.regions.find(x => x.book.id === id);
     if (r) this.setD(r.d0 + 120);
+  },
+  pause() { paused = true; },
+  resume() { if (paused) { paused = false; last = performance.now(); requestAnimationFrame(frame); } },
+  // Freeze one fully-updated frame at distance d (for compositing screenshots).
+  still(d) {
+    if (d != null) this.setD(d);
+    paused = false;
+    frame(performance.now());
+    frame(performance.now() + 16);
+    paused = true;
   },
   bench(n = 90) {
     const t0 = performance.now();
