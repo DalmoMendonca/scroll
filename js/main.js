@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { journey, RegionParams, INTRO_LEN } from './path.js';
 import { buildTerrain, buildWater, heightAt } from './terrain.js';
+import { buildLandmarks } from './landmarks.js';
 import { buildSky } from './sky.js';
 import { Particles } from './particles.js';
 import { buildThread } from './thread.js';
@@ -9,7 +10,8 @@ import { buildProps } from './props.js';
 import { buildCreatures } from './creatures.js';
 import { Overlay } from './overlay.js';
 import { ScrollManager } from './scroll.js';
-import { clamp, lerp, smoothstep, gauss, damp, prefersReducedMotion } from './utils.js';
+import { CameraDirector } from './camera.js';
+import { clamp, lerp, smoothstep, gauss, damp, makeSprite, prefersReducedMotion } from './utils.js';
 
 const canvas = document.getElementById('world');
 let renderer;
@@ -41,9 +43,20 @@ scene.add(sun.target);
 const amb = new THREE.AmbientLight(0xffffff, 0.12);
 scene.add(amb);
 
+// moon — a second celestial body for the night regions, which turns to blood
+// at Joel's darkened sun.
+const moonGlow = makeSprite(0xbccadd, 240, 0); moonGlow.renderOrder = 0;
+const moonDisc = makeSprite(0xeef3fb, 78, 0, true); moonDisc.material.blending = THREE.NormalBlending;
+scene.add(moonGlow); scene.add(moonDisc);
+const moonDir = new THREE.Vector3();
+const MOON_PALE = new THREE.Color(0xeef3fb);
+const MOON_BLOOD = new THREE.Color(0x8a1408);
+const moonCol = new THREE.Color();
+
 // world
 buildTerrain(scene);
 const water = buildWater(scene);
+const landmarks = buildLandmarks(scene);
 const sky = buildSky(scene);
 const thread = buildThread(scene);
 const particles = new Particles(scene);
@@ -68,6 +81,15 @@ for (const r of journey.regions) {
 
 const scroll = new ScrollManager();
 const overlay = new Overlay(document.getElementById('overlay'), scroll);
+const director = new CameraDirector();
+
+// Joel's "sun to darkness, moon to blood" — the eclipse beat.
+let joelD = null;
+{
+  const twelve = journey.regions.find(r => r.book.id === 'the-twelve');
+  const joel = twelve && twelve.stories.find(s => /Locust/.test(s.data.title));
+  if (joel) joelD = joel.d;
+}
 
 // UI wiring
 const driftBtn = document.getElementById('drift-btn');
@@ -119,19 +141,20 @@ function frame(now) {
   // camera
   journey.sample(d, smp);
   journey.sample(d + 85, ahead);
+  const mood = director.mood(d);
   const introQ = 1 - clamp(d / INTRO_LEN, 0, 1);
   const craneY = introQ * introQ * 85;
   const outroQ = smoothstep(journey.outroStart + 150, journey.total - 60, d);
-  const bob = prefersReducedMotion ? 0 : Math.sin(time * 0.7) * 0.4 + Math.sin(time * 0.43 + 1) * 0.28;
-  const sway = prefersReducedMotion ? 0 : Math.sin(time * 0.11) * 0.9;
+  const bob = prefersReducedMotion ? 0 : (Math.sin(time * 0.7) + 0.7 * Math.sin(time * 0.43 + 1)) * mood.bob;
+  const sway = prefersReducedMotion ? 0 : Math.sin(time * 0.11) * mood.sway;
 
   camPos.copy(smp.pos);
-  camPos.y += 13 + craneY + bob + outroQ * 26;
+  camPos.y += 13 + mood.eye + craneY + bob + outroQ * 26;
   camPos.x += smp.lat.x * sway;
   camPos.z += smp.lat.z * sway;
 
   lookPos.copy(ahead.pos);
-  lookPos.y += 11 + craneY * 0.2 + outroQ * 60;
+  lookPos.y += 11 + mood.look + craneY * 0.2 + outroQ * 60;
 
   // glance toward the nearest story's set piece
   const region = journey.regionAt(d);
@@ -146,25 +169,53 @@ function frame(now) {
     if (best) lookPos.lerp(best.worldPos, clamp(bestW, 0, 1) * 0.42);
   }
 
-  const targetRoll = clamp(-journey.curvature(d) * 900, -0.055, 0.055);
-  roll = damp(roll, targetRoll, 2, dt);
+  // dramatic per-beat camera moves (descend, soar, shake, vista, ...)
+  const fx = director.drama(d, time, camPos, lookPos, smp, prefersReducedMotion);
+
+  const targetRoll = clamp(-journey.curvature(d) * 900, -0.055, 0.055) * mood.bank + fx.rollAdd;
+  roll = damp(roll, targetRoll, 2.6, dt);
   camera.up.set(Math.sin(roll), Math.cos(roll), 0);
   camera.position.copy(camPos);
   camera.lookAt(lookPos);
 
+  const wantFov = baseFov + mood.fov + fx.fovAdd;
+  if (Math.abs(camera.fov - wantFov) > 0.02) { camera.fov = wantFov; camera.updateProjectionMatrix(); }
+
+  // eclipse: sun darkened, moon to blood (Joel)
+  const eclipse = joelD != null ? gauss(d - joelD, 120) : 0;
+
   // atmosphere
   hemi.color.copy(P.skyHorizon);
   hemi.groundColor.copy(P.terrainLow);
-  hemi.intensity = P.hemiI;
+  hemi.intensity = P.hemiI * (1 - 0.5 * eclipse);
   sun.color.copy(P.sun);
-  sun.intensity = P.sunI * 1.2;
+  sun.intensity = P.sunI * 1.2 * (1 - 0.72 * eclipse);
   sun.position.copy(camPos).addScaledVector(sunDir, 600);
   sun.target.position.copy(camPos);
   scene.fog.color.copy(P.fog);
-  scene.fog.far = lerp(1020, 720, P.storm);
+  scene.fog.far = lerp(1020, 720, P.storm) * fx.fogFarMul;
+  renderer.toneMappingExposure = 1.06 * fx.exposureMul * (1 - 0.5 * eclipse);
   renderer.setClearColor(P.fog);
 
+  // moon (offset from the sun's azimuth so it stays in view; swings ahead at
+  // the eclipse so the blood-moon is seen)
+  const moonAz = 0.7 + 0.28 * Math.sin(d * 0.00022) + 2.25 - eclipse * 1.4;
+  const moonEl = 0.4 + 0.12 * Math.sin(d * 0.0004 + 1.3);
+  moonDir.set(Math.cos(moonEl) * Math.sin(moonAz), Math.sin(moonEl), Math.cos(moonEl) * Math.cos(moonAz)).normalize();
+  moonDisc.position.copy(camPos).addScaledVector(moonDir, 2600);
+  moonGlow.position.copy(moonDisc.position);
+  const moonVis = clamp(P.stars * 0.95 + eclipse, 0, 1);
+  moonCol.copy(MOON_PALE).lerp(MOON_BLOOD, eclipse);
+  moonDisc.material.color.copy(moonCol);
+  moonGlow.material.color.copy(moonCol);
+  moonDisc.material.opacity = moonVis * (0.9 + 0.1 * eclipse);
+  moonGlow.material.opacity = moonVis * (0.16 + 0.4 * eclipse);
+  const moonScale = 1 + 0.7 * eclipse;
+  moonDisc.scale.setScalar(78 * moonScale);
+  moonGlow.scale.setScalar(240 * moonScale);
+
   sky.update(P, sunDir, time, camPos);
+  sky.uniforms.uSunI.value *= (1 - 0.72 * eclipse);
   for (const m of water.mats) {
     m.uniforms.uTime.value = time;
     m.uniforms.uSunColor.value.copy(P.sun);
@@ -173,6 +224,7 @@ function frame(now) {
   }
   particles.update(d, time, camPos, dprLevel);
   thread.update(time);
+  landmarks.update(d);
   props.update(d, time, dt);
   creatures.update(d, time);
   overlay.update(d, camera, window.innerWidth, window.innerHeight);
@@ -197,9 +249,11 @@ function frame(now) {
   }
 }
 
+let baseFov = 62;
 function onResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
-  camera.fov = camera.aspect < 0.8 ? 72 : 62;
+  baseFov = camera.aspect < 0.8 ? 72 : 62;
+  camera.fov = baseFov;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }

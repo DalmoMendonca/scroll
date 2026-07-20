@@ -54,7 +54,21 @@ const TOD_LIGHT = {
 const NUMERIC_KEYS = [
   'floorY', 'vs', 've', 'amp', 'wallStart', 'wallEnd', 'wallH', 'ridge', 'dune',
   'sea', 'river', 'stars', 'sunElev', 'storm', 'threadGlow', 'sunI', 'hemiI',
+  'snow', 'mesa',
 ];
+
+// Per-book terrain character, beyond what the landscape style provides.
+const BOOK_TERRAIN = {
+  isaiah:       { snow: 0.92, wallH: 250, amp: 165 },   // towering snow ranges
+  lamentations: { snow: 0.5 },
+  psalms:       { snow: 0.3 },
+  numbers:      { mesa: 0.6 },                            // wilderness buttes
+  exodus:       { mesa: 0.45 },
+  deuteronomy:  { snow: 0.25 },
+  daniel:       { vs: 40, ve: 260 },                      // wide flat Babylon plain
+  esther:       { vs: 40, ve: 260 },
+  ecclesiastes: { amp: 14, vs: 46, ve: 300 },             // flat, pale, endless
+};
 const COLOR_KEYS = ['skyTop', 'skyHorizon', 'fog', 'sun', 'terrainLow', 'terrainHigh', 'accent'];
 
 function paramsFromBook(book) {
@@ -73,7 +87,10 @@ function paramsFromBook(book) {
     storm: book.palette.timeOfDay === 'storm' ? 1 : 0,
     threadGlow: book.threadGlow,
     sunI: tod.sun, hemiI: tod.hemi,
+    snow: 0, mesa: 0,
   };
+  const ov = BOOK_TERRAIN[book.id];
+  if (ov) Object.assign(p, ov);
   for (const k of COLOR_KEYS) p[k] = new THREE.Color(book.palette[k]);
   return p;
 }

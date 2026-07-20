@@ -70,7 +70,7 @@ export class Overlay {
       <div class="ot-sub">The scroll ends. The story doesn&rsquo;t.</div>
       <button id="again" type="button">Begin again</button>
       <div class="ot-credits">Torah &middot; Nevi&rsquo;im &middot; Ketuvim &mdash; twenty-four books, one thread.<br>
-      Landscapes grown from code &middot; Three.js &middot; no assets, no footage</div>
+      Words from the King James Version &middot; landscapes grown from code, no assets or footage</div>
     `);
     this.root.appendChild(outro);
     this.outro = outro;

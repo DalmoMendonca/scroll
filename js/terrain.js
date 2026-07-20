@@ -7,6 +7,7 @@ import { worldNoise, detailNoise } from './noise.js';
 import { clamp, lerp, smoothstep, gauss } from './utils.js';
 
 const DS = 8; // meters between ribbon sections
+const SNOW = new THREE.Color(0xeaf0f6);
 
 // Non-uniform cross-section: dense near the path, sparse toward the ranges.
 const XS_HALF = [0, 12, 26, 42, 60, 82, 108, 140, 180, 230, 290, 360, 440, 530, 640, 770, CORRIDOR];
@@ -42,6 +43,13 @@ export function heightAt(d, u) {
   if (P.dune > 0.01) {
     const dn = worldNoise.fbm(x * 0.004, z * 0.0025, 3) * 0.5 + 0.5;
     h01 = lerp(h01, dn * 0.8, P.dune * 0.8);
+  }
+  if (P.mesa > 0.01) {
+    // terraced buttes: flat tops with steep cliff edges
+    const lv = 3;
+    const scaled = h01 * lv;
+    const stepped = (Math.floor(scaled) + smoothstep(0.62, 0.94, scaled - Math.floor(scaled))) / lv;
+    h01 = lerp(h01, stepped, P.mesa);
   }
 
   let h = base + valley * h01 * P.amp;
@@ -81,6 +89,11 @@ function vertexColor(d, u, h, out) {
   if (P.sea > 0.01 && u < -80) out.multiplyScalar(1 - P.sea * smoothstep(160, 420, -u) * 0.4);
   const valley = smoothstep(P.vs, P.ve, Math.abs(u));
   out.lerp(P.accent, (1 - valley) * 0.035);
+  if (P.snow > 0.01) {
+    const line = 0.46 + 0.12 * (worldNoise.fbm(x * 0.01, z * 0.01, 2) * 0.5 + 0.5);
+    const snowAmt = smoothstep(line, line + 0.32, rel) * P.snow;
+    out.lerp(SNOW, snowAmt);
+  }
   return out;
 }
 
