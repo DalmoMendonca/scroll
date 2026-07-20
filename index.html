@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Scroll — A Journey Through the Hebrew Bible</title>
+<meta name="description" content="One continuous scroll through every book of the Tanakh — an immersive 3D journey through the landscapes of the Hebrew Bible.">
+<meta property="og:title" content="The Scroll — A Journey Through the Hebrew Bible">
+<meta property="og:description" content="Twenty-four books, one unbroken scroll. Fly through the painted landscapes of the Tanakh and follow the thread of light that runs all the way through.">
+<meta name="theme-color" content="#05050f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2305050f'/%3E%3Cpath d='M20 78 C 38 60, 34 44, 50 34 C 62 26, 70 24, 80 18' stroke='%23ffcf6b' stroke-width='7' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='80' cy='18' r='6' fill='%23ff4d3a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="scroll-spacer" aria-hidden="true"></div>
+
+<canvas id="world"></canvas>
+
+<div id="veil"></div>
+
+<div id="overlay" aria-hidden="false"></div>
+
+<header id="topbar">
+  <div id="wordmark">THE&nbsp;SCROLL<span id="wordmark-he">מְגִלָּה</span></div>
+  <button id="drift-btn" type="button" title="Let the journey carry you">Drift</button>
+</header>
+
+<nav id="rail" aria-label="Books of the Tanakh"></nav>
+
+<div id="hint"><span>Scroll</span><i></i></div>
+
+<div id="nogl" hidden>
+  <p>This journey needs WebGL to render its world, and your browser has it turned off.</p>
+</div>
+
+<noscript>
+  <div style="position:fixed;inset:0;display:grid;place-items:center;background:#05050f;color:#f2ead8;font-family:Georgia,serif;padding:2rem;text-align:center;line-height:1.7;">
+    <p>The Scroll is a 3D journey through all twenty-four books of the Hebrew Bible —
+    Torah, Nevi&rsquo;im, Ketuvim — and it needs JavaScript to unroll.</p>
+  </div>
+</noscript>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

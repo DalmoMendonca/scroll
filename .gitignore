@@ -1,0 +1,16 @@
+# Local tooling / editor
+.claude/
+.netlify/
+.vscode/
+.idea/
+
+# Dependencies (none currently, but just in case)
+node_modules/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
