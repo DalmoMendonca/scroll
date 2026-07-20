@@ -9,7 +9,7 @@ import { worldNoise } from './noise.js';
 export const INTRO_LEN = 520;
 export const OUTRO_LEN = 1050;
 export const BOOK_BASE = 480;
-export const PER_STORY = 190;
+export const PER_STORY = 330;      // spacing so only one caption is on screen at a time
 export const BLEND = 130;          // half-width of the border blend zone
 export const CORRIDOR = 900;       // half-width of the modeled world
 
