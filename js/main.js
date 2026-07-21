@@ -8,6 +8,8 @@ import { Particles } from './particles.js';
 import { buildThread } from './thread.js';
 import { buildProps } from './props.js';
 import { buildCreatures } from './creatures.js';
+import { buildScatter } from './scatter.js';
+import { Atmosphere } from './fx.js';
 import { Overlay } from './overlay.js';
 import { ScrollManager } from './scroll.js';
 import { CameraDirector } from './camera.js';
@@ -62,6 +64,8 @@ const thread = buildThread(scene);
 const particles = new Particles(scene);
 const props = buildProps(scene);
 const creatures = buildCreatures(scene, (book) => new THREE.Color(book.palette.accent));
+const scatter = buildScatter(scene);
+const atmosphere = new Atmosphere(scene);
 
 // stories with no prop still need a world anchor for their caption
 const smpA = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
@@ -148,13 +152,21 @@ function frame(now) {
   const bob = prefersReducedMotion ? 0 : (Math.sin(time * 0.7) + 0.7 * Math.sin(time * 0.43 + 1)) * mood.bob;
   const sway = prefersReducedMotion ? 0 : Math.sin(time * 0.11) * mood.sway;
 
+  // ride offset to one side of the path + gentle sway
+  const rideU = mood.lateral * 34 + sway;
   camPos.copy(smp.pos);
   camPos.y += 13 + mood.eye + craneY + bob + outroQ * 26;
-  camPos.x += smp.lat.x * sway;
-  camPos.z += smp.lat.z * sway;
+  camPos.x += smp.lat.x * rideU;
+  camPos.z += smp.lat.z * rideU;
 
   lookPos.copy(ahead.pos);
   lookPos.y += 11 + mood.look + craneY * 0.2 + outroQ * 60;
+  // slow searching arc of the gaze
+  if (!prefersReducedMotion) {
+    const arc = mood.orbit * Math.sin(time * 0.09) * 46;
+    lookPos.x += ahead.lat.x * arc;
+    lookPos.z += ahead.lat.z * arc;
+  }
 
   // glance toward the nearest story's set piece
   const region = journey.regionAt(d);
@@ -184,6 +196,9 @@ function frame(now) {
   // eclipse: sun darkened, moon to blood (Joel)
   const eclipse = joelD != null ? gauss(d - joelD, 120) : 0;
 
+  // per-book atmosphere (god-rays, aurora, sand, embers, mist, pillars, ...)
+  const afx = atmosphere.update(d, time, camPos, sunDir, P, dprLevel);
+
   // atmosphere
   hemi.color.copy(P.skyHorizon);
   hemi.groundColor.copy(P.terrainLow);
@@ -193,8 +208,8 @@ function frame(now) {
   sun.position.copy(camPos).addScaledVector(sunDir, 600);
   sun.target.position.copy(camPos);
   scene.fog.color.copy(P.fog);
-  scene.fog.far = lerp(1020, 720, P.storm) * fx.fogFarMul;
-  renderer.toneMappingExposure = 1.06 * fx.exposureMul * (1 - 0.5 * eclipse);
+  scene.fog.far = lerp(1020, 720, P.storm) * fx.fogFarMul * afx.fogFarMul;
+  renderer.toneMappingExposure = 1.06 * fx.exposureMul * afx.exposureMul * (1 - 0.5 * eclipse);
   renderer.setClearColor(P.fog);
 
   // moon (offset from the sun's azimuth so it stays in view; swings ahead at
@@ -225,6 +240,7 @@ function frame(now) {
   particles.update(d, time, camPos, dprLevel);
   thread.update(time);
   landmarks.update(d);
+  scatter.update(d);
   props.update(d, time, dt);
   creatures.update(d, time);
   overlay.update(d, camera, window.innerWidth, window.innerHeight);

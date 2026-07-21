@@ -69,8 +69,6 @@ export class Overlay {
       <div class="ot-line">&ldquo;Whoever is among you of all his people &mdash; let him go up.&rdquo;</div>
       <div class="ot-sub">The scroll ends. The story doesn&rsquo;t.</div>
       <button id="again" type="button">Begin again</button>
-      <div class="ot-credits">Torah &middot; Nevi&rsquo;im &middot; Ketuvim &mdash; twenty-four books, one thread.<br>
-      Words from the King James Version</div>
     `);
     this.root.appendChild(outro);
     this.outro = outro;
@@ -150,9 +148,9 @@ export class Overlay {
         const opIn = 1 - smoothstep(185, 245, delta);    // appear on approach
         const opOut = smoothstep(-70, -35, delta);       // linger past the beat
         const opacity = clamp(opIn * opOut, 0, 1);
-        const panelW = Math.min(360, W - 48);
-        const left = it.side === 'L' ? Math.round(W * 0.055) : Math.round(W - panelW - W * 0.055);
-        const top = Math.round(clamp(H * (it.side === 'L' ? 0.28 : 0.40), 88, H - 320));
+        const panelW = Math.min(384, W - 44);
+        const left = it.side === 'L' ? Math.round(W * 0.05) : Math.round(W - panelW - W * 0.05);
+        const top = Math.round(clamp(H * (it.side === 'L' ? 0.17 : 0.25), 74, H - 340));
         it.elem.style.opacity = opacity.toFixed(3);
         it.elem.style.left = left + 'px';
         it.elem.style.top = top + 'px';

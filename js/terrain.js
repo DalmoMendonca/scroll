@@ -89,6 +89,7 @@ function vertexColor(d, u, h, out) {
   if (P.sea > 0.01 && u < -80) out.multiplyScalar(1 - P.sea * smoothstep(160, 420, -u) * 0.4);
   const valley = smoothstep(P.vs, P.ve, Math.abs(u));
   out.lerp(P.accent, (1 - valley) * 0.035);
+  out.lerp(P.tint, 0.17);        // per-book ground tint
   if (P.snow > 0.01) {
     const line = 0.46 + 0.12 * (worldNoise.fbm(x * 0.01, z * 0.01, 2) * 0.5 + 0.5);
     const snowAmt = smoothstep(line, line + 0.32, rel) * P.snow;

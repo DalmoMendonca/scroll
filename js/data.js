@@ -61,12 +61,12 @@ export const BOOKS = [
         "title": "Humanity is made in God’s image",
         "verses": [
           {
-            "t": "And God said, Let us make man in our image, after our likeness: and let them have dominion over the fish of the sea, and over the fowl of the air, and over the cattle, and over all the earth, and over every creeping thing that creepeth upon the earth. …",
+            "t": "And God said, Let us make man in our image, after our likeness: and let them have dominion over the fish of the sea, and over the fowl of the air, and over the cattle, and over all the earth, and over every creeping thing that creepeth upon the earth. So God created man in his own image, in the image of God created he him; male and female created he them.",
             "ref": "Genesis 1:26–27"
           }
         ],
         "echo": {
-          "t": "Who is the image of the invisible God, the firstborn of every creature: For by him were all things created, that are in heaven, and that are in earth, visible and invisible, whether they be thrones, or dominions, or principalities, or powers …",
+          "t": "Who is the image of the invisible God, the firstborn of every creature: For by him were all things created, that are in heaven, and that are in earth, visible and invisible, whether they be thrones, or dominions, or principalities, or powers: all things were created by him, and for him:",
           "ref": "Colossians 1:15–16"
         },
         "prop": null,
@@ -81,7 +81,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Wherefore, as by one man sin entered into the world, and death by sin; and so death passed upon all men, for that all have sinned: (For until the law sin was in the world: but sin is not imputed when there …",
+          "t": "Wherefore, as by one man sin entered into the world, and death by sin; and so death passed upon all men, for that all have sinned: (For until the law sin was in the world: but sin is not imputed when there is no law.",
           "ref": "Romans 5:12–13"
         },
         "prop": "gardenTree",
@@ -96,7 +96,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And he answered and said unto them, Have ye not read, that he which made them at the beginning made them male and female, And said, For this cause shall a man leave father and mother, and shall cleave to his wife …",
+          "t": "And he answered and said unto them, Have ye not read, that he which made them at the beginning made them male and female, And said, For this cause shall a man leave father and mother, and shall cleave to his wife: and they twain shall be one flesh?",
           "ref": "Matthew 19:4–5"
         },
         "prop": null,
@@ -106,12 +106,12 @@ export const BOOKS = [
         "title": "The serpent deceives and humanity falls",
         "verses": [
           {
-            "t": "And when the woman saw that the tree was good for food, and that it was pleasant to the eyes, and a tree to be desired to make one wise, she took of the fruit thereof, and did eat, and gave also unto her husband with her; and he did eat. …",
+            "t": "And when the woman saw that the tree was good for food, and that it was pleasant to the eyes, and a tree to be desired to make one wise, she took of the fruit thereof, and did eat, and gave also unto her husband with her; and he did eat.",
             "ref": "Genesis 3:6–7"
           }
         ],
         "echo": {
-          "t": "Therefore as by the offence of one judgment came upon all men to condemnation; even so by the righteousness of one the free gift came upon all men unto justification of life. …",
+          "t": "Therefore as by the offence of one judgment came upon all men to condemnation; even so by the righteousness of one the free gift came upon all men unto justification of life. For as by one man’s disobedience many were made sinners, so by the obedience of one shall many be made righteous.",
           "ref": "Romans 5:18–19"
         },
         "prop": "gardenTree",
@@ -121,12 +121,12 @@ export const BOOKS = [
         "title": "God announces the conflict of the woman’s seed",
         "verses": [
           {
-            "t": "And the LORD God said unto the serpent, Because thou hast done this, thou art cursed above all cattle, and above every beast of the field; upon thy belly shalt thou go, and dust shalt thou eat all the days of thy life: And I will put enmity between thee and the …",
+            "t": "And the LORD God said unto the serpent, Because thou hast done this, thou art cursed above all cattle, and above every beast of the field; upon thy belly shalt thou go, and dust shalt thou eat all the days of thy life: And I will put enmity between thee and the woman, and between thy seed and her seed; it shall bruise thy head, and thou shalt bruise his heel.",
             "ref": "Genesis 3:14–15"
           }
         ],
         "echo": {
-          "t": "Forasmuch then as the children are partakers of flesh and blood, he also himself likewise took part of the same; that through death he might destroy him that had the power of death, that is, the devil; And deliver them who through …",
+          "t": "Forasmuch then as the children are partakers of flesh and blood, he also himself likewise took part of the same; that through death he might destroy him that had the power of death, that is, the devil; And deliver them who through fear of death were all their lifetime subject to bondage.",
           "ref": "Hebrews 2:14–15"
         },
         "prop": null,
@@ -136,12 +136,12 @@ export const BOOKS = [
         "title": "Adam and Eve are expelled from Eden",
         "verses": [
           {
-            "t": "Therefore the LORD God sent him forth from the garden of Eden, to till the ground from whence he was taken. So he drove out the man; and he placed at the east of the garden of Eden Cherubims, and a flaming sword which turned every way, to keep the way of …",
+            "t": "Therefore the LORD God sent him forth from the garden of Eden, to till the ground from whence he was taken. So he drove out the man; and he placed at the east of the garden of Eden Cherubims, and a flaming sword which turned every way, to keep the way of the tree of life.",
             "ref": "Genesis 3:23–24"
           }
         ],
         "echo": {
-          "t": "And he shewed me a pure river of water of life, clear as crystal, proceeding out of the throne of God and of the Lamb. In the midst of the street of it, and on either side of the river, was there …",
+          "t": "And he shewed me a pure river of water of life, clear as crystal, proceeding out of the throne of God and of the Lamb.",
           "ref": "Revelation 22:1–2"
         },
         "prop": "pillarOfFire",
@@ -171,7 +171,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "But as the days of Noe were, so shall also the coming of the Son of man be. For as in the days that were before the flood they were eating and drinking, marrying and giving in marriage, until the day that …",
+          "t": "But as the days of Noe were, so shall also the coming of the Son of man be.",
           "ref": "Matthew 24:37–38"
         },
         "prop": null,
@@ -181,12 +181,12 @@ export const BOOKS = [
         "title": "God covenants with Noah and commands the ark",
         "verses": [
           {
-            "t": "But with thee will I establish my covenant; and thou shalt come into the ark, thou, and thy sons, and thy wife, and thy sons’ wives with thee. And of every living thing of all flesh, two of every sort shalt thou bring into the ark, to keep them alive with thee …",
+            "t": "But with thee will I establish my covenant; and thou shalt come into the ark, thou, and thy sons, and thy wife, and thy sons’ wives with thee. And of every living thing of all flesh, two of every sort shalt thou bring into the ark, to keep them alive with thee; they shall be male and female.",
             "ref": "Genesis 6:18–19"
           }
         ],
         "echo": {
-          "t": "Which sometime were disobedient, when once the longsuffering of God waited in the days of Noah, while the ark was a preparing, wherein few, that is, eight souls were saved by water. …",
+          "t": "Which sometime were disobedient, when once the longsuffering of God waited in the days of Noah, while the ark was a preparing, wherein few, that is, eight souls were saved by water.",
           "ref": "1 Peter 3:20–21"
         },
         "prop": "ark",
@@ -196,7 +196,7 @@ export const BOOKS = [
         "title": "The floodwaters recede",
         "verses": [
           {
-            "t": "And God remembered Noah, and every living thing, and all the cattle that was with him in the ark: and God made a wind to pass over the earth, and the waters asswaged; The fountains also of the deep and the windows of heaven were stopped, and the rain from heaven was …",
+            "t": "And God remembered Noah, and every living thing, and all the cattle that was with him in the ark: and God made a wind to pass over the earth, and the waters asswaged; The fountains also of the deep and the windows of heaven were stopped, and the rain from heaven was restrained;",
             "ref": "Genesis 8:1–2"
           }
         ],
@@ -216,7 +216,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And immediately I was in the spirit: and, behold, a throne was set in heaven, and one sat on the throne. And he that sat was to look upon like a jasper and a sardine stone: and there was a rainbow round …",
+          "t": "And immediately I was in the spirit: and, behold, a throne was set in heaven, and one sat on the throne. And he that sat was to look upon like a jasper and a sardine stone: and there was a rainbow round about the throne, in sight like unto an emerald.",
           "ref": "Revelation 4:2–3"
         },
         "prop": "rainbow",
@@ -226,12 +226,12 @@ export const BOOKS = [
         "title": "Humanity builds Babel",
         "verses": [
           {
-            "t": "And they said, Go to, let us build us a city and a tower, whose top may reach unto heaven; and let us make us a name, lest we be scattered abroad upon the face of the whole earth. …",
+            "t": "And they said, Go to, let us build us a city and a tower, whose top may reach unto heaven; and let us make us a name, lest we be scattered abroad upon the face of the whole earth. And the LORD came down to see the city and the tower, which the children of men builded.",
             "ref": "Genesis 11:4–5"
           }
         ],
         "echo": {
-          "t": "Now when this was noised abroad, the multitude came together, and were confounded, because that every man heard them speak in his own language. And they were all amazed and marvelled, saying one to another, Behold, are not all these which speak …",
+          "t": "Now when this was noised abroad, the multitude came together, and were confounded, because that every man heard them speak in his own language. And they were all amazed and marvelled, saying one to another, Behold, are not all these which speak Galilaeans?",
           "ref": "Acts 2:6–7"
         },
         "prop": "ziggurat",
@@ -261,7 +261,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "For this Melchisedec, king of Salem, priest of the most high God, who met Abraham returning from the slaughter of the kings, and blessed him; To whom also Abraham gave a tenth part of all; first being by interpretation King of righteousness …",
+          "t": "For this Melchisedec, king of Salem, priest of the most high God, who met Abraham returning from the slaughter of the kings, and blessed him; To whom also Abraham gave a tenth part of all; first being by interpretation King of righteousness, and after that also King of Salem, which is, King of peace;",
           "ref": "Hebrews 7:1–2"
         },
         "prop": "altar",
@@ -301,12 +301,12 @@ export const BOOKS = [
         "title": "God promises Isaac as the covenant son",
         "verses": [
           {
-            "t": "And God said, Sarah thy wife shall bear thee a son indeed; and thou shalt call his name Isaac: and I will establish my covenant with him for an everlasting covenant, and with his seed after him. …",
+            "t": "And God said, Sarah thy wife shall bear thee a son indeed; and thou shalt call his name Isaac: and I will establish my covenant with him for an everlasting covenant, and with his seed after him. And as for Ishmael, I have heard thee: Behold, I have blessed him, and will make him fruitful, and will multiply him exceedingly; twelve princes shall he beget, and I will make him a great nation.",
             "ref": "Genesis 17:19–20"
           }
         ],
         "echo": {
-          "t": "Neither, because they are the seed of Abraham, are they all children: but, In Isaac shall thy seed be called. That is, They which are the children of the flesh, these are not the children of God: but the children of the …",
+          "t": "Neither, because they are the seed of Abraham, are they all children: but, In Isaac shall thy seed be called. That is, They which are the children of the flesh, these are not the children of God: but the children of the promise are counted for the seed.",
           "ref": "Romans 9:7–8"
         },
         "prop": "tent",
@@ -321,7 +321,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Through faith also Sara herself received strength to conceive seed, and was delivered of a child when she was past age, because she judged him faithful who had promised. …",
+          "t": "Through faith also Sara herself received strength to conceive seed, and was delivered of a child when she was past age, because she judged him faithful who had promised.",
           "ref": "Hebrews 11:11–12"
         },
         "prop": "tent",
@@ -331,7 +331,7 @@ export const BOOKS = [
         "title": "Abraham intercedes for Sodom",
         "verses": [
           {
-            "t": "Peradventure there be fifty righteous within the city: wilt thou also destroy and not spare the place for the fifty righteous that are therein? That be far from thee to do after this manner, to slay the righteous with the wicked: and that the righteous should be as the wicked, that be …",
+            "t": "Peradventure there be fifty righteous within the city: wilt thou also destroy and not spare the place for the fifty righteous that are therein? That be far from thee to do after this manner, to slay the righteous with the wicked: and that the righteous should be as the wicked, that be far from thee: Shall not the Judge of all the earth do right?",
             "ref": "Genesis 18:24–25"
           }
         ],
@@ -376,7 +376,7 @@ export const BOOKS = [
         "title": "Abraham binds Isaac",
         "verses": [
           {
-            "t": "And the angel of the LORD called unto him out of heaven, and said, Abraham, Abraham: and he said, Here am I. And he said, Lay not thine hand upon the lad, neither do thou any thing unto him: for now I know that thou fearest God, seeing thou hast not withheld …",
+            "t": "And the angel of the LORD called unto him out of heaven, and said, Abraham, Abraham: and he said, Here am I. And he said, Lay not thine hand upon the lad, neither do thou any thing unto him: for now I know that thou fearest God, seeing thou hast not withheld thy son, thine only son from me.",
             "ref": "Genesis 22:11–12"
           }
         ],
@@ -396,7 +396,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Lest there be any fornicator, or profane person, as Esau, who for one morsel of meat sold his birthright. For ye know how that afterward, when he would have inherited the blessing, he was rejected: for he found no place of repentance …",
+          "t": "Lest there be any fornicator, or profane person, as Esau, who for one morsel of meat sold his birthright. For ye know how that afterward, when he would have inherited the blessing, he was rejected: for he found no place of repentance, though he sought it carefully with tears.",
           "ref": "Hebrews 12:16–17"
         },
         "prop": "tent",
@@ -406,7 +406,7 @@ export const BOOKS = [
         "title": "Jacob receives Isaac’s blessing",
         "verses": [
           {
-            "t": "Therefore God give thee of the dew of heaven, and the fatness of the earth, and plenty of corn and wine: Let people serve thee, and nations bow down to thee: be lord over thy brethren, and let thy mother’s sons bow down to thee: cursed be every one that curseth thee …",
+            "t": "Therefore God give thee of the dew of heaven, and the fatness of the earth, and plenty of corn and wine: Let people serve thee, and nations bow down to thee: be lord over thy brethren, and let thy mother’s sons bow down to thee: cursed be every one that curseth thee, and blessed be he that blesseth thee.",
             "ref": "Genesis 27:28–29"
           }
         ],
@@ -421,12 +421,12 @@ export const BOOKS = [
         "title": "Jacob dreams at Bethel",
         "verses": [
           {
-            "t": "And he dreamed, and behold a ladder set up on the earth, and the top of it reached to heaven: and behold the angels of God ascending and descending on it. And, behold, the LORD stood above it, and said, I am the LORD God of Abraham thy father, and the God …",
+            "t": "And he dreamed, and behold a ladder set up on the earth, and the top of it reached to heaven: and behold the angels of God ascending and descending on it.",
             "ref": "Genesis 28:12–13"
           }
         ],
         "echo": {
-          "t": "Jesus answered and said unto him, Because I said unto thee, I saw thee under the fig tree, believest thou? thou shalt see greater things than these. …",
+          "t": "Jesus answered and said unto him, Because I said unto thee, I saw thee under the fig tree, believest thou? thou shalt see greater things than these. And he saith unto him, Verily, verily, I say unto you, Hereafter ye shall see heaven open, and the angels of God ascending and descending upon the Son of man.",
           "ref": "John 1:50–51"
         },
         "prop": "ladder",
@@ -436,7 +436,7 @@ export const BOOKS = [
         "title": "Jacob wrestles and receives the name Israel",
         "verses": [
           {
-            "t": "And he said, Thy name shall be called no more Jacob, but Israel: for as a prince hast thou power with God and with men, and hast prevailed. And Jacob asked him, and said, Tell me, I pray thee, thy name. …",
+            "t": "And he said, Thy name shall be called no more Jacob, but Israel: for as a prince hast thou power with God and with men, and hast prevailed. And Jacob asked him, and said, Tell me, I pray thee, thy name. And he said, Wherefore is it that thou dost ask after my name? And he blessed him there.",
             "ref": "Genesis 32:28–29"
           }
         ],
@@ -456,7 +456,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "For he is our peace, who hath made both one, and hath broken down the middle wall of partition between us; Having abolished in his flesh the enmity, even the law of commandments contained in ordinances; for to make in himself of …",
+          "t": "For he is our peace, who hath made both one, and hath broken down the middle wall of partition between us; Having abolished in his flesh the enmity, even the law of commandments contained in ordinances; for to make in himself of twain one new man, so making peace;",
           "ref": "Ephesians 2:14–15"
         },
         "prop": null,
@@ -466,12 +466,12 @@ export const BOOKS = [
         "title": "Joseph is sold into Egypt",
         "verses": [
           {
-            "t": "Then there passed by Midianites merchantmen; and they drew and lifted up Joseph out of the pit, and sold Joseph to the Ishmeelites for twenty pieces of silver: and they brought Joseph into Egypt. And Reuben returned unto the pit; and, behold, Joseph was not in the pit; and he rent his …",
+            "t": "Then there passed by Midianites merchantmen; and they drew and lifted up Joseph out of the pit, and sold Joseph to the Ishmeelites for twenty pieces of silver: and they brought Joseph into Egypt. And Reuben returned unto the pit; and, behold, Joseph was not in the pit; and he rent his clothes.",
             "ref": "Genesis 37:28–29"
           }
         ],
         "echo": {
-          "t": "And the patriarchs, moved with envy, sold Joseph into Egypt: but God was with him, And delivered him out of all his afflictions, and gave him favour and wisdom in the sight of Pharaoh king of Egypt; and he made him governor …",
+          "t": "And the patriarchs, moved with envy, sold Joseph into Egypt: but God was with him, And delivered him out of all his afflictions, and gave him favour and wisdom in the sight of Pharaoh king of Egypt; and he made him governor over Egypt and all his house.",
           "ref": "Acts 7:9–10"
         },
         "prop": "well",
@@ -511,7 +511,7 @@ export const BOOKS = [
         "title": "Joseph reveals himself and forgives",
         "verses": [
           {
-            "t": "And Joseph said unto his brethren, Come near to me, I pray you. And they came near. And he said, I am Joseph your brother, whom ye sold into Egypt. Now therefore be not grieved, nor angry with yourselves, that ye sold me hither: for God did send me before you to …",
+            "t": "And Joseph said unto his brethren, Come near to me, I pray you. And they came near. And he said, I am Joseph your brother, whom ye sold into Egypt. Now therefore be not grieved, nor angry with yourselves, that ye sold me hither: for God did send me before you to preserve life.",
             "ref": "Genesis 45:4–5"
           }
         ],
@@ -526,12 +526,12 @@ export const BOOKS = [
         "title": "Jacob blesses Judah with kingship",
         "verses": [
           {
-            "t": "Judah is a lion’s whelp: from the prey, my son, thou art gone up: he stooped down, he couched as a lion, and as an old lion; who shall rouse him up? The sceptre shall not depart from Judah, nor a lawgiver from between his feet, until Shiloh come; and unto him …",
+            "t": "Judah is a lion’s whelp: from the prey, my son, thou art gone up: he stooped down, he couched as a lion, and as an old lion; who shall rouse him up? The sceptre shall not depart from Judah, nor a lawgiver from between his feet, until Shiloh come; and unto him shall the gathering of the people be.",
             "ref": "Genesis 49:9–10"
           }
         ],
         "echo": {
-          "t": "And one of the elders saith unto me, Weep not: behold, the Lion of the tribe of Juda, the Root of David, hath prevailed to open the book, and to loose the seven seals thereof. …",
+          "t": "And one of the elders saith unto me, Weep not: behold, the Lion of the tribe of Juda, the Root of David, hath prevailed to open the book, and to loose the seven seals thereof.",
           "ref": "Revelation 5:5–6"
         },
         "prop": "throne",
@@ -582,7 +582,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "The same dealt subtilly with our kindred, and evil entreated our fathers, so that they cast out their young children, to the end they might not live. …",
+          "t": "The same dealt subtilly with our kindred, and evil entreated our fathers, so that they cast out their young children, to the end they might not live. In which time Moses was born, and was exceeding fair, and nourished up in his father’s house three months:",
           "ref": "Acts 7:19–20"
         },
         "prop": "city",
@@ -592,7 +592,7 @@ export const BOOKS = [
         "title": "Moses kills an Egyptian and flees",
         "verses": [
           {
-            "t": "And he said, Who made thee a prince and a judge over us? intendest thou to kill me, as thou killedst the Egyptian? And Moses feared, and said, Surely this thing is known. Now when Pharaoh heard this thing, he sought to slay Moses. …",
+            "t": "And he said, Who made thee a prince and a judge over us? intendest thou to kill me, as thou killedst the Egyptian? And Moses feared, and said, Surely this thing is known. Now when Pharaoh heard this thing, he sought to slay Moses. But Moses fled from the face of Pharaoh, and dwelt in the land of Midian: and he sat down by a well.",
             "ref": "Exodus 2:14–15"
           }
         ],
@@ -607,12 +607,12 @@ export const BOOKS = [
         "title": "God calls Moses from the burning bush",
         "verses": [
           {
-            "t": "And when the LORD saw that he turned aside to see, God called unto him out of the midst of the bush, and said, Moses, Moses. And he said, Here am I. And he said, Draw not nigh hither: put off thy shoes from off thy feet, for the place whereon thou …",
+            "t": "And when the LORD saw that he turned aside to see, God called unto him out of the midst of the bush, and said, Moses, Moses. And he said, Here am I. And he said, Draw not nigh hither: put off thy shoes from off thy feet, for the place whereon thou standest is holy ground.",
             "ref": "Exodus 3:4–5"
           }
         ],
         "echo": {
-          "t": "And as touching the dead, that they rise: have ye not read in the book of Moses, how in the bush God spake unto him, saying, I am the God of Abraham, and the God of Isaac, and the God of Jacob? …",
+          "t": "And as touching the dead, that they rise: have ye not read in the book of Moses, how in the bush God spake unto him, saying, I am the God of Abraham, and the God of Isaac, and the God of Jacob?",
           "ref": "Mark 12:26–27"
         },
         "prop": "burningBush",
@@ -622,12 +622,12 @@ export const BOOKS = [
         "title": "God reveals the divine name",
         "verses": [
           {
-            "t": "And God said unto Moses, I AM THAT I AM: and he said, Thus shalt thou say unto the children of Israel, I AM hath sent me unto you. And God said moreover unto Moses, Thus shalt thou say unto the children of Israel, The LORD God of your fathers, the God …",
+            "t": "And God said unto Moses, I AM THAT I AM: and he said, Thus shalt thou say unto the children of Israel, I AM hath sent me unto you.",
             "ref": "Exodus 3:14–15"
           }
         ],
         "echo": {
-          "t": "Jesus said unto them, Verily, verily, I say unto you, Before Abraham was, I am. Then took they up stones to cast at him: but Jesus hid himself, and went out of the temple, going through the midst of them, and so …",
+          "t": "Jesus said unto them, Verily, verily, I say unto you, Before Abraham was, I am. Then took they up stones to cast at him: but Jesus hid himself, and went out of the temple, going through the midst of them, and so passed by.",
           "ref": "John 8:58–59"
         },
         "prop": null,
@@ -637,12 +637,12 @@ export const BOOKS = [
         "title": "Moses resists his call and Aaron is appointed",
         "verses": [
           {
-            "t": "And he said, O my LORD, send, I pray thee, by the hand of him whom thou wilt send. And the anger of the LORD was kindled against Moses, and he said, Is not Aaron the Levite thy brother? I know that he can speak well. …",
+            "t": "And he said, O my LORD, send, I pray thee, by the hand of him whom thou wilt send. And the anger of the LORD was kindled against Moses, and he said, Is not Aaron the Levite thy brother? I know that he can speak well. And also, behold, he cometh forth to meet thee: and when he seeth thee, he will be glad in his heart.",
             "ref": "Exodus 4:13–14"
           }
         ],
         "echo": {
-          "t": "This Moses whom they refused, saying, Who made thee a ruler and a judge? the same did God send to be a ruler and a deliverer by the hand of the angel which appeared to him in the bush. …",
+          "t": "This Moses whom they refused, saying, Who made thee a ruler and a judge? the same did God send to be a ruler and a deliverer by the hand of the angel which appeared to him in the bush.",
           "ref": "Acts 7:35–36"
         },
         "prop": null,
@@ -652,7 +652,7 @@ export const BOOKS = [
         "title": "Pharaoh increases Israel’s burdens",
         "verses": [
           {
-            "t": "Ye shall no more give the people straw to make brick, as heretofore: let them go and gather straw for themselves. And the tale of the bricks, which they did make heretofore, ye shall lay upon them; ye shall not diminish ought thereof: for they be idle; therefore they cry, saying, Let …",
+            "t": "Ye shall no more give the people straw to make brick, as heretofore: let them go and gather straw for themselves. And the tale of the bricks, which they did make heretofore, ye shall lay upon them; ye shall not diminish ought thereof: for they be idle; therefore they cry, saying, Let us go and sacrifice to our God.",
             "ref": "Exodus 5:7–8"
           }
         ],
@@ -667,12 +667,12 @@ export const BOOKS = [
         "title": "Israel receives the Passover",
         "verses": [
           {
-            "t": "And ye shall keep it up until the fourteenth day of the same month: and the whole assembly of the congregation of Israel shall kill it in the evening. And they shall take of the blood, and strike it on the two side posts and on the upper door post of the …",
+            "t": "And ye shall keep it up until the fourteenth day of the same month: and the whole assembly of the congregation of Israel shall kill it in the evening. And they shall take of the blood, and strike it on the two side posts and on the upper door post of the houses, wherein they shall eat it.",
             "ref": "Exodus 12:6–7"
           }
         ],
         "echo": {
-          "t": "Purge out therefore the old leaven, that ye may be a new lump, as ye are unleavened. For even Christ our passover is sacrificed for us: Therefore let us keep the feast, not with old leaven, neither with the leaven of malice …",
+          "t": "Purge out therefore the old leaven, that ye may be a new lump, as ye are unleavened. For even Christ our passover is sacrificed for us: Therefore let us keep the feast, not with old leaven, neither with the leaven of malice and wickedness; but with the unleavened bread of sincerity and truth.",
           "ref": "1 Corinthians 5:7–8"
         },
         "prop": "passover",
@@ -682,7 +682,7 @@ export const BOOKS = [
         "title": "The firstborn die in the final plague",
         "verses": [
           {
-            "t": "And it came to pass, that at midnight the LORD smote all the firstborn in the land of Egypt, from the firstborn of Pharaoh that sat on his throne unto the firstborn of the captive that was in the dungeon; and all the firstborn of cattle. …",
+            "t": "And it came to pass, that at midnight the LORD smote all the firstborn in the land of Egypt, from the firstborn of Pharaoh that sat on his throne unto the firstborn of the captive that was in the dungeon; and all the firstborn of cattle.",
             "ref": "Exodus 12:29–30"
           }
         ],
@@ -697,7 +697,7 @@ export const BOOKS = [
         "title": "God leads Israel by cloud and fire",
         "verses": [
           {
-            "t": "And the LORD went before them by day in a pillar of a cloud, to lead them the way; and by night in a pillar of fire, to give them light; to go by day and night: He took not away the pillar of the cloud by day, nor the pillar of …",
+            "t": "And the LORD went before them by day in a pillar of a cloud, to lead them the way; and by night in a pillar of fire, to give them light; to go by day and night: He took not away the pillar of the cloud by day, nor the pillar of fire by night, from before the people.",
             "ref": "Exodus 13:21–22"
           }
         ],
@@ -712,7 +712,7 @@ export const BOOKS = [
         "title": "Israel crosses the sea",
         "verses": [
           {
-            "t": "And Moses stretched out his hand over the sea; and the LORD caused the sea to go back by a strong east wind all that night, and made the sea dry land, and the waters were divided. …",
+            "t": "And Moses stretched out his hand over the sea; and the LORD caused the sea to go back by a strong east wind all that night, and made the sea dry land, and the waters were divided. And the children of Israel went into the midst of the sea upon the dry ground: and the waters were a wall unto them on their right hand, and on their left.",
             "ref": "Exodus 14:21–22"
           }
         ],
@@ -727,12 +727,12 @@ export const BOOKS = [
         "title": "Moses and Miriam sing at the sea",
         "verses": [
           {
-            "t": "Then sang Moses and the children of Israel this song unto the LORD, and spake, saying, I will sing unto the LORD, for he hath triumphed gloriously: the horse and his rider hath he thrown into the sea. …",
+            "t": "Then sang Moses and the children of Israel this song unto the LORD, and spake, saying, I will sing unto the LORD, for he hath triumphed gloriously: the horse and his rider hath he thrown into the sea. The LORD is my strength and song, and he is become my salvation: he is my God, and I will prepare him an habitation; my father’s God, and I will exalt him.",
             "ref": "Exodus 15:1–2"
           }
         ],
         "echo": {
-          "t": "And they sing the song of Moses the servant of God, and the song of the Lamb, saying, Great and marvellous are thy works, Lord God Almighty; just and true are thy ways, thou King of saints. …",
+          "t": "And they sing the song of Moses the servant of God, and the song of the Lamb, saying, Great and marvellous are thy works, Lord God Almighty; just and true are thy ways, thou King of saints. Who shall not fear thee, O Lord, and glorify thy name?",
           "ref": "Revelation 15:3–4"
         },
         "prop": null,
@@ -742,12 +742,12 @@ export const BOOKS = [
         "title": "God gives manna",
         "verses": [
           {
-            "t": "And when the dew that lay was gone up, behold, upon the face of the wilderness there lay a small round thing, as small as the hoar frost on the ground. And when the children of Israel saw it, they said one to another, It is manna: for they wist not what …",
+            "t": "And when the dew that lay was gone up, behold, upon the face of the wilderness there lay a small round thing, as small as the hoar frost on the ground. And when the children of Israel saw it, they said one to another, It is manna: for they wist not what it was. And Moses said unto them, This is the bread which the LORD hath given you to eat.",
             "ref": "Exodus 16:14–15"
           }
         ],
         "echo": {
-          "t": "Then Jesus said unto them, Verily, verily, I say unto you, Moses gave you not that bread from heaven; but my Father giveth you the true bread from heaven. …",
+          "t": "Then Jesus said unto them, Verily, verily, I say unto you, Moses gave you not that bread from heaven; but my Father giveth you the true bread from heaven. For the bread of God is he which cometh down from heaven, and giveth life unto the world.",
           "ref": "John 6:32–33"
         },
         "prop": null,
@@ -757,7 +757,7 @@ export const BOOKS = [
         "title": "Water comes from the rock",
         "verses": [
           {
-            "t": "And the LORD said unto Moses, Go on before the people, and take with thee of the elders of Israel; and thy rod, wherewith thou smotest the river, take in thine hand, and go. Behold, I will stand before thee there upon the rock in Horeb; and thou shalt smite the rock …",
+            "t": "And the LORD said unto Moses, Go on before the people, and take with thee of the elders of Israel; and thy rod, wherewith thou smotest the river, take in thine hand, and go. Behold, I will stand before thee there upon the rock in Horeb; and thou shalt smite the rock, and there shall come water out of it, that the people may drink.",
             "ref": "Exodus 17:5–6"
           }
         ],
@@ -772,12 +772,12 @@ export const BOOKS = [
         "title": "Israel arrives at Sinai",
         "verses": [
           {
-            "t": "And it came to pass on the third day in the morning, that there were thunders and lightnings, and a thick cloud upon the mount, and the voice of the trumpet exceeding loud; so that all the people that was in the camp trembled. …",
+            "t": "And it came to pass on the third day in the morning, that there were thunders and lightnings, and a thick cloud upon the mount, and the voice of the trumpet exceeding loud; so that all the people that was in the camp trembled. And Moses brought forth the people out of the camp to meet with God; and they stood at the nether part of the mount.",
             "ref": "Exodus 19:16–17"
           }
         ],
         "echo": {
-          "t": "For ye are not come unto the mount that might be touched, and that burned with fire, nor unto blackness, and darkness, and tempest, And the sound of a trumpet, and the voice of words; which voice they that heard intreated that …",
+          "t": "For ye are not come unto the mount that might be touched, and that burned with fire, nor unto blackness, and darkness, and tempest, And the sound of a trumpet, and the voice of words; which voice they that heard intreated that the word should not be spoken to them any more:",
           "ref": "Hebrews 12:18–19"
         },
         "prop": "tablets",
@@ -802,12 +802,12 @@ export const BOOKS = [
         "title": "The covenant is sealed with blood",
         "verses": [
           {
-            "t": "And he took the book of the covenant, and read in the audience of the people: and they said, All that the LORD hath said will we do, and be obedient. And Moses took the blood, and sprinkled it on the people, and said, Behold the blood of the covenant, which the …",
+            "t": "And he took the book of the covenant, and read in the audience of the people: and they said, All that the LORD hath said will we do, and be obedient. And Moses took the blood, and sprinkled it on the people, and said, Behold the blood of the covenant, which the LORD hath made with you concerning all these words.",
             "ref": "Exodus 24:7–8"
           }
         ],
         "echo": {
-          "t": "For when Moses had spoken every precept to all the people according to the law, he took the blood of calves and of goats, with water, and scarlet wool, and hyssop, and sprinkled both the book, and all the people, Saying, This …",
+          "t": "For when Moses had spoken every precept to all the people according to the law, he took the blood of calves and of goats, with water, and scarlet wool, and hyssop, and sprinkled both the book, and all the people, Saying, This is the blood of the testament which God hath enjoined unto you.",
           "ref": "Hebrews 9:19–20"
         },
         "prop": "altar",
@@ -817,7 +817,7 @@ export const BOOKS = [
         "title": "The elders of Israel see God",
         "verses": [
           {
-            "t": "And they saw the God of Israel: and there was under his feet as it were a paved work of a sapphire stone, and as it were the body of heaven in his clearness. And upon the nobles of the children of Israel he laid not his hand: also they saw God …",
+            "t": "And they saw the God of Israel: and there was under his feet as it were a paved work of a sapphire stone, and as it were the body of heaven in his clearness. And upon the nobles of the children of Israel he laid not his hand: also they saw God, and did eat and drink.",
             "ref": "Exodus 24:10–11"
           }
         ],
@@ -832,12 +832,12 @@ export const BOOKS = [
         "title": "Israel makes the golden calf",
         "verses": [
           {
-            "t": "And he received them at their hand, and fashioned it with a graving tool, after he had made it a molten calf: and they said, These be thy gods, O Israel, which brought thee up out of the land of Egypt. …",
+            "t": "And he received them at their hand, and fashioned it with a graving tool, after he had made it a molten calf: and they said, These be thy gods, O Israel, which brought thee up out of the land of Egypt. And when Aaron saw it, he built an altar before it; and Aaron made proclamation, and said, To morrow is a feast to the LORD.",
             "ref": "Exodus 32:4–5"
           }
         ],
         "echo": {
-          "t": "Saying unto Aaron, Make us gods to go before us: for as for this Moses, which brought us out of the land of Egypt, we wot not what is become of him. …",
+          "t": "Saying unto Aaron, Make us gods to go before us: for as for this Moses, which brought us out of the land of Egypt, we wot not what is become of him. And they made a calf in those days, and offered sacrifice unto the idol, and rejoiced in the works of their own hands.",
           "ref": "Acts 7:40–41"
         },
         "prop": "altar",
@@ -862,12 +862,12 @@ export const BOOKS = [
         "title": "God renews the covenant and reveals glory",
         "verses": [
           {
-            "t": "And the LORD passed by before him, and proclaimed, The LORD, The LORD God, merciful and gracious, longsuffering, and abundant in goodness and truth, Keeping mercy for thousands, forgiving iniquity and transgression and sin, and that will by no means clear the guilty; visiting the iniquity of the fathers upon the children …",
+            "t": "And the LORD passed by before him, and proclaimed, The LORD, The LORD God, merciful and gracious, longsuffering, and abundant in goodness and truth, Keeping mercy for thousands, forgiving iniquity and transgression and sin, and that will by no means clear the guilty; visiting the iniquity of the fathers upon the children, and upon the children’s children, unto the third and to the fourth generation.",
             "ref": "Exodus 34:6–7"
           }
         ],
         "echo": {
-          "t": "But if the ministration of death, written and engraven in stones, was glorious, so that the children of Israel could not stedfastly behold the face of Moses for the glory of his countenance; which glory was to be done away: How shall …",
+          "t": "But if the ministration of death, written and engraven in stones, was glorious, so that the children of Israel could not stedfastly behold the face of Moses for the glory of his countenance; which glory was to be done away: How shall not the ministration of the spirit be rather glorious?",
           "ref": "2 Corinthians 3:7–8"
         },
         "prop": "tablets",
@@ -942,12 +942,12 @@ export const BOOKS = [
         "title": "Aaron and his sons are ordained",
         "verses": [
           {
-            "t": "And ye shall not go out of the door of the tabernacle of the congregation in seven days, until the days of your consecration be at an end: for seven days shall he consecrate you. As he hath done this day, so the LORD hath commanded to do, to make an atonement …",
+            "t": "And ye shall not go out of the door of the tabernacle of the congregation in seven days, until the days of your consecration be at an end: for seven days shall he consecrate you. As he hath done this day, so the LORD hath commanded to do, to make an atonement for you.",
             "ref": "Leviticus 8:33–34"
           }
         ],
         "echo": {
-          "t": "And no man taketh this honour unto himself, but he that is called of God, as was Aaron. So also Christ glorified not himself to be made an high priest; but he that said unto him, Thou art my Son, to day …",
+          "t": "And no man taketh this honour unto himself, but he that is called of God, as was Aaron. So also Christ glorified not himself to be made an high priest; but he that said unto him, Thou art my Son, to day have I begotten thee.",
           "ref": "Hebrews 5:4–5"
         },
         "prop": "tent",
@@ -972,7 +972,7 @@ export const BOOKS = [
         "title": "The scapegoat bears Israel’s sins away",
         "verses": [
           {
-            "t": "And Aaron shall lay both his hands upon the head of the live goat, and confess over him all the iniquities of the children of Israel, and all their transgressions in all their sins, putting them upon the head of the goat, and shall send him away by the hand of a …",
+            "t": "And Aaron shall lay both his hands upon the head of the live goat, and confess over him all the iniquities of the children of Israel, and all their transgressions in all their sins, putting them upon the head of the goat, and shall send him away by the hand of a fit man into the wilderness: And the goat shall bear upon him all their iniquities unto a land not inhabited: and he shall let go the goat in the wilderness.",
             "ref": "Leviticus 16:21–22"
           }
         ],
@@ -1022,12 +1022,12 @@ export const BOOKS = [
         "title": "The Spirit rests on the seventy elders",
         "verses": [
           {
-            "t": "And Moses went out, and told the people the words of the LORD, and gathered the seventy men of the elders of the people, and set them round about the tabernacle. And the LORD came down in a cloud, and spake unto him, and took of the spirit that was upon him …",
+            "t": "And Moses went out, and told the people the words of the LORD, and gathered the seventy men of the elders of the people, and set them round about the tabernacle.",
             "ref": "Numbers 11:24–25"
           }
         ],
         "echo": {
-          "t": "And it shall come to pass in the last days, saith God, I will pour out of my Spirit upon all flesh: and your sons and your daughters shall prophesy, and your young men shall see visions, and your old men shall …",
+          "t": "And it shall come to pass in the last days, saith God, I will pour out of my Spirit upon all flesh: and your sons and your daughters shall prophesy, and your young men shall see visions, and your old men shall dream dreams: And on my servants and on my handmaidens I will pour out in those days of my Spirit; and they shall prophesy:",
           "ref": "Acts 2:17–18"
         },
         "prop": "tent",
@@ -1037,7 +1037,7 @@ export const BOOKS = [
         "title": "The spies see the land and its giants",
         "verses": [
           {
-            "t": "And they told him, and said, We came unto the land whither thou sentest us, and surely it floweth with milk and honey; and this is the fruit of it. Nevertheless the people be strong that dwell in the land, and the cities are walled, and very great: and moreover we saw …",
+            "t": "And they told him, and said, We came unto the land whither thou sentest us, and surely it floweth with milk and honey; and this is the fruit of it. Nevertheless the people be strong that dwell in the land, and the cities are walled, and very great: and moreover we saw the children of Anak there.",
             "ref": "Numbers 13:27–28"
           }
         ],
@@ -1052,12 +1052,12 @@ export const BOOKS = [
         "title": "Israel refuses the promised land",
         "verses": [
           {
-            "t": "And all the congregation lifted up their voice, and cried; and the people wept that night. And all the children of Israel murmured against Moses and against Aaron: and the whole congregation said unto them, Would God that we had died in the land of Egypt! …",
+            "t": "And all the congregation lifted up their voice, and cried; and the people wept that night. And all the children of Israel murmured against Moses and against Aaron: and the whole congregation said unto them, Would God that we had died in the land of Egypt! or would God we had died in this wilderness!",
             "ref": "Numbers 14:1–2"
           }
         ],
         "echo": {
-          "t": "Let us therefore fear, lest, a promise being left us of entering into his rest, any of you should seem to come short of it. For unto us was the gospel preached, as well as unto them: but the word preached did …",
+          "t": "Let us therefore fear, lest, a promise being left us of entering into his rest, any of you should seem to come short of it. For unto us was the gospel preached, as well as unto them: but the word preached did not profit them, not being mixed with faith in them that heard it.",
           "ref": "Hebrews 4:1–2"
         },
         "prop": "tent",
@@ -1067,7 +1067,7 @@ export const BOOKS = [
         "title": "Korah rebels against Moses and Aaron",
         "verses": [
           {
-            "t": "Now Korah, the son of Izhar, the son of Kohath, the son of Levi, and Dathan and Abiram, the sons of Eliab, and On, the son of Peleth, sons of Reuben, took men: And they rose up before Moses, with certain of the children of Israel, two hundred and fifty princes of …",
+            "t": "Now Korah, the son of Izhar, the son of Kohath, the son of Levi, and Dathan and Abiram, the sons of Eliab, and On, the son of Peleth, sons of Reuben, took men: And they rose up before Moses, with certain of the children of Israel, two hundred and fifty princes of the assembly, famous in the congregation, men of renown:",
             "ref": "Numbers 16:1–2"
           }
         ],
@@ -1082,7 +1082,7 @@ export const BOOKS = [
         "title": "Moses strikes the rock at Meribah",
         "verses": [
           {
-            "t": "And Moses lifted up his hand, and with his rod he smote the rock twice: and the water came out abundantly, and the congregation drank, and their beasts also. And the LORD spake unto Moses and Aaron, Because ye believed me not, to sanctify me in the eyes of the children of …",
+            "t": "And Moses lifted up his hand, and with his rod he smote the rock twice: and the water came out abundantly, and the congregation drank, and their beasts also. And the LORD spake unto Moses and Aaron, Because ye believed me not, to sanctify me in the eyes of the children of Israel, therefore ye shall not bring this congregation into the land which I have given them.",
             "ref": "Numbers 20:11–12"
           }
         ],
@@ -1097,7 +1097,7 @@ export const BOOKS = [
         "title": "The bronze serpent brings healing",
         "verses": [
           {
-            "t": "And the LORD said unto Moses, Make thee a fiery serpent, and set it upon a pole: and it shall come to pass, that every one that is bitten, when he looketh upon it, shall live. …",
+            "t": "And the LORD said unto Moses, Make thee a fiery serpent, and set it upon a pole: and it shall come to pass, that every one that is bitten, when he looketh upon it, shall live. And Moses made a serpent of brass, and put it upon a pole, and it came to pass, that if a serpent had bitten any man, when he beheld the serpent of brass, he lived.",
             "ref": "Numbers 21:8–9"
           }
         ],
@@ -1112,12 +1112,12 @@ export const BOOKS = [
         "title": "Balaam’s donkey speaks",
         "verses": [
           {
-            "t": "And the LORD opened the mouth of the ass, and she said unto Balaam, What have I done unto thee, that thou hast smitten me these three times? And Balaam said unto the ass, Because thou hast mocked me: I would there were a sword in mine hand, for now would I …",
+            "t": "And the LORD opened the mouth of the ass, and she said unto Balaam, What have I done unto thee, that thou hast smitten me these three times? And Balaam said unto the ass, Because thou hast mocked me: I would there were a sword in mine hand, for now would I kill thee.",
             "ref": "Numbers 22:28–29"
           }
         ],
         "echo": {
-          "t": "Which have forsaken the right way, and are gone astray, following the way of Balaam the son of Bosor, who loved the wages of unrighteousness; But was rebuked for his iniquity: the dumb ass speaking with man’s voice forbad the madness of …",
+          "t": "Which have forsaken the right way, and are gone astray, following the way of Balaam the son of Bosor, who loved the wages of unrighteousness; But was rebuked for his iniquity: the dumb ass speaking with man’s voice forbad the madness of the prophet.",
           "ref": "2 Peter 2:15–16"
         },
         "prop": null,
@@ -1127,7 +1127,7 @@ export const BOOKS = [
         "title": "Balaam sees the star from Jacob",
         "verses": [
           {
-            "t": "I shall see him, but not now: I shall behold him, but not nigh: there shall come a Star out of Jacob, and a Sceptre shall rise out of Israel, and shall smite the corners of Moab, and destroy all the children of Sheth. …",
+            "t": "I shall see him, but not now: I shall behold him, but not nigh: there shall come a Star out of Jacob, and a Sceptre shall rise out of Israel, and shall smite the corners of Moab, and destroy all the children of Sheth. And Edom shall be a possession, Seir also shall be a possession for his enemies; and Israel shall do valiantly.",
             "ref": "Numbers 24:17–18"
           }
         ],
@@ -1147,7 +1147,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Neither be ye idolaters, as were some of them; as it is written, The people sat down to eat and drink, and rose up to play. …",
+          "t": "Neither be ye idolaters, as were some of them; as it is written, The people sat down to eat and drink, and rose up to play. Neither let us commit fornication, as some of them committed, and fell in one day three and twenty thousand.",
           "ref": "1 Corinthians 10:7–8"
         },
         "prop": null,
@@ -1157,12 +1157,12 @@ export const BOOKS = [
         "title": "Phinehas stops the plague",
         "verses": [
           {
-            "t": "And when Phinehas, the son of Eleazar, the son of Aaron the priest, saw it, he rose up from among the congregation, and took a javelin in his hand; And he went after the man of Israel into the tent, and thrust both of them through, the man of Israel, and the …",
+            "t": "And when Phinehas, the son of Eleazar, the son of Aaron the priest, saw it, he rose up from among the congregation, and took a javelin in his hand; And he went after the man of Israel into the tent, and thrust both of them through, the man of Israel, and the woman through her belly. So the plague was stayed from the children of Israel.",
             "ref": "Numbers 25:7–8"
           }
         ],
         "echo": {
-          "t": "But I have a few things against thee, because thou hast there them that hold the doctrine of Balaam, who taught Balac to cast a stumblingblock before the children of Israel, to eat things sacrificed unto idols, and to commit fornication. …",
+          "t": "But I have a few things against thee, because thou hast there them that hold the doctrine of Balaam, who taught Balac to cast a stumblingblock before the children of Israel, to eat things sacrificed unto idols, and to commit fornication. So hast thou also them that hold the doctrine of the Nicolaitanes, which thing I hate.",
           "ref": "Revelation 2:14–15"
         },
         "prop": null,
@@ -1242,7 +1242,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "To whom our fathers would not obey, but thrust him from them, and in their hearts turned back again into Egypt, Saying unto Aaron, Make us gods to go before us: for as for this Moses, which brought us out of the …",
+          "t": "To whom our fathers would not obey, but thrust him from them, and in their hearts turned back again into Egypt, Saying unto Aaron, Make us gods to go before us: for as for this Moses, which brought us out of the land of Egypt, we wot not what is become of him.",
           "ref": "Acts 7:39–40"
         },
         "prop": null,
@@ -1257,7 +1257,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And Jesus answered him, The first of all the commandments is, Hear, O Israel; The Lord our God is one Lord: And thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy …",
+          "t": "And Jesus answered him, The first of all the commandments is, Hear, O Israel; The Lord our God is one Lord: And thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind, and with all thy strength: this is the first commandment.",
           "ref": "Mark 12:29–30"
         },
         "prop": "tablets",
@@ -1267,12 +1267,12 @@ export const BOOKS = [
         "title": "Moses sets life and death before Israel",
         "verses": [
           {
-            "t": "I call heaven and earth to record this day against you, that I have set before you life and death, blessing and cursing: therefore choose life, that both thou and thy seed may live: That thou mayest love the LORD thy God, and that thou mayest obey his voice, and that thou …",
+            "t": "I call heaven and earth to record this day against you, that I have set before you life and death, blessing and cursing: therefore choose life, that both thou and thy seed may live: That thou mayest love the LORD thy God, and that thou mayest obey his voice, and that thou mayest cleave unto him: for he is thy life, and the length of thy days: that thou mayest dwell in the land which the LORD sware unto thy fathers, to Abraham, to Isaac, and to Jacob, to give them.",
             "ref": "Deuteronomy 30:19–20"
           }
         ],
         "echo": {
-          "t": "But what saith it? The word is nigh thee, even in thy mouth, and in thy heart: that is, the word of faith, which we preach; That if thou shalt confess with thy mouth the Lord Jesus, and shalt believe in thine …",
+          "t": "But what saith it? The word is nigh thee, even in thy mouth, and in thy heart: that is, the word of faith, which we preach; That if thou shalt confess with thy mouth the Lord Jesus, and shalt believe in thine heart that God hath raised him from the dead, thou shalt be saved.",
           "ref": "Romans 10:8–9"
         },
         "prop": "stones",
@@ -1287,7 +1287,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And they sing the song of Moses the servant of God, and the song of the Lamb, saying, Great and marvellous are thy works, Lord God Almighty; just and true are thy ways, thou King of saints. …",
+          "t": "And they sing the song of Moses the servant of God, and the song of the Lamb, saying, Great and marvellous are thy works, Lord God Almighty; just and true are thy ways, thou King of saints. Who shall not fear thee, O Lord, and glorify thy name?",
           "ref": "Revelation 15:3–4"
         },
         "prop": null,
@@ -1297,7 +1297,7 @@ export const BOOKS = [
         "title": "Moses dies within sight of the land",
         "verses": [
           {
-            "t": "And the LORD said unto him, This is the land which I sware unto Abraham, unto Isaac, and unto Jacob, saying, I will give it unto thy seed: I have caused thee to see it with thine eyes, but thou shalt not go over thither. …",
+            "t": "And the LORD said unto him, This is the land which I sware unto Abraham, unto Isaac, and unto Jacob, saying, I will give it unto thy seed: I have caused thee to see it with thine eyes, but thou shalt not go over thither. So Moses the servant of the LORD died there in the land of Moab, according to the word of the LORD.",
             "ref": "Deuteronomy 34:4–5"
           }
         ],
@@ -1347,12 +1347,12 @@ export const BOOKS = [
         "title": "Joshua is commissioned to lead Israel",
         "verses": [
           {
-            "t": "There shall not any man be able to stand before thee all the days of thy life: as I was with Moses, so I will be with thee: I will not fail thee, nor forsake thee. …",
+            "t": "There shall not any man be able to stand before thee all the days of thy life: as I was with Moses, so I will be with thee: I will not fail thee, nor forsake thee. Be strong and of a good courage: for unto this people shalt thou divide for an inheritance the land, which I sware unto their fathers to give them.",
             "ref": "Joshua 1:5–6"
           }
         ],
         "echo": {
-          "t": "Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee. …",
+          "t": "Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee. So that we may boldly say, The Lord is my helper, and I will not fear what man shall do unto me.",
           "ref": "Hebrews 13:5–6"
         },
         "prop": null,
@@ -1362,7 +1362,7 @@ export const BOOKS = [
         "title": "Rahab shelters the spies",
         "verses": [
           {
-            "t": "And she said unto the men, I know that the LORD hath given you the land, and that your terror is fallen upon us, and that all the inhabitants of the land faint because of you. …",
+            "t": "And she said unto the men, I know that the LORD hath given you the land, and that your terror is fallen upon us, and that all the inhabitants of the land faint because of you.",
             "ref": "Joshua 2:9–10"
           }
         ],
@@ -1377,12 +1377,12 @@ export const BOOKS = [
         "title": "Israel crosses the Jordan",
         "verses": [
           {
-            "t": "That the waters which came down from above stood and rose up upon an heap very far from the city Adam, that is beside Zaretan: and those that came down toward the sea of the plain, even the salt sea, failed, and were cut off: and the people passed over right against …",
+            "t": "That the waters which came down from above stood and rose up upon an heap very far from the city Adam, that is beside Zaretan: and those that came down toward the sea of the plain, even the salt sea, failed, and were cut off: and the people passed over right against Jericho.",
             "ref": "Joshua 3:16–17"
           }
         ],
         "echo": {
-          "t": "Buried with him in baptism, wherein also ye are risen with him through the faith of the operation of God, who hath raised him from the dead. …",
+          "t": "Buried with him in baptism, wherein also ye are risen with him through the faith of the operation of God, who hath raised him from the dead.",
           "ref": "Colossians 2:12–13"
         },
         "prop": "ark",
@@ -1392,12 +1392,12 @@ export const BOOKS = [
         "title": "Joshua meets the commander of YHWH’s army",
         "verses": [
           {
-            "t": "And he said, Nay; but as captain of the host of the LORD am I now come. And Joshua fell on his face to the earth, and did worship, and said unto him, What saith my lord unto his servant? …",
+            "t": "And he said, Nay; but as captain of the host of the LORD am I now come. And Joshua fell on his face to the earth, and did worship, and said unto him, What saith my lord unto his servant? And the captain of the LORD’s host said unto Joshua, Loose thy shoe from off thy foot; for the place whereon thou standest is holy. And Joshua did so.",
             "ref": "Joshua 5:14–15"
           }
         ],
         "echo": {
-          "t": "And I saw heaven opened, and behold a white horse; and he that sat upon him was called Faithful and True, and in righteousness he doth judge and make war. …",
+          "t": "And I saw heaven opened, and behold a white horse; and he that sat upon him was called Faithful and True, and in righteousness he doth judge and make war. His eyes were as a flame of fire, and on his head were many crowns; and he had a name written, that no man knew, but he himself.",
           "ref": "Revelation 19:11–12"
         },
         "prop": null,
@@ -1407,7 +1407,7 @@ export const BOOKS = [
         "title": "Jericho falls",
         "verses": [
           {
-            "t": "So the people shouted when the priests blew with the trumpets: and it came to pass, when the people heard the sound of the trumpet, and the people shouted with a great shout, that the wall fell down flat, so that the people went up into the city, every man straight before …",
+            "t": "So the people shouted when the priests blew with the trumpets: and it came to pass, when the people heard the sound of the trumpet, and the people shouted with a great shout, that the wall fell down flat, so that the people went up into the city, every man straight before him, and they took the city.",
             "ref": "Joshua 6:20–21"
           }
         ],
@@ -1422,7 +1422,7 @@ export const BOOKS = [
         "title": "Achan’s hidden sin troubles Israel",
         "verses": [
           {
-            "t": "And Achan answered Joshua, and said, Indeed I have sinned against the LORD God of Israel, and thus and thus have I done: When I saw among the spoils a goodly Babylonish garment, and two hundred shekels of silver, and a wedge of gold of fifty shekels weight, then I coveted them …",
+            "t": "And Achan answered Joshua, and said, Indeed I have sinned against the LORD God of Israel, and thus and thus have I done: When I saw among the spoils a goodly Babylonish garment, and two hundred shekels of silver, and a wedge of gold of fifty shekels weight, then I coveted them, and took them; and, behold, they are hid in the earth in the midst of my tent, and the silver under it.",
             "ref": "Joshua 7:20–21"
           }
         ],
@@ -1437,7 +1437,7 @@ export const BOOKS = [
         "title": "Caleb receives his inheritance",
         "verses": [
           {
-            "t": "Now therefore give me this mountain, whereof the LORD spake in that day; for thou heardest in that day how the Anakims were there, and that the cities were great and fenced: if so be the LORD will be with me, then I shall be able to drive them out, as the …",
+            "t": "Now therefore give me this mountain, whereof the LORD spake in that day; for thou heardest in that day how the Anakims were there, and that the cities were great and fenced: if so be the LORD will be with me, then I shall be able to drive them out, as the LORD said. And Joshua blessed him, and gave unto Caleb the son of Jephunneh Hebron for an inheritance.",
             "ref": "Joshua 14:12–13"
           }
         ],
@@ -1452,7 +1452,7 @@ export const BOOKS = [
         "title": "Joshua renews the covenant at Shechem",
         "verses": [
           {
-            "t": "Now therefore fear the LORD, and serve him in sincerity and in truth: and put away the gods which your fathers served on the other side of the flood, and in Egypt; and serve ye the LORD. …",
+            "t": "Now therefore fear the LORD, and serve him in sincerity and in truth: and put away the gods which your fathers served on the other side of the flood, and in Egypt; and serve ye the LORD.",
             "ref": "Joshua 24:14–15"
           }
         ],
@@ -1503,12 +1503,12 @@ export const BOOKS = [
         "title": "Othniel delivers Israel",
         "verses": [
           {
-            "t": "And when the children of Israel cried unto the LORD, the LORD raised up a deliverer to the children of Israel, who delivered them, even Othniel the son of Kenaz, Caleb’s younger brother. And the Spirit of the LORD came upon him, and he judged Israel, and went out to war: and …",
+            "t": "And when the children of Israel cried unto the LORD, the LORD raised up a deliverer to the children of Israel, who delivered them, even Othniel the son of Kenaz, Caleb’s younger brother. And the Spirit of the LORD came upon him, and he judged Israel, and went out to war: and the LORD delivered Chushanrishathaim king of Mesopotamia into his hand; and his hand prevailed against Chushanrishathaim.",
             "ref": "Judges 3:9–10"
           }
         ],
         "echo": {
-          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained …",
+          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained promises, stopped the mouths of lions,",
           "ref": "Hebrews 11:32–33"
         },
         "prop": null,
@@ -1518,12 +1518,12 @@ export const BOOKS = [
         "title": "Ehud defeats Eglon and Moab",
         "verses": [
           {
-            "t": "And Ehud came unto him; and he was sitting in a summer parlour, which he had for himself alone. And Ehud said, I have a message from God unto thee. And he arose out of his seat. …",
+            "t": "And Ehud came unto him; and he was sitting in a summer parlour, which he had for himself alone. And Ehud said, I have a message from God unto thee. And he arose out of his seat. And Ehud put forth his left hand, and took the dagger from his right thigh, and thrust it into his belly:",
             "ref": "Judges 3:20–21"
           }
         ],
         "echo": {
-          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained …",
+          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained promises, stopped the mouths of lions,",
           "ref": "Hebrews 11:32–33"
         },
         "prop": null,
@@ -1533,12 +1533,12 @@ export const BOOKS = [
         "title": "Deborah and Barak defeat Sisera",
         "verses": [
           {
-            "t": "And Deborah said unto Barak, Up; for this is the day in which the LORD hath delivered Sisera into thine hand: is not the LORD gone out before thee? So Barak went down from mount Tabor, and ten thousand men after him. …",
+            "t": "And Deborah said unto Barak, Up; for this is the day in which the LORD hath delivered Sisera into thine hand: is not the LORD gone out before thee? So Barak went down from mount Tabor, and ten thousand men after him.",
             "ref": "Judges 4:14–15"
           }
         ],
         "echo": {
-          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained …",
+          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained promises, stopped the mouths of lions,",
           "ref": "Hebrews 11:32–33"
         },
         "prop": "palms",
@@ -1548,12 +1548,12 @@ export const BOOKS = [
         "title": "Gideon is called while hiding",
         "verses": [
           {
-            "t": "And the LORD looked upon him, and said, Go in this thy might, and thou shalt save Israel from the hand of the Midianites: have not I sent thee? And he said unto him, Oh my Lord, wherewith shall I save Israel? …",
+            "t": "And the LORD looked upon him, and said, Go in this thy might, and thou shalt save Israel from the hand of the Midianites: have not I sent thee? And he said unto him, Oh my Lord, wherewith shall I save Israel? behold, my family is poor in Manasseh, and I am the least in my father’s house.",
             "ref": "Judges 6:14–15"
           }
         ],
         "echo": {
-          "t": "But God hath chosen the foolish things of the world to confound the wise; and God hath chosen the weak things of the world to confound the things which are mighty; And base things of the world, and things which are despised …",
+          "t": "But God hath chosen the foolish things of the world to confound the wise; and God hath chosen the weak things of the world to confound the things which are mighty; And base things of the world, and things which are despised, hath God chosen, yea, and things which are not, to bring to nought things that are:",
           "ref": "1 Corinthians 1:27–28"
         },
         "prop": "vineyard",
@@ -1563,12 +1563,12 @@ export const BOOKS = [
         "title": "Gideon’s three hundred defeat Midian",
         "verses": [
           {
-            "t": "And they stood every man in his place round about the camp; and all the host ran, and cried, and fled. And the three hundred blew the trumpets, and the LORD set every man’s sword against his fellow, even throughout all the host: and the host fled to Bethshittah in Zererath, and …",
+            "t": "And they stood every man in his place round about the camp; and all the host ran, and cried, and fled. And the three hundred blew the trumpets, and the LORD set every man’s sword against his fellow, even throughout all the host: and the host fled to Bethshittah in Zererath, and to the border of Abelmeholah, unto Tabbath.",
             "ref": "Judges 7:21–22"
           }
         ],
         "echo": {
-          "t": "But God hath chosen the foolish things of the world to confound the wise; and God hath chosen the weak things of the world to confound the things which are mighty; And base things of the world, and things which are despised …",
+          "t": "But God hath chosen the foolish things of the world to confound the wise; and God hath chosen the weak things of the world to confound the things which are mighty; And base things of the world, and things which are despised, hath God chosen, yea, and things which are not, to bring to nought things that are:",
           "ref": "1 Corinthians 1:27–28"
         },
         "prop": "altar",
@@ -1578,12 +1578,12 @@ export const BOOKS = [
         "title": "Abimelech seizes kingship through violence",
         "verses": [
           {
-            "t": "And he went unto his father’s house at Ophrah, and slew his brethren the sons of Jerubbaal, being threescore and ten persons, upon one stone: notwithstanding yet Jotham the youngest son of Jerubbaal was left; for he hid himself. …",
+            "t": "And he went unto his father’s house at Ophrah, and slew his brethren the sons of Jerubbaal, being threescore and ten persons, upon one stone: notwithstanding yet Jotham the youngest son of Jerubbaal was left; for he hid himself. And all the men of Shechem gathered together, and all the house of Millo, and went, and made Abimelech king, by the plain of the pillar that was in Shechem.",
             "ref": "Judges 9:5–6"
           }
         ],
         "echo": {
-          "t": "But Jesus called them to him, and saith unto them, Ye know that they which are accounted to rule over the Gentiles exercise lordship over them; and their great ones exercise authority upon them. …",
+          "t": "But Jesus called them to him, and saith unto them, Ye know that they which are accounted to rule over the Gentiles exercise lordship over them; and their great ones exercise authority upon them.",
           "ref": "Mark 10:42–43"
         },
         "prop": "city",
@@ -1593,7 +1593,7 @@ export const BOOKS = [
         "title": "Jephthah’s vow brings tragedy upon his daughter",
         "verses": [
           {
-            "t": "And Jephthah came to Mizpeh unto his house, and, behold, his daughter came out to meet him with timbrels and with dances: and she was his only child; beside her he had neither son nor daughter. …",
+            "t": "And Jephthah came to Mizpeh unto his house, and, behold, his daughter came out to meet him with timbrels and with dances: and she was his only child; beside her he had neither son nor daughter. And it came to pass, when he saw her, that he rent his clothes, and said, Alas, my daughter!",
             "ref": "Judges 11:34–35"
           }
         ],
@@ -1608,12 +1608,12 @@ export const BOOKS = [
         "title": "Samson’s birth is announced",
         "verses": [
           {
-            "t": "Now therefore beware, I pray thee, and drink not wine nor strong drink, and eat not any unclean thing: For, lo, thou shalt conceive, and bear a son; and no razor shall come on his head: for the child shall be a Nazarite unto God from the womb: and he shall begin …",
+            "t": "Now therefore beware, I pray thee, and drink not wine nor strong drink, and eat not any unclean thing: For, lo, thou shalt conceive, and bear a son; and no razor shall come on his head: for the child shall be a Nazarite unto God from the womb: and he shall begin to deliver Israel out of the hand of the Philistines.",
             "ref": "Judges 13:4–5"
           }
         ],
         "echo": {
-          "t": "And thou shalt have joy and gladness; and many shall rejoice at his birth. For he shall be great in the sight of the Lord, and shall drink neither wine nor strong drink; and he shall be filled with the Holy Ghost …",
+          "t": "And thou shalt have joy and gladness; and many shall rejoice at his birth. For he shall be great in the sight of the Lord, and shall drink neither wine nor strong drink; and he shall be filled with the Holy Ghost, even from his mother’s womb.",
           "ref": "Luke 1:14–15"
         },
         "prop": null,
@@ -1623,12 +1623,12 @@ export const BOOKS = [
         "title": "Delilah betrays Samson",
         "verses": [
           {
-            "t": "And she made him sleep upon her knees; and she called for a man, and she caused him to shave off the seven locks of his head; and she began to afflict him, and his strength went from him. And she said, The Philistines be upon thee, Samson. …",
+            "t": "And she made him sleep upon her knees; and she called for a man, and she caused him to shave off the seven locks of his head; and she began to afflict him, and his strength went from him. And she said, The Philistines be upon thee, Samson. And he awoke out of his sleep, and said, I will go out as at other times before, and shake myself.",
             "ref": "Judges 16:19–20"
           }
         ],
         "echo": {
-          "t": "Wherefore let him that thinketh he standeth take heed lest he fall. There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able …",
+          "t": "Wherefore let him that thinketh he standeth take heed lest he fall.",
           "ref": "1 Corinthians 10:12–13"
         },
         "prop": null,
@@ -1638,12 +1638,12 @@ export const BOOKS = [
         "title": "Samson dies destroying the Philistine temple",
         "verses": [
           {
-            "t": "And Samson took hold of the two middle pillars upon which the house stood, and on which it was borne up, of the one with his right hand, and of the other with his left. And Samson said, Let me die with the Philistines. …",
+            "t": "And Samson took hold of the two middle pillars upon which the house stood, and on which it was borne up, of the one with his right hand, and of the other with his left. And Samson said, Let me die with the Philistines. And he bowed himself with all his might; and the house fell upon the lords, and upon all the people that were therein.",
             "ref": "Judges 16:29–30"
           }
         ],
         "echo": {
-          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained …",
+          "t": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained promises, stopped the mouths of lions,",
           "ref": "Hebrews 11:32–33"
         },
         "prop": "temple",
@@ -1658,7 +1658,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And even as they did not like to retain God in their knowledge, God gave them over to a reprobate mind, to do those things which are not convenient; Being filled with all unrighteousness, fornication, wickedness, covetousness, maliciousness; full of envy, murder …",
+          "t": "And even as they did not like to retain God in their knowledge, God gave them over to a reprobate mind, to do those things which are not convenient; Being filled with all unrighteousness, fornication, wickedness, covetousness, maliciousness; full of envy, murder, debate, deceit, malignity; whisperers,",
           "ref": "Romans 1:28–29"
         },
         "prop": "city",
@@ -1703,7 +1703,7 @@ export const BOOKS = [
         "title": "Hannah prays and Samuel is born",
         "verses": [
           {
-            "t": "And they rose up in the morning early, and worshipped before the LORD, and returned, and came to their house to Ramah: and Elkanah knew Hannah his wife; and the LORD remembered her. Wherefore it came to pass, when the time was come about after Hannah had conceived, that she bare a …",
+            "t": "And they rose up in the morning early, and worshipped before the LORD, and returned, and came to their house to Ramah: and Elkanah knew Hannah his wife; and the LORD remembered her. Wherefore it came to pass, when the time was come about after Hannah had conceived, that she bare a son, and called his name Samuel, saying, Because I have asked him of the LORD.",
             "ref": "1 Samuel 1:19–20"
           }
         ],
@@ -1718,7 +1718,7 @@ export const BOOKS = [
         "title": "Hannah sings of God’s great reversal",
         "verses": [
           {
-            "t": "The LORD maketh poor, and maketh rich: he bringeth low, and lifteth up. He raiseth up the poor out of the dust, and lifteth up the beggar from the dunghill, to set them among princes, and to make them inherit the throne of glory: for the pillars of the earth are the …",
+            "t": "The LORD maketh poor, and maketh rich: he bringeth low, and lifteth up. He raiseth up the poor out of the dust, and lifteth up the beggar from the dunghill, to set them among princes, and to make them inherit the throne of glory: for the pillars of the earth are the LORD’s, and he hath set the world upon them.",
             "ref": "1 Samuel 2:7–8"
           }
         ],
@@ -1733,12 +1733,12 @@ export const BOOKS = [
         "title": "God calls Samuel",
         "verses": [
           {
-            "t": "Therefore Eli said unto Samuel, Go, lie down: and it shall be, if he call thee, that thou shalt say, Speak, LORD; for thy servant heareth. So Samuel went and lay down in his place. And the LORD came, and stood, and called as at other times, Samuel, Samuel. …",
+            "t": "Therefore Eli said unto Samuel, Go, lie down: and it shall be, if he call thee, that thou shalt say, Speak, LORD; for thy servant heareth. So Samuel went and lay down in his place. And the LORD came, and stood, and called as at other times, Samuel, Samuel. Then Samuel answered, Speak; for thy servant heareth.",
             "ref": "1 Samuel 3:9–10"
           }
         ],
         "echo": {
-          "t": "To him the porter openeth; and the sheep hear his voice: and he calleth his own sheep by name, and leadeth them out. And when he putteth forth his own sheep, he goeth before them, and the sheep follow him: for they …",
+          "t": "To him the porter openeth; and the sheep hear his voice: and he calleth his own sheep by name, and leadeth them out. And when he putteth forth his own sheep, he goeth before them, and the sheep follow him: for they know his voice.",
           "ref": "John 10:3–4"
         },
         "prop": "tent",
@@ -1748,7 +1748,7 @@ export const BOOKS = [
         "title": "The ark is captured and Eli’s house falls",
         "verses": [
           {
-            "t": "And the messenger answered and said, Israel is fled before the Philistines, and there hath been also a great slaughter among the people, and thy two sons also, Hophni and Phinehas, are dead, and the ark of God is taken. …",
+            "t": "And the messenger answered and said, Israel is fled before the Philistines, and there hath been also a great slaughter among the people, and thy two sons also, Hophni and Phinehas, are dead, and the ark of God is taken.",
             "ref": "1 Samuel 4:17–18"
           }
         ],
@@ -1763,7 +1763,7 @@ export const BOOKS = [
         "title": "The ark humiliates Dagon",
         "verses": [
           {
-            "t": "And when they of Ashdod arose early on the morrow, behold, Dagon was fallen upon his face to the earth before the ark of the LORD. And they took Dagon, and set him in his place again. …",
+            "t": "And when they of Ashdod arose early on the morrow, behold, Dagon was fallen upon his face to the earth before the ark of the LORD. And they took Dagon, and set him in his place again.",
             "ref": "1 Samuel 5:3–4"
           }
         ],
@@ -1778,12 +1778,12 @@ export const BOOKS = [
         "title": "Israel demands a king",
         "verses": [
           {
-            "t": "But the thing displeased Samuel, when they said, Give us a king to judge us. And Samuel prayed unto the LORD. And the LORD said unto Samuel, Hearken unto the voice of the people in all that they say unto thee: for they have not rejected thee, but they have rejected me …",
+            "t": "But the thing displeased Samuel, when they said, Give us a king to judge us. And Samuel prayed unto the LORD. And the LORD said unto Samuel, Hearken unto the voice of the people in all that they say unto thee: for they have not rejected thee, but they have rejected me, that I should not reign over them.",
             "ref": "1 Samuel 8:6–7"
           }
         ],
         "echo": {
-          "t": "But his citizens hated him, and sent a message after him, saying, We will not have this man to reign over us. And it came to pass, that when he was returned, having received the kingdom, then he commanded these servants to …",
+          "t": "But his citizens hated him, and sent a message after him, saying, We will not have this man to reign over us.",
           "ref": "Luke 19:14–15"
         },
         "prop": "throne",
@@ -1793,12 +1793,12 @@ export const BOOKS = [
         "title": "Saul is anointed",
         "verses": [
           {
-            "t": "Then Samuel took a vial of oil, and poured it upon his head, and kissed him, and said, Is it not because the LORD hath anointed thee to be captain over his inheritance? When thou art departed from me to day, then thou shalt find two men by Rachel’s sepulchre in the …",
+            "t": "Then Samuel took a vial of oil, and poured it upon his head, and kissed him, and said, Is it not because the LORD hath anointed thee to be captain over his inheritance?",
             "ref": "1 Samuel 10:1–2"
           }
         ],
         "echo": {
-          "t": "And afterward they desired a king: and God gave unto them Saul the son of Cis, a man of the tribe of Benjamin, by the space of forty years. …",
+          "t": "And afterward they desired a king: and God gave unto them Saul the son of Cis, a man of the tribe of Benjamin, by the space of forty years.",
           "ref": "Acts 13:21–22"
         },
         "prop": null,
@@ -1808,12 +1808,12 @@ export const BOOKS = [
         "title": "Saul rescues Jabesh-gilead",
         "verses": [
           {
-            "t": "And the Spirit of God came upon Saul when he heard those tidings, and his anger was kindled greatly. And he took a yoke of oxen, and hewed them in pieces, and sent them throughout all the coasts of Israel by the hands of messengers, saying, Whosoever cometh not forth after Saul …",
+            "t": "And the Spirit of God came upon Saul when he heard those tidings, and his anger was kindled greatly. And he took a yoke of oxen, and hewed them in pieces, and sent them throughout all the coasts of Israel by the hands of messengers, saying, Whosoever cometh not forth after Saul and after Samuel, so shall it be done unto his oxen.",
             "ref": "1 Samuel 11:6–7"
           }
         ],
         "echo": {
-          "t": "The Spirit of the Lord is upon me, because he hath anointed me to preach the gospel to the poor; he hath sent me to heal the brokenhearted, to preach deliverance to the captives, and recovering of sight to the blind, to …",
+          "t": "The Spirit of the Lord is upon me, because he hath anointed me to preach the gospel to the poor; he hath sent me to heal the brokenhearted, to preach deliverance to the captives, and recovering of sight to the blind, to set at liberty them that are bruised, To preach the acceptable year of the Lord.",
           "ref": "Luke 4:18–19"
         },
         "prop": null,
@@ -1823,12 +1823,12 @@ export const BOOKS = [
         "title": "Saul offers unlawful sacrifice",
         "verses": [
           {
-            "t": "And Samuel said to Saul, Thou hast done foolishly: thou hast not kept the commandment of the LORD thy God, which he commanded thee: for now would the LORD have established thy kingdom upon Israel for ever. …",
+            "t": "And Samuel said to Saul, Thou hast done foolishly: thou hast not kept the commandment of the LORD thy God, which he commanded thee: for now would the LORD have established thy kingdom upon Israel for ever.",
             "ref": "1 Samuel 13:13–14"
           }
         ],
         "echo": {
-          "t": "And when he had removed him, he raised up unto them David to be their king; to whom also he gave testimony, and said, I have found David the son of Jesse, a man after mine own heart, which shall fulfil all …",
+          "t": "And when he had removed him, he raised up unto them David to be their king; to whom also he gave testimony, and said, I have found David the son of Jesse, a man after mine own heart, which shall fulfil all my will.",
           "ref": "Acts 13:22–23"
         },
         "prop": "altar",
@@ -1838,12 +1838,12 @@ export const BOOKS = [
         "title": "Saul is rejected after sparing Amalek",
         "verses": [
           {
-            "t": "And Samuel said, Hath the LORD as great delight in burnt offerings and sacrifices, as in obeying the voice of the LORD? Behold, to obey is better than sacrifice, and to hearken than the fat of rams. For rebellion is as the sin of witchcraft, and stubbornness is as iniquity and idolatry. …",
+            "t": "And Samuel said, Hath the LORD as great delight in burnt offerings and sacrifices, as in obeying the voice of the LORD? Behold, to obey is better than sacrifice, and to hearken than the fat of rams. For rebellion is as the sin of witchcraft, and stubbornness is as iniquity and idolatry. Because thou hast rejected the word of the LORD, he hath also rejected thee from being king.",
             "ref": "1 Samuel 15:22–23"
           }
         ],
         "echo": {
-          "t": "Not every one that saith unto me, Lord, Lord, shall enter into the kingdom of heaven; but he that doeth the will of my Father which is in heaven. …",
+          "t": "Not every one that saith unto me, Lord, Lord, shall enter into the kingdom of heaven; but he that doeth the will of my Father which is in heaven. Many will say to me in that day, Lord, Lord, have we not prophesied in thy name? and in thy name have cast out devils?",
           "ref": "Matthew 7:21–22"
         },
         "prop": null,
@@ -1853,12 +1853,12 @@ export const BOOKS = [
         "title": "David is anointed",
         "verses": [
           {
-            "t": "And he sent, and brought him in. Now he was ruddy, and withal of a beautiful countenance, and goodly to look to. And the LORD said, Arise, anoint him: for this is he. Then Samuel took the horn of oil, and anointed him in the midst of his brethren: and the Spirit …",
+            "t": "And he sent, and brought him in. Now he was ruddy, and withal of a beautiful countenance, and goodly to look to. And the LORD said, Arise, anoint him: for this is he. Then Samuel took the horn of oil, and anointed him in the midst of his brethren: and the Spirit of the LORD came upon David from that day forward. So Samuel rose up, and went to Ramah.",
             "ref": "1 Samuel 16:12–13"
           }
         ],
         "echo": {
-          "t": "The Spirit of the Lord is upon me, because he hath anointed me to preach the gospel to the poor; he hath sent me to heal the brokenhearted, to preach deliverance to the captives, and recovering of sight to the blind, to …",
+          "t": "The Spirit of the Lord is upon me, because he hath anointed me to preach the gospel to the poor; he hath sent me to heal the brokenhearted, to preach deliverance to the captives, and recovering of sight to the blind, to set at liberty them that are bruised, To preach the acceptable year of the Lord.",
           "ref": "Luke 4:18–19"
         },
         "prop": "well",
@@ -1868,12 +1868,12 @@ export const BOOKS = [
         "title": "David defeats Goliath",
         "verses": [
           {
-            "t": "And David put his hand in his bag, and took thence a stone, and slang it, and smote the Philistine in his forehead, that the stone sunk into his forehead; and he fell upon his face to the earth. …",
+            "t": "And David put his hand in his bag, and took thence a stone, and slang it, and smote the Philistine in his forehead, that the stone sunk into his forehead; and he fell upon his face to the earth. So David prevailed over the Philistine with a sling and with a stone, and smote the Philistine, and slew him; but there was no sword in the hand of David.",
             "ref": "1 Samuel 17:49–50"
           }
         ],
         "echo": {
-          "t": "Forasmuch then as the children are partakers of flesh and blood, he also himself likewise took part of the same; that through death he might destroy him that had the power of death, that is, the devil; And deliver them who through …",
+          "t": "Forasmuch then as the children are partakers of flesh and blood, he also himself likewise took part of the same; that through death he might destroy him that had the power of death, that is, the devil; And deliver them who through fear of death were all their lifetime subject to bondage.",
           "ref": "Hebrews 2:14–15"
         },
         "prop": "stones",
@@ -1898,12 +1898,12 @@ export const BOOKS = [
         "title": "David receives the holy bread at Nob",
         "verses": [
           {
-            "t": "And David answered the priest, and said unto him, Of a truth women have been kept from us about these three days, since I came out, and the vessels of the young men are holy, and the bread is in a manner common, yea, though it were sanctified this day in the …",
+            "t": "And David answered the priest, and said unto him, Of a truth women have been kept from us about these three days, since I came out, and the vessels of the young men are holy, and the bread is in a manner common, yea, though it were sanctified this day in the vessel.",
             "ref": "1 Samuel 21:5–6"
           }
         ],
         "echo": {
-          "t": "But he said unto them, Have ye not read what David did, when he was an hungred, and they that were with him; How he entered into the house of God, and did eat the shewbread, which was not lawful for him …",
+          "t": "But he said unto them, Have ye not read what David did, when he was an hungred, and they that were with him; How he entered into the house of God, and did eat the shewbread, which was not lawful for him to eat, neither for them which were with him, but only for the priests?",
           "ref": "Matthew 12:3–4"
         },
         "prop": "tent",
@@ -1913,12 +1913,12 @@ export const BOOKS = [
         "title": "Saul massacres the priests of Nob",
         "verses": [
           {
-            "t": "And the king said to Doeg, Turn thou, and fall upon the priests. And Doeg the Edomite turned, and he fell upon the priests, and slew on that day fourscore and five persons that did wear a linen ephod. …",
+            "t": "And the king said to Doeg, Turn thou, and fall upon the priests. And Doeg the Edomite turned, and he fell upon the priests, and slew on that day fourscore and five persons that did wear a linen ephod. And Nob, the city of the priests, smote he with the edge of the sword, both men and women, children and sucklings, and oxen, and asses, and sheep, with the edge of the sword.",
             "ref": "1 Samuel 22:18–19"
           }
         ],
         "echo": {
-          "t": "Wherefore, behold, I send unto you prophets, and wise men, and scribes: and some of them ye shall kill and crucify; and some of them shall ye scourge in your synagogues, and persecute them from city to city: That upon you may …",
+          "t": "Wherefore, behold, I send unto you prophets, and wise men, and scribes: and some of them ye shall kill and crucify; and some of them shall ye scourge in your synagogues, and persecute them from city to city: That upon you may come all the righteous blood shed upon the earth, from the blood of righteous Abel unto the blood of Zacharias son of Barachias, whom ye slew between the temple and the altar.",
           "ref": "Matthew 23:34–35"
         },
         "prop": null,
@@ -1928,12 +1928,12 @@ export const BOOKS = [
         "title": "David spares Saul",
         "verses": [
           {
-            "t": "Moreover, my father, see, yea, see the skirt of thy robe in my hand: for in that I cut off the skirt of thy robe, and killed thee not, know thou and see that there is neither evil nor transgression in mine hand, and I have not sinned against thee; yet thou …",
+            "t": "Moreover, my father, see, yea, see the skirt of thy robe in my hand: for in that I cut off the skirt of thy robe, and killed thee not, know thou and see that there is neither evil nor transgression in mine hand, and I have not sinned against thee; yet thou huntest my soul to take it.",
             "ref": "1 Samuel 24:11–12"
           }
         ],
         "echo": {
-          "t": "Dearly beloved, avenge not yourselves, but rather give place unto wrath: for it is written, Vengeance is mine; I will repay, saith the Lord. Therefore if thine enemy hunger, feed him; if he thirst, give him drink: for in so doing thou …",
+          "t": "Dearly beloved, avenge not yourselves, but rather give place unto wrath: for it is written, Vengeance is mine; I will repay, saith the Lord. Therefore if thine enemy hunger, feed him; if he thirst, give him drink: for in so doing thou shalt heap coals of fire on his head.",
           "ref": "Romans 12:19–20"
         },
         "prop": null,
@@ -1958,7 +1958,7 @@ export const BOOKS = [
         "title": "Saul consults the medium of Endor",
         "verses": [
           {
-            "t": "And when Saul enquired of the LORD, the LORD answered him not, neither by dreams, nor by Urim, nor by prophets. Then said Saul unto his servants, Seek me a woman that hath a familiar spirit, that I may go to her, and enquire of her. …",
+            "t": "And when Saul enquired of the LORD, the LORD answered him not, neither by dreams, nor by Urim, nor by prophets. Then said Saul unto his servants, Seek me a woman that hath a familiar spirit, that I may go to her, and enquire of her. And his servants said to him, Behold, there is a woman that hath a familiar spirit at Endor.",
             "ref": "1 Samuel 28:6–7"
           }
         ],
@@ -1973,12 +1973,12 @@ export const BOOKS = [
         "title": "Saul dies on Mount Gilboa",
         "verses": [
           {
-            "t": "Then said Saul unto his armourbearer, Draw thy sword, and thrust me through therewith; lest these uncircumcised come and thrust me through, and abuse me. But his armourbearer would not; for he was sore afraid. Therefore Saul took a sword, and fell upon it. …",
+            "t": "Then said Saul unto his armourbearer, Draw thy sword, and thrust me through therewith; lest these uncircumcised come and thrust me through, and abuse me. But his armourbearer would not; for he was sore afraid. Therefore Saul took a sword, and fell upon it. And when his armourbearer saw that Saul was dead, he fell likewise upon his sword, and died with him.",
             "ref": "1 Samuel 31:4–5"
           }
         ],
         "echo": {
-          "t": "And afterward they desired a king: and God gave unto them Saul the son of Cis, a man of the tribe of Benjamin, by the space of forty years. …",
+          "t": "And afterward they desired a king: and God gave unto them Saul the son of Cis, a man of the tribe of Benjamin, by the space of forty years.",
           "ref": "Acts 13:21–22"
         },
         "prop": null,
@@ -1993,7 +1993,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "He shall be great, and shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David: And he shall reign over the house of Jacob for ever; and of his kingdom …",
+          "t": "He shall be great, and shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David: And he shall reign over the house of Jacob for ever; and of his kingdom there shall be no end.",
           "ref": "Luke 1:32–33"
         },
         "prop": "throne",
@@ -2018,12 +2018,12 @@ export const BOOKS = [
         "title": "God covenants with David",
         "verses": [
           {
-            "t": "And when thy days be fulfilled, and thou shalt sleep with thy fathers, I will set up thy seed after thee, which shall proceed out of thy bowels, and I will establish his kingdom. He shall build an house for my name, and I will stablish the throne of his kingdom for …",
+            "t": "And when thy days be fulfilled, and thou shalt sleep with thy fathers, I will set up thy seed after thee, which shall proceed out of thy bowels, and I will establish his kingdom. He shall build an house for my name, and I will stablish the throne of his kingdom for ever.",
             "ref": "2 Samuel 7:12–13"
           }
         ],
         "echo": {
-          "t": "He shall be great, and shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David: And he shall reign over the house of Jacob for ever; and of his kingdom …",
+          "t": "He shall be great, and shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David: And he shall reign over the house of Jacob for ever; and of his kingdom there shall be no end.",
           "ref": "Luke 1:32–33"
         },
         "prop": "throne",
@@ -2033,7 +2033,7 @@ export const BOOKS = [
         "title": "David welcomes Mephibosheth to his table",
         "verses": [
           {
-            "t": "And David said unto him, Fear not: for I will surely shew thee kindness for Jonathan thy father’s sake, and will restore thee all the land of Saul thy father; and thou shalt eat bread at my table continually. …",
+            "t": "And David said unto him, Fear not: for I will surely shew thee kindness for Jonathan thy father’s sake, and will restore thee all the land of Saul thy father; and thou shalt eat bread at my table continually. And he bowed himself, and said, What is thy servant, that thou shouldest look upon such a dead dog as I am?",
             "ref": "2 Samuel 9:7–8"
           }
         ],
@@ -2063,7 +2063,7 @@ export const BOOKS = [
         "title": "Nathan confronts David",
         "verses": [
           {
-            "t": "And Nathan said to David, Thou art the man. Thus saith the LORD God of Israel, I anointed thee king over Israel, and I delivered thee out of the hand of Saul; And I gave thee thy master’s house, and thy master’s wives into thy bosom, and gave thee the house of …",
+            "t": "And Nathan said to David, Thou art the man. Thus saith the LORD God of Israel, I anointed thee king over Israel, and I delivered thee out of the hand of Saul; And I gave thee thy master’s house, and thy master’s wives into thy bosom, and gave thee the house of Israel and of Judah; and if that had been too little, I would moreover have given unto thee such and such things.",
             "ref": "2 Samuel 12:7–8"
           }
         ],
@@ -2093,7 +2093,7 @@ export const BOOKS = [
         "title": "Absalom rebels and dies",
         "verses": [
           {
-            "t": "Then said Joab, I may not tarry thus with thee. And he took three darts in his hand, and thrust them through the heart of Absalom, while he was yet alive in the midst of the oak. …",
+            "t": "Then said Joab, I may not tarry thus with thee. And he took three darts in his hand, and thrust them through the heart of Absalom, while he was yet alive in the midst of the oak. And ten young men that bare Joab’s armour compassed about and smote Absalom, and slew him.",
             "ref": "2 Samuel 18:14–15"
           }
         ],
@@ -2108,7 +2108,7 @@ export const BOOKS = [
         "title": "David’s census leads to judgment and an altar",
         "verses": [
           {
-            "t": "And the king said unto Araunah, Nay; but I will surely buy it of thee at a price: neither will I offer burnt offerings unto the LORD my God of that which doth cost me nothing. So David bought the threshingfloor and the oxen for fifty shekels of silver. …",
+            "t": "And the king said unto Araunah, Nay; but I will surely buy it of thee at a price: neither will I offer burnt offerings unto the LORD my God of that which doth cost me nothing. So David bought the threshingfloor and the oxen for fifty shekels of silver. And David built there an altar unto the LORD, and offered burnt offerings and peace offerings.",
             "ref": "2 Samuel 24:24–25"
           }
         ],
@@ -2158,7 +2158,7 @@ export const BOOKS = [
         "title": "Solomon receives wisdom",
         "verses": [
           {
-            "t": "And God said unto him, Because thou hast asked this thing, and hast not asked for thyself long life; neither hast asked riches for thyself, nor hast asked the life of thine enemies; but hast asked for thyself understanding to discern judgment; Behold, I have done according to thy words: lo, I …",
+            "t": "And God said unto him, Because thou hast asked this thing, and hast not asked for thyself long life; neither hast asked riches for thyself, nor hast asked the life of thine enemies; but hast asked for thyself understanding to discern judgment; Behold, I have done according to thy words: lo, I have given thee a wise and an understanding heart; so that there was none like thee before thee, neither after thee shall any arise like unto thee.",
             "ref": "1 Kings 3:11–12"
           }
         ],
@@ -2188,7 +2188,7 @@ export const BOOKS = [
         "title": "The queen of Sheba visits Solomon",
         "verses": [
           {
-            "t": "And she said to the king, It was a true report that I heard in mine own land of thy acts and of thy wisdom. Howbeit I believed not the words, until I came, and mine eyes had seen it: and, behold, the half was not told me: thy wisdom and prosperity …",
+            "t": "And she said to the king, It was a true report that I heard in mine own land of thy acts and of thy wisdom. Howbeit I believed not the words, until I came, and mine eyes had seen it: and, behold, the half was not told me: thy wisdom and prosperity exceedeth the fame which I heard.",
             "ref": "1 Kings 10:6–7"
           }
         ],
@@ -2203,7 +2203,7 @@ export const BOOKS = [
         "title": "Solomon’s loves turn his heart from God",
         "verses": [
           {
-            "t": "And he had seven hundred wives, princesses, and three hundred concubines: and his wives turned away his heart. For it came to pass, when Solomon was old, that his wives turned away his heart after other gods: and his heart was not perfect with the LORD his God, as was the heart …",
+            "t": "And he had seven hundred wives, princesses, and three hundred concubines: and his wives turned away his heart. For it came to pass, when Solomon was old, that his wives turned away his heart after other gods: and his heart was not perfect with the LORD his God, as was the heart of David his father.",
             "ref": "1 Kings 11:3–4"
           }
         ],
@@ -2218,12 +2218,12 @@ export const BOOKS = [
         "title": "The kingdom divides",
         "verses": [
           {
-            "t": "So when all Israel saw that the king hearkened not unto them, the people answered the king, saying, What portion have we in David? neither have we inheritance in the son of Jesse: to your tents, O Israel: now see to thine own house, David. So Israel departed unto their tents. …",
+            "t": "So when all Israel saw that the king hearkened not unto them, the people answered the king, saying, What portion have we in David? neither have we inheritance in the son of Jesse: to your tents, O Israel: now see to thine own house, David. So Israel departed unto their tents. But as for the children of Israel which dwelt in the cities of Judah, Rehoboam reigned over them.",
             "ref": "1 Kings 12:16–17"
           }
         ],
         "echo": {
-          "t": "And this spake he not of himself: but being high priest that year, he prophesied that Jesus should die for that nation; And not for that nation only, but that also he should gather together in one the children of God that …",
+          "t": "And this spake he not of himself: but being high priest that year, he prophesied that Jesus should die for that nation; And not for that nation only, but that also he should gather together in one the children of God that were scattered abroad.",
           "ref": "John 11:51–52"
         },
         "prop": null,
@@ -2233,7 +2233,7 @@ export const BOOKS = [
         "title": "The man of God confronts Jeroboam’s altar",
         "verses": [
           {
-            "t": "And, behold, there came a man of God out of Judah by the word of the LORD unto Bethel: and Jeroboam stood by the altar to burn incense. And he cried against the altar in the word of the LORD, and said, O altar, altar, thus saith the LORD; Behold, a child …",
+            "t": "And, behold, there came a man of God out of Judah by the word of the LORD unto Bethel: and Jeroboam stood by the altar to burn incense.",
             "ref": "1 Kings 13:1–2"
           }
         ],
@@ -2253,7 +2253,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Elias was a man subject to like passions as we are, and he prayed earnestly that it might not rain: and it rained not on the earth by the space of three years and six months. …",
+          "t": "Elias was a man subject to like passions as we are, and he prayed earnestly that it might not rain: and it rained not on the earth by the space of three years and six months. And he prayed again, and the heaven gave rain, and the earth brought forth her fruit.",
           "ref": "James 5:17–18"
         },
         "prop": null,
@@ -2268,7 +2268,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "But I tell you of a truth, many widows were in Israel in the days of Elias, when the heaven was shut up three years and six months, when great famine was throughout all the land; But unto none of them was …",
+          "t": "But I tell you of a truth, many widows were in Israel in the days of Elias, when the heaven was shut up three years and six months, when great famine was throughout all the land; But unto none of them was Elias sent, save unto Sarepta, a city of Sidon, unto a woman that was a widow.",
           "ref": "Luke 4:25–26"
         },
         "prop": "well",
@@ -2293,12 +2293,12 @@ export const BOOKS = [
         "title": "Elijah confronts Baal on Carmel",
         "verses": [
           {
-            "t": "Hear me, O LORD, hear me, that this people may know that thou art the LORD God, and that thou hast turned their heart back again. Then the fire of the LORD fell, and consumed the burnt sacrifice, and the wood, and the stones, and the dust, and licked up the water …",
+            "t": "Hear me, O LORD, hear me, that this people may know that thou art the LORD God, and that thou hast turned their heart back again. Then the fire of the LORD fell, and consumed the burnt sacrifice, and the wood, and the stones, and the dust, and licked up the water that was in the trench.",
             "ref": "1 Kings 18:37–38"
           }
         ],
         "echo": {
-          "t": "Elias was a man subject to like passions as we are, and he prayed earnestly that it might not rain: and it rained not on the earth by the space of three years and six months. …",
+          "t": "Elias was a man subject to like passions as we are, and he prayed earnestly that it might not rain: and it rained not on the earth by the space of three years and six months. And he prayed again, and the heaven gave rain, and the earth brought forth her fruit.",
           "ref": "James 5:17–18"
         },
         "prop": "altar",
@@ -2308,12 +2308,12 @@ export const BOOKS = [
         "title": "Elijah meets God at Horeb",
         "verses": [
           {
-            "t": "And he said, Go forth, and stand upon the mount before the LORD. And, behold, the LORD passed by, and a great and strong wind rent the mountains, and brake in pieces the rocks before the LORD; but the LORD was not in the wind: and after the wind an earthquake; but …",
+            "t": "And he said, Go forth, and stand upon the mount before the LORD.",
             "ref": "1 Kings 19:11–12"
           }
         ],
         "echo": {
-          "t": "Lord, they have killed thy prophets, and digged down thine altars; and I am left alone, and they seek my life. But what saith the answer of God unto him? …",
+          "t": "Lord, they have killed thy prophets, and digged down thine altars; and I am left alone, and they seek my life. But what saith the answer of God unto him? I have reserved to myself seven thousand men, who have not bowed the knee to the image of Baal.",
           "ref": "Romans 11:3–4"
         },
         "prop": "stones",
@@ -2323,7 +2323,7 @@ export const BOOKS = [
         "title": "Ahab seizes Naboth’s vineyard",
         "verses": [
           {
-            "t": "And it came to pass, when Jezebel heard that Naboth was stoned, and was dead, that Jezebel said to Ahab, Arise, take possession of the vineyard of Naboth the Jezreelite, which he refused to give thee for money: for Naboth is not alive, but dead. …",
+            "t": "And it came to pass, when Jezebel heard that Naboth was stoned, and was dead, that Jezebel said to Ahab, Arise, take possession of the vineyard of Naboth the Jezreelite, which he refused to give thee for money: for Naboth is not alive, but dead.",
             "ref": "1 Kings 21:15–16"
           }
         ],
@@ -2338,12 +2338,12 @@ export const BOOKS = [
         "title": "Ahab dies despite disguising himself",
         "verses": [
           {
-            "t": "And a certain man drew a bow at a venture, and smote the king of Israel between the joints of the harness: wherefore he said unto the driver of his chariot, Turn thine hand, and carry me out of the host; for I am wounded. …",
+            "t": "And a certain man drew a bow at a venture, and smote the king of Israel between the joints of the harness: wherefore he said unto the driver of his chariot, Turn thine hand, and carry me out of the host; for I am wounded.",
             "ref": "1 Kings 22:34–35"
           }
         ],
         "echo": {
-          "t": "Be not deceived; God is not mocked: for whatsoever a man soweth, that shall he also reap. For he that soweth to his flesh shall of the flesh reap corruption; but he that soweth to the Spirit shall of the Spirit reap …",
+          "t": "Be not deceived; God is not mocked: for whatsoever a man soweth, that shall he also reap. For he that soweth to his flesh shall of the flesh reap corruption; but he that soweth to the Spirit shall of the Spirit reap life everlasting.",
           "ref": "Galatians 6:7–8"
         },
         "prop": null,
@@ -2353,7 +2353,7 @@ export const BOOKS = [
         "title": "Elijah ascends and Elisha succeeds him",
         "verses": [
           {
-            "t": "And it came to pass, as they still went on, and talked, that, behold, there appeared a chariot of fire, and horses of fire, and parted them both asunder; and Elijah went up by a whirlwind into heaven. …",
+            "t": "And it came to pass, as they still went on, and talked, that, behold, there appeared a chariot of fire, and horses of fire, and parted them both asunder; and Elijah went up by a whirlwind into heaven. And Elisha saw it, and he cried, My father, my father, the chariot of Israel, and the horsemen thereof.",
             "ref": "2 Kings 2:11–12"
           }
         ],
@@ -2368,12 +2368,12 @@ export const BOOKS = [
         "title": "Elisha multiplies the widow’s oil",
         "verses": [
           {
-            "t": "And it came to pass, when the vessels were full, that she said unto her son, Bring me yet a vessel. And he said unto her, There is not a vessel more. And the oil stayed. Then she came and told the man of God. …",
+            "t": "And it came to pass, when the vessels were full, that she said unto her son, Bring me yet a vessel. And he said unto her, There is not a vessel more. And the oil stayed. Then she came and told the man of God. And he said, Go, sell the oil, and pay thy debt, and live thou and thy children of the rest.",
             "ref": "2 Kings 4:6–7"
           }
         ],
         "echo": {
-          "t": "But I tell you of a truth, many widows were in Israel in the days of Elias, when the heaven was shut up three years and six months, when great famine was throughout all the land; But unto none of them was …",
+          "t": "But I tell you of a truth, many widows were in Israel in the days of Elias, when the heaven was shut up three years and six months, when great famine was throughout all the land; But unto none of them was Elias sent, save unto Sarepta, a city of Sidon, unto a woman that was a widow.",
           "ref": "Luke 4:25–26"
         },
         "prop": "well",
@@ -2383,7 +2383,7 @@ export const BOOKS = [
         "title": "Elisha raises the Shunammite’s son",
         "verses": [
           {
-            "t": "And he went up, and lay upon the child, and put his mouth upon his mouth, and his eyes upon his eyes, and his hands upon his hands: and he stretched himself upon the child; and the flesh of the child waxed warm. …",
+            "t": "And he went up, and lay upon the child, and put his mouth upon his mouth, and his eyes upon his eyes, and his hands upon his hands: and he stretched himself upon the child; and the flesh of the child waxed warm. Then he returned, and walked in the house to and fro; and went up, and stretched himself upon him: and the child sneezed seven times, and the child opened his eyes.",
             "ref": "2 Kings 4:34–35"
           }
         ],
@@ -2398,7 +2398,7 @@ export const BOOKS = [
         "title": "Naaman is healed in the Jordan",
         "verses": [
           {
-            "t": "And his servants came near, and spake unto him, and said, My father, if the prophet had bid thee do some great thing, wouldest thou not have done it? how much rather then, when he saith to thee, Wash, and be clean? …",
+            "t": "And his servants came near, and spake unto him, and said, My father, if the prophet had bid thee do some great thing, wouldest thou not have done it? how much rather then, when he saith to thee, Wash, and be clean?",
             "ref": "2 Kings 5:13–14"
           }
         ],
@@ -2413,7 +2413,7 @@ export const BOOKS = [
         "title": "Elisha’s feast ends hostility with Aram",
         "verses": [
           {
-            "t": "And he answered, Thou shalt not smite them: wouldest thou smite those whom thou hast taken captive with thy sword and with thy bow? set bread and water before them, that they may eat and drink, and go to their master. …",
+            "t": "And he answered, Thou shalt not smite them: wouldest thou smite those whom thou hast taken captive with thy sword and with thy bow? set bread and water before them, that they may eat and drink, and go to their master. And he prepared great provision for them: and when they had eaten and drunk, he sent them away, and they went to their master.",
             "ref": "2 Kings 6:22–23"
           }
         ],
@@ -2443,12 +2443,12 @@ export const BOOKS = [
         "title": "Athaliah usurps the throne; Joash is preserved",
         "verses": [
           {
-            "t": "But Jehosheba, the daughter of king Joram, sister of Ahaziah, took Joash the son of Ahaziah, and stole him from among the king’s sons which were slain; and they hid him, even him and his nurse, in the bedchamber from Athaliah, so that he was not slain. …",
+            "t": "But Jehosheba, the daughter of king Joram, sister of Ahaziah, took Joash the son of Ahaziah, and stole him from among the king’s sons which were slain; and they hid him, even him and his nurse, in the bedchamber from Athaliah, so that he was not slain. And he was with her hid in the house of the LORD six years. And Athaliah did reign over the land.",
             "ref": "2 Kings 11:2–3"
           }
         ],
         "echo": {
-          "t": "And his tail drew the third part of the stars of heaven, and did cast them to the earth: and the dragon stood before the woman which was ready to be delivered, for to devour her child as soon as it was …",
+          "t": "And his tail drew the third part of the stars of heaven, and did cast them to the earth: and the dragon stood before the woman which was ready to be delivered, for to devour her child as soon as it was born.",
           "ref": "Revelation 12:4–5"
         },
         "prop": "temple",
@@ -2458,7 +2458,7 @@ export const BOOKS = [
         "title": "Samaria falls to Assyria",
         "verses": [
           {
-            "t": "In the ninth year of Hoshea the king of Assyria took Samaria, and carried Israel away into Assyria, and placed them in Halah and in Habor by the river of Gozan, and in the cities of the Medes. …",
+            "t": "In the ninth year of Hoshea the king of Assyria took Samaria, and carried Israel away into Assyria, and placed them in Halah and in Habor by the river of Gozan, and in the cities of the Medes.",
             "ref": "2 Kings 17:6–7"
           }
         ],
@@ -2473,7 +2473,7 @@ export const BOOKS = [
         "title": "Jerusalem is delivered from Sennacherib",
         "verses": [
           {
-            "t": "And it came to pass that night, that the angel of the LORD went out, and smote in the camp of the Assyrians an hundred fourscore and five thousand: and when they arose early in the morning, behold, they were all dead corpses. …",
+            "t": "And it came to pass that night, that the angel of the LORD went out, and smote in the camp of the Assyrians an hundred fourscore and five thousand: and when they arose early in the morning, behold, they were all dead corpses. So Sennacherib king of Assyria departed, and went and returned, and dwelt at Nineveh.",
             "ref": "2 Kings 19:35–36"
           }
         ],
@@ -2488,12 +2488,12 @@ export const BOOKS = [
         "title": "Hezekiah is healed",
         "verses": [
           {
-            "t": "Turn again, and tell Hezekiah the captain of my people, Thus saith the LORD, the God of David thy father, I have heard thy prayer, I have seen thy tears: behold, I will heal thee: on the third day thou shalt go up unto the house of the LORD. …",
+            "t": "Turn again, and tell Hezekiah the captain of my people, Thus saith the LORD, the God of David thy father, I have heard thy prayer, I have seen thy tears: behold, I will heal thee: on the third day thou shalt go up unto the house of the LORD.",
             "ref": "2 Kings 20:5–6"
           }
         ],
         "echo": {
-          "t": "I say unto thee, Arise, and take up thy bed, and go thy way into thine house. And immediately he arose, took up the bed, and went forth before them all; insomuch that they were all amazed, and glorified God, saying, We …",
+          "t": "I say unto thee, Arise, and take up thy bed, and go thy way into thine house. And immediately he arose, took up the bed, and went forth before them all; insomuch that they were all amazed, and glorified God, saying, We never saw it on this fashion.",
           "ref": "Mark 2:11–12"
         },
         "prop": null,
@@ -2508,7 +2508,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And he came to Nazareth, where he had been brought up: and, as his custom was, he went into the synagogue on the sabbath day, and stood up for to read. …",
+          "t": "And he came to Nazareth, where he had been brought up: and, as his custom was, he went into the synagogue on the sabbath day, and stood up for to read. And there was delivered unto him the book of the prophet Esaias.",
           "ref": "Luke 4:16–17"
         },
         "prop": "temple",
@@ -2523,7 +2523,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And when ye shall see Jerusalem compassed with armies, then know that the desolation thereof is nigh. Then let them which are in Judaea flee to the mountains; and let them which are in the midst of it depart out; and let …",
+          "t": "And when ye shall see Jerusalem compassed with armies, then know that the desolation thereof is nigh. Then let them which are in Judaea flee to the mountains; and let them which are in the midst of it depart out; and let not them that are in the countries enter thereinto.",
           "ref": "Luke 21:20–21"
         },
         "prop": "temple",
@@ -2568,12 +2568,12 @@ export const BOOKS = [
         "title": "Isaiah sees YHWH enthroned and is commissioned",
         "verses": [
           {
-            "t": "In the year that king Uzziah died I saw also the LORD sitting upon a throne, high and lifted up, and his train filled the temple. Above it stood the seraphims: each one had six wings; with twain he covered his face, and with twain he covered his feet, and with twain …",
+            "t": "In the year that king Uzziah died I saw also the LORD sitting upon a throne, high and lifted up, and his train filled the temple. Above it stood the seraphims: each one had six wings; with twain he covered his face, and with twain he covered his feet, and with twain he did fly.",
             "ref": "Isaiah 6:1–2"
           }
         ],
         "echo": {
-          "t": "He hath blinded their eyes, and hardened their heart; that they should not see with their eyes, nor understand with their heart, and be converted, and I should heal them. …",
+          "t": "He hath blinded their eyes, and hardened their heart; that they should not see with their eyes, nor understand with their heart, and be converted, and I should heal them. These things said Esaias, when he saw his glory, and spake of him.",
           "ref": "John 12:40–41"
         },
         "prop": "throne",
@@ -2588,7 +2588,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Now all this was done, that it might be fulfilled which was spoken of the Lord by the prophet, saying, Behold, a virgin shall be with child, and shall bring forth a son, and they shall call his name Emmanuel, which being …",
+          "t": "Now all this was done, that it might be fulfilled which was spoken of the Lord by the prophet, saying, Behold, a virgin shall be with child, and shall bring forth a son, and they shall call his name Emmanuel, which being interpreted is, God with us.",
           "ref": "Matthew 1:22–23"
         },
         "prop": null,
@@ -2598,12 +2598,12 @@ export const BOOKS = [
         "title": "A royal child is promised David’s throne",
         "verses": [
           {
-            "t": "For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace. …",
+            "t": "For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.",
             "ref": "Isaiah 9:6–7"
           }
         ],
         "echo": {
-          "t": "He shall be great, and shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David: And he shall reign over the house of Jacob for ever; and of his kingdom …",
+          "t": "He shall be great, and shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David: And he shall reign over the house of Jacob for ever; and of his kingdom there shall be no end.",
           "ref": "Luke 1:32–33"
         },
         "prop": "tree",
@@ -2628,7 +2628,7 @@ export const BOOKS = [
         "title": "YHWH’s servant becomes a light to the nations",
         "verses": [
           {
-            "t": "And now, saith the LORD that formed me from the womb to be his servant, to bring Jacob again to him, Though Israel be not gathered, yet shall I be glorious in the eyes of the LORD, and my God shall be my strength. …",
+            "t": "And now, saith the LORD that formed me from the womb to be his servant, to bring Jacob again to him, Though Israel be not gathered, yet shall I be glorious in the eyes of the LORD, and my God shall be my strength.",
             "ref": "Isaiah 49:5–6"
           }
         ],
@@ -2648,7 +2648,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And they smote him on the head with a reed, and did spit upon him, and bowing their knees worshipped him. And when they had mocked him, they took off the purple from him, and put his own clothes on him, and …",
+          "t": "And they smote him on the head with a reed, and did spit upon him, and bowing their knees worshipped him. And when they had mocked him, they took off the purple from him, and put his own clothes on him, and led him out to crucify him.",
           "ref": "Mark 15:19–20"
         },
         "prop": null,
@@ -2663,7 +2663,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Who his own self bare our sins in his own body on the tree, that we, being dead to sins, should live unto righteousness: by whose stripes ye were healed. …",
+          "t": "Who his own self bare our sins in his own body on the tree, that we, being dead to sins, should live unto righteousness: by whose stripes ye were healed. For ye were as sheep going astray; but are now returned unto the Shepherd and Bishop of your souls.",
           "ref": "1 Peter 2:24–25"
         },
         "prop": "altar",
@@ -2678,7 +2678,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And I saw a new heaven and a new earth: for the first heaven and the first earth were passed away; and there was no more sea. …",
+          "t": "And I saw a new heaven and a new earth: for the first heaven and the first earth were passed away; and there was no more sea. And I John saw the holy city, new Jerusalem, coming down from God out of heaven, prepared as a bride adorned for her husband.",
           "ref": "Revelation 21:1–2"
         },
         "prop": null,
@@ -2743,7 +2743,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And he taught, saying unto them, Is it not written, My house shall be called of all nations the house of prayer? but ye have made it a den of thieves. …",
+          "t": "And he taught, saying unto them, Is it not written, My house shall be called of all nations the house of prayer? but ye have made it a den of thieves.",
           "ref": "Mark 11:17–18"
         },
         "prop": "temple",
@@ -2758,7 +2758,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Nay but, O man, who art thou that repliest against God? Shall the thing formed say to him that formed it, Why hast thou made me thus? …",
+          "t": "Nay but, O man, who art thou that repliest against God? Shall the thing formed say to him that formed it, Why hast thou made me thus? Hath not the potter power over the clay, of the same lump to make one vessel unto honour, and another unto dishonour?",
           "ref": "Romans 9:20–21"
         },
         "prop": null,
@@ -2768,7 +2768,7 @@ export const BOOKS = [
         "title": "Jeremiah wears a yoke before the kings",
         "verses": [
           {
-            "t": "Thus saith the LORD to me; Make thee bonds and yokes, and put them upon thy neck, And send them to the king of Edom, and to the king of Moab, and to the king of the Ammonites, and to the king of Tyrus, and to the king of Zidon, by the …",
+            "t": "Thus saith the LORD to me; Make thee bonds and yokes, and put them upon thy neck, And send them to the king of Edom, and to the king of Moab, and to the king of the Ammonites, and to the king of Tyrus, and to the king of Zidon, by the hand of the messengers which come to Jerusalem unto Zedekiah king of Judah;",
             "ref": "Jeremiah 27:2–3"
           }
         ],
@@ -2783,12 +2783,12 @@ export const BOOKS = [
         "title": "Jeremiah announces the new covenant",
         "verses": [
           {
-            "t": "Behold, the days come, saith the LORD, that I will make a new covenant with the house of Israel, and with the house of Judah: Not according to the covenant that I made with their fathers in the day that I took them by the hand to bring them out of the …",
+            "t": "Behold, the days come, saith the LORD, that I will make a new covenant with the house of Israel, and with the house of Judah: Not according to the covenant that I made with their fathers in the day that I took them by the hand to bring them out of the land of Egypt; which my covenant they brake, although I was an husband unto them, saith the LORD:",
             "ref": "Jeremiah 31:31–32"
           }
         ],
         "echo": {
-          "t": "And he took bread, and gave thanks, and brake it, and gave unto them, saying, This is my body which is given for you: this do in remembrance of me. …",
+          "t": "And he took bread, and gave thanks, and brake it, and gave unto them, saying, This is my body which is given for you: this do in remembrance of me. Likewise also the cup after supper, saying, This cup is the new testament in my blood, which is shed for you.",
           "ref": "Luke 22:19–20"
         },
         "prop": "tablets",
@@ -2798,12 +2798,12 @@ export const BOOKS = [
         "title": "Jeremiah buys a field during Jerusalem’s siege",
         "verses": [
           {
-            "t": "Thus saith the LORD of hosts, the God of Israel; Take these evidences, this evidence of the purchase, both which is sealed, and this evidence which is open; and put them in an earthen vessel, that they may continue many days. …",
+            "t": "Thus saith the LORD of hosts, the God of Israel; Take these evidences, this evidence of the purchase, both which is sealed, and this evidence which is open; and put them in an earthen vessel, that they may continue many days. For thus saith the LORD of hosts, the God of Israel; Houses and fields and vineyards shall be possessed again in this land.",
             "ref": "Jeremiah 32:14–15"
           }
         ],
         "echo": {
-          "t": "These all died in faith, not having received the promises, but having seen them afar off, and were persuaded of them, and embraced them, and confessed that they were strangers and pilgrims on the earth. …",
+          "t": "These all died in faith, not having received the promises, but having seen them afar off, and were persuaded of them, and embraced them, and confessed that they were strangers and pilgrims on the earth. For they that say such things declare plainly that they seek a country.",
           "ref": "Hebrews 11:13–14"
         },
         "prop": "city",
@@ -2813,7 +2813,7 @@ export const BOOKS = [
         "title": "Jehoiakim burns Jeremiah’s scroll",
         "verses": [
           {
-            "t": "Now the king sat in the winterhouse in the ninth month: and there was a fire on the hearth burning before him. And it came to pass, that when Jehudi had read three or four leaves, he cut it with the penknife, and cast it into the fire that was on the …",
+            "t": "Now the king sat in the winterhouse in the ninth month: and there was a fire on the hearth burning before him. And it came to pass, that when Jehudi had read three or four leaves, he cut it with the penknife, and cast it into the fire that was on the hearth, until all the roll was consumed in the fire that was on the hearth.",
             "ref": "Jeremiah 36:22–23"
           }
         ],
@@ -2828,7 +2828,7 @@ export const BOOKS = [
         "title": "Jeremiah is lowered into a cistern and rescued",
         "verses": [
           {
-            "t": "Then took they Jeremiah, and cast him into the dungeon of Malchiah the son of Hammelech, that was in the court of the prison: and they let down Jeremiah with cords. And in the dungeon there was no water, but mire: so Jeremiah sunk in the mire. …",
+            "t": "Then took they Jeremiah, and cast him into the dungeon of Malchiah the son of Hammelech, that was in the court of the prison: and they let down Jeremiah with cords. And in the dungeon there was no water, but mire: so Jeremiah sunk in the mire.",
             "ref": "Jeremiah 38:6–7"
           }
         ],
@@ -2879,12 +2879,12 @@ export const BOOKS = [
         "title": "Ezekiel sees the divine chariot and glory",
         "verses": [
           {
-            "t": "And above the firmament that was over their heads was the likeness of a throne, as the appearance of a sapphire stone: and upon the likeness of the throne was the likeness as the appearance of a man above upon it. …",
+            "t": "And above the firmament that was over their heads was the likeness of a throne, as the appearance of a sapphire stone: and upon the likeness of the throne was the likeness as the appearance of a man above upon it.",
             "ref": "Ezekiel 1:26–27"
           }
         ],
         "echo": {
-          "t": "And immediately I was in the spirit: and, behold, a throne was set in heaven, and one sat on the throne. And he that sat was to look upon like a jasper and a sardine stone: and there was a rainbow round …",
+          "t": "And immediately I was in the spirit: and, behold, a throne was set in heaven, and one sat on the throne. And he that sat was to look upon like a jasper and a sardine stone: and there was a rainbow round about the throne, in sight like unto an emerald.",
           "ref": "Revelation 4:2–3"
         },
         "prop": "throne",
@@ -2899,7 +2899,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And I went unto the angel, and said unto him, Give me the little book. And he said unto me, Take it, and eat it up; and it shall make thy belly bitter, but it shall be in thy mouth sweet as …",
+          "t": "And I went unto the angel, and said unto him, Give me the little book. And he said unto me, Take it, and eat it up; and it shall make thy belly bitter, but it shall be in thy mouth sweet as honey.",
           "ref": "Revelation 10:9–10"
         },
         "prop": null,
@@ -2909,12 +2909,12 @@ export const BOOKS = [
         "title": "Ezekiel enacts Jerusalem’s siege",
         "verses": [
           {
-            "t": "Thou also, son of man, take thee a tile, and lay it before thee, and pourtray upon it the city, even Jerusalem: And lay siege against it, and build a fort against it, and cast a mount against it; set the camp also against it, and set battering rams against it round …",
+            "t": "Thou also, son of man, take thee a tile, and lay it before thee, and pourtray upon it the city, even Jerusalem: And lay siege against it, and build a fort against it, and cast a mount against it; set the camp also against it, and set battering rams against it round about.",
             "ref": "Ezekiel 4:1–2"
           }
         ],
         "echo": {
-          "t": "For the days shall come upon thee, that thine enemies shall cast a trench about thee, and compass thee round, and keep thee in on every side, And shall lay thee even with the ground, and thy children within thee; and they …",
+          "t": "For the days shall come upon thee, that thine enemies shall cast a trench about thee, and compass thee round, and keep thee in on every side, And shall lay thee even with the ground, and thy children within thee; and they shall not leave in thee one stone upon another; because thou knewest not the time of thy visitation.",
           "ref": "Luke 19:43–44"
         },
         "prop": "city",
@@ -2924,12 +2924,12 @@ export const BOOKS = [
         "title": "Ezekiel sees the temple’s corruption and glory depart",
         "verses": [
           {
-            "t": "Then the glory of the LORD departed from off the threshold of the house, and stood over the cherubims. And the cherubims lifted up their wings, and mounted up from the earth in my sight: when they went out, the wheels also were beside them, and every one stood at the door …",
+            "t": "Then the glory of the LORD departed from off the threshold of the house, and stood over the cherubims. And the cherubims lifted up their wings, and mounted up from the earth in my sight: when they went out, the wheels also were beside them, and every one stood at the door of the east gate of the LORD’s house; and the glory of the God of Israel was over them above.",
             "ref": "Ezekiel 10:18–19"
           }
         ],
         "echo": {
-          "t": "Wherefore God also gave them up to uncleanness through the lusts of their own hearts, to dishonour their own bodies between themselves: Who changed the truth of God into a lie, and worshipped and served the creature more than the Creator, who …",
+          "t": "Wherefore God also gave them up to uncleanness through the lusts of their own hearts, to dishonour their own bodies between themselves: Who changed the truth of God into a lie, and worshipped and served the creature more than the Creator, who is blessed for ever. Amen.",
           "ref": "Romans 1:24–25"
         },
         "prop": "temple",
@@ -2944,7 +2944,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "I am the good shepherd: the good shepherd giveth his life for the sheep. But he that is an hireling, and not the shepherd, whose own the sheep are not, seeth the wolf coming, and leaveth the sheep, and fleeth: and the …",
+          "t": "I am the good shepherd: the good shepherd giveth his life for the sheep. But he that is an hireling, and not the shepherd, whose own the sheep are not, seeth the wolf coming, and leaveth the sheep, and fleeth: and the wolf catcheth them, and scattereth the sheep.",
           "ref": "John 10:11–12"
         },
         "prop": "throne",
@@ -2954,12 +2954,12 @@ export const BOOKS = [
         "title": "Ezekiel sees the valley of dry bones",
         "verses": [
           {
-            "t": "Then he said unto me, Son of man, these bones are the whole house of Israel: behold, they say, Our bones are dried, and our hope is lost: we are cut off for our parts. Therefore prophesy and say unto them, Thus saith the Lord GOD; Behold, O my people, I will …",
+            "t": "Then he said unto me, Son of man, these bones are the whole house of Israel: behold, they say, Our bones are dried, and our hope is lost: we are cut off for our parts. Therefore prophesy and say unto them, Thus saith the Lord GOD; Behold, O my people, I will open your graves, and cause you to come up out of your graves, and bring you into the land of Israel.",
             "ref": "Ezekiel 37:11–12"
           }
         ],
         "echo": {
-          "t": "Verily, verily, I say unto you, The hour is coming, and now is, when the dead shall hear the voice of the Son of God: and they that hear shall live. …",
+          "t": "Verily, verily, I say unto you, The hour is coming, and now is, when the dead shall hear the voice of the Son of God: and they that hear shall live.",
           "ref": "John 5:25–26"
         },
         "prop": "bones",
@@ -2969,12 +2969,12 @@ export const BOOKS = [
         "title": "Gog gathers against restored Israel",
         "verses": [
           {
-            "t": "And thou shalt come from thy place out of the north parts, thou, and many people with thee, all of them riding upon horses, a great company, and a mighty army: And thou shalt come up against my people of Israel, as a cloud to cover the land; it shall be in …",
+            "t": "And thou shalt come from thy place out of the north parts, thou, and many people with thee, all of them riding upon horses, a great company, and a mighty army: And thou shalt come up against my people of Israel, as a cloud to cover the land; it shall be in the latter days, and I will bring thee against my land, that the heathen may know me, when I shall be sanctified in thee, O Gog, before their eyes.",
             "ref": "Ezekiel 38:15–16"
           }
         ],
         "echo": {
-          "t": "And shall go out to deceive the nations which are in the four quarters of the earth, Gog and Magog, to gather them together to battle: the number of whom is as the sand of the sea. …",
+          "t": "And shall go out to deceive the nations which are in the four quarters of the earth, Gog and Magog, to gather them together to battle: the number of whom is as the sand of the sea.",
           "ref": "Revelation 20:8–9"
         },
         "prop": null,
@@ -2984,12 +2984,12 @@ export const BOOKS = [
         "title": "The life-giving river flows from the new temple",
         "verses": [
           {
-            "t": "Then said he unto me, These waters issue out toward the east country, and go down into the desert, and go into the sea: which being brought forth into the sea, the waters shall be healed. …",
+            "t": "Then said he unto me, These waters issue out toward the east country, and go down into the desert, and go into the sea: which being brought forth into the sea, the waters shall be healed.",
             "ref": "Ezekiel 47:8–9"
           }
         ],
         "echo": {
-          "t": "And he shewed me a pure river of water of life, clear as crystal, proceeding out of the throne of God and of the Lamb. In the midst of the street of it, and on either side of the river, was there …",
+          "t": "And he shewed me a pure river of water of life, clear as crystal, proceeding out of the throne of God and of the Lamb.",
           "ref": "Revelation 22:1–2"
         },
         "prop": "temple",
@@ -3035,12 +3035,12 @@ export const BOOKS = [
         "title": "Hosea’s marriage embodies YHWH’s wounded covenant love",
         "verses": [
           {
-            "t": "The beginning of the word of the LORD by Hosea. And the LORD said to Hosea, Go, take unto thee a wife of whoredoms and children of whoredoms: for the land hath committed great whoredom, departing from the LORD. …",
+            "t": "The beginning of the word of the LORD by Hosea. And the LORD said to Hosea, Go, take unto thee a wife of whoredoms and children of whoredoms: for the land hath committed great whoredom, departing from the LORD. So he went and took Gomer the daughter of Diblaim; which conceived, and bare him a son.",
             "ref": "Hosea 1:2–3"
           }
         ],
         "echo": {
-          "t": "As he saith also in Osee, I will call them my people, which were not my people; and her beloved, which was not beloved. And it shall come to pass, that in the place where it was said unto them, Ye are …",
+          "t": "As he saith also in Osee, I will call them my people, which were not my people; and her beloved, which was not beloved. And it shall come to pass, that in the place where it was said unto them, Ye are not my people; there shall they be called the children of the living God.",
           "ref": "Romans 9:25–26"
         },
         "prop": "vineyard",
@@ -3050,12 +3050,12 @@ export const BOOKS = [
         "title": "Joel promises the Spirit before the Day of YHWH",
         "verses": [
           {
-            "t": "And it shall come to pass afterward, that I will pour out my spirit upon all flesh; and your sons and your daughters shall prophesy, your old men shall dream dreams, your young men shall see visions: And also upon the servants and upon the handmaids in those days will I pour …",
+            "t": "And it shall come to pass afterward, that I will pour out my spirit upon all flesh; and your sons and your daughters shall prophesy, your old men shall dream dreams, your young men shall see visions: And also upon the servants and upon the handmaids in those days will I pour out my spirit.",
             "ref": "Joel 2:28–29"
           }
         ],
         "echo": {
-          "t": "And it shall come to pass in the last days, saith God, I will pour out of my Spirit upon all flesh: and your sons and your daughters shall prophesy, and your young men shall see visions, and your old men shall …",
+          "t": "And it shall come to pass in the last days, saith God, I will pour out of my Spirit upon all flesh: and your sons and your daughters shall prophesy, and your young men shall see visions, and your old men shall dream dreams: And on my servants and on my handmaidens I will pour out in those days of my Spirit; and they shall prophesy:",
           "ref": "Acts 2:17–18"
         },
         "prop": null,
@@ -3065,12 +3065,12 @@ export const BOOKS = [
         "title": "Amos promises David’s fallen booth restored",
         "verses": [
           {
-            "t": "In that day will I raise up the tabernacle of David that is fallen, and close up the breaches thereof; and I will raise up his ruins, and I will build it as in the days of old: That they may possess the remnant of Edom, and of all the heathen, which …",
+            "t": "In that day will I raise up the tabernacle of David that is fallen, and close up the breaches thereof; and I will raise up his ruins, and I will build it as in the days of old: That they may possess the remnant of Edom, and of all the heathen, which are called by my name, saith the LORD that doeth this.",
             "ref": "Amos 9:11–12"
           }
         ],
         "echo": {
-          "t": "After this I will return, and will build again the tabernacle of David, which is fallen down; and I will build again the ruins thereof, and I will set it up: That the residue of men might seek after the Lord, and …",
+          "t": "After this I will return, and will build again the tabernacle of David, which is fallen down; and I will build again the ruins thereof, and I will set it up: That the residue of men might seek after the Lord, and all the Gentiles, upon whom my name is called, saith the Lord, who doeth all these things.",
           "ref": "Acts 15:16–17"
         },
         "prop": "tent",
@@ -3080,12 +3080,12 @@ export const BOOKS = [
         "title": "Obadiah sees Edom judged and YHWH’s kingdom established",
         "verses": [
           {
-            "t": "And the captivity of this host of the children of Israel shall possess that of the Canaanites, even unto Zarephath; and the captivity of Jerusalem, which is in Sepharad, shall possess the cities of the south. …",
+            "t": "And the captivity of this host of the children of Israel shall possess that of the Canaanites, even unto Zarephath; and the captivity of Jerusalem, which is in Sepharad, shall possess the cities of the south. And saviours shall come up on mount Zion to judge the mount of Esau; and the kingdom shall be the LORD’s.",
             "ref": "Obadiah 20–21"
           }
         ],
         "echo": {
-          "t": "Lest there be any fornicator, or profane person, as Esau, who for one morsel of meat sold his birthright. For ye know how that afterward, when he would have inherited the blessing, he was rejected: for he found no place of repentance …",
+          "t": "Lest there be any fornicator, or profane person, as Esau, who for one morsel of meat sold his birthright. For ye know how that afterward, when he would have inherited the blessing, he was rejected: for he found no place of repentance, though he sought it carefully with tears.",
           "ref": "Hebrews 12:16–17"
         },
         "prop": "city",
@@ -3100,7 +3100,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "For as Jonas was three days and three nights in the whale’s belly; so shall the Son of man be three days and three nights in the heart of the earth. …",
+          "t": "For as Jonas was three days and three nights in the whale’s belly; so shall the Son of man be three days and three nights in the heart of the earth.",
           "ref": "Matthew 12:40–41"
         },
         "prop": "boat",
@@ -3110,12 +3110,12 @@ export const BOOKS = [
         "title": "Micah locates Israel’s ruler in Bethlehem",
         "verses": [
           {
-            "t": "Now gather thyself in troops, O daughter of troops: he hath laid siege against us: they shall smite the judge of Israel with a rod upon the cheek. But thou, Bethlehem Ephratah, though thou be little among the thousands of Judah, yet out of thee shall he come forth unto me that …",
+            "t": "Now gather thyself in troops, O daughter of troops: he hath laid siege against us: they shall smite the judge of Israel with a rod upon the cheek. But thou, Bethlehem Ephratah, though thou be little among the thousands of Judah, yet out of thee shall he come forth unto me that is to be ruler in Israel; whose goings forth have been from of old, from everlasting.",
             "ref": "Micah 5:1–2"
           }
         ],
         "echo": {
-          "t": "And they said unto him, In Bethlehem of Judaea: for thus it is written by the prophet, And thou Bethlehem, in the land of Juda, art not the least among the princes of Juda: for out of thee shall come a Governor …",
+          "t": "And they said unto him, In Bethlehem of Judaea: for thus it is written by the prophet, And thou Bethlehem, in the land of Juda, art not the least among the princes of Juda: for out of thee shall come a Governor, that shall rule my people Israel.",
           "ref": "Matthew 2:5–6"
         },
         "prop": "manger",
@@ -3125,7 +3125,7 @@ export const BOOKS = [
         "title": "Nahum announces Nineveh’s fall",
         "verses": [
           {
-            "t": "And the LORD hath given a commandment concerning thee, that no more of thy name be sown: out of the house of thy gods will I cut off the graven image and the molten image: I will make thy grave; for thou art vile. …",
+            "t": "And the LORD hath given a commandment concerning thee, that no more of thy name be sown: out of the house of thy gods will I cut off the graven image and the molten image: I will make thy grave; for thou art vile. Behold upon the mountains the feet of him that bringeth good tidings, that publisheth peace!",
             "ref": "Nahum 1:14–15"
           }
         ],
@@ -3140,12 +3140,12 @@ export const BOOKS = [
         "title": "Habakkuk questions God and learns to live by faith",
         "verses": [
           {
-            "t": "For the vision is yet for an appointed time, but at the end it shall speak, and not lie: though it tarry, wait for it; because it will surely come, it will not tarry. Behold, his soul which is lifted up is not upright in him: but the just shall live by …",
+            "t": "For the vision is yet for an appointed time, but at the end it shall speak, and not lie: though it tarry, wait for it; because it will surely come, it will not tarry. Behold, his soul which is lifted up is not upright in him: but the just shall live by his faith.",
             "ref": "Habakkuk 2:3–4"
           }
         ],
         "echo": {
-          "t": "For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation to every one that believeth; to the Jew first, and also to the Greek. …",
+          "t": "For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation to every one that believeth; to the Jew first, and also to the Greek. For therein is the righteousness of God revealed from faith to faith: as it is written, The just shall live by faith.",
           "ref": "Romans 1:16–17"
         },
         "prop": null,
@@ -3155,12 +3155,12 @@ export const BOOKS = [
         "title": "Zephaniah foresees a purified, humble remnant",
         "verses": [
           {
-            "t": "I will also leave in the midst of thee an afflicted and poor people, and they shall trust in the name of the LORD. The remnant of Israel shall not do iniquity, nor speak lies; neither shall a deceitful tongue be found in their mouth: for they shall feed and lie down …",
+            "t": "I will also leave in the midst of thee an afflicted and poor people, and they shall trust in the name of the LORD. The remnant of Israel shall not do iniquity, nor speak lies; neither shall a deceitful tongue be found in their mouth: for they shall feed and lie down, and none shall make them afraid.",
             "ref": "Zephaniah 3:12–13"
           }
         ],
         "echo": {
-          "t": "These are they which were not defiled with women; for they are virgins. These are they which follow the Lamb whithersoever he goeth. These were redeemed from among men, being the firstfruits unto God and to the Lamb. …",
+          "t": "These are they which were not defiled with women; for they are virgins. These are they which follow the Lamb whithersoever he goeth. These were redeemed from among men, being the firstfruits unto God and to the Lamb. And in their mouth was found no guile: for they are without fault before the throne of God.",
           "ref": "Revelation 14:4–5"
         },
         "prop": null,
@@ -3185,12 +3185,12 @@ export const BOOKS = [
         "title": "Zechariah sees the Branch unite priesthood and kingship",
         "verses": [
           {
-            "t": "And speak unto him, saying, Thus speaketh the LORD of hosts, saying, Behold the man whose name is The BRANCH; and he shall grow up out of his place, and he shall build the temple of the LORD: Even he shall build the temple of the LORD; and he shall bear the …",
+            "t": "And speak unto him, saying, Thus speaketh the LORD of hosts, saying, Behold the man whose name is The BRANCH; and he shall grow up out of his place, and he shall build the temple of the LORD: Even he shall build the temple of the LORD; and he shall bear the glory, and shall sit and rule upon his throne; and he shall be a priest upon his throne: and the counsel of peace shall be between them both.",
             "ref": "Zechariah 6:12–13"
           }
         ],
         "echo": {
-          "t": "Now of the things which we have spoken this is the sum: We have such an high priest, who is set on the right hand of the throne of the Majesty in the heavens; A minister of the sanctuary, and of the …",
+          "t": "Now of the things which we have spoken this is the sum: We have such an high priest, who is set on the right hand of the throne of the Majesty in the heavens; A minister of the sanctuary, and of the true tabernacle, which the Lord pitched, and not man.",
           "ref": "Hebrews 8:1–2"
         },
         "prop": "throne",
@@ -3200,7 +3200,7 @@ export const BOOKS = [
         "title": "Malachi promises a messenger before YHWH’s arrival",
         "verses": [
           {
-            "t": "Behold, I will send my messenger, and he shall prepare the way before me: and the LORD, whom ye seek, shall suddenly come to his temple, even the messenger of the covenant, whom ye delight in: behold, he shall come, saith the LORD of hosts. …",
+            "t": "Behold, I will send my messenger, and he shall prepare the way before me: and the LORD, whom ye seek, shall suddenly come to his temple, even the messenger of the covenant, whom ye delight in: behold, he shall come, saith the LORD of hosts. But who may abide the day of his coming? and who shall stand when he appeareth?",
             "ref": "Malachi 3:1–2"
           }
         ],
@@ -3256,7 +3256,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And we declare unto you glad tidings, how that the promise which was made unto the fathers, God hath fulfilled the same unto us their children, in that he hath raised up Jesus again; as it is also written in the second …",
+          "t": "And we declare unto you glad tidings, how that the promise which was made unto the fathers, God hath fulfilled the same unto us their children, in that he hath raised up Jesus again; as it is also written in the second psalm, Thou art my Son, this day have I begotten thee.",
           "ref": "Acts 13:32–33"
         },
         "prop": "throne",
@@ -3271,7 +3271,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "And when the sixth hour was come, there was darkness over the whole land until the ninth hour. And at the ninth hour Jesus cried with a loud voice, saying, Eloi, Eloi, lama sabachthani? …",
+          "t": "And when the sixth hour was come, there was darkness over the whole land until the ninth hour. And at the ninth hour Jesus cried with a loud voice, saying, Eloi, Eloi, lama sabachthani? which is, being interpreted, My God, my God, why hast thou forsaken me?",
           "ref": "Mark 15:33–34"
         },
         "prop": null,
@@ -3286,7 +3286,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "For David himself said by the Holy Ghost, The LORD said to my Lord, Sit thou on my right hand, till I make thine enemies thy footstool. David therefore himself calleth him Lord; and whence is he then his son? …",
+          "t": "For David himself said by the Holy Ghost, The LORD said to my Lord, Sit thou on my right hand, till I make thine enemies thy footstool. David therefore himself calleth him Lord; and whence is he then his son? And the common people heard him gladly.",
           "ref": "Mark 12:36–37"
         },
         "prop": "throne",
@@ -3337,7 +3337,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Who is the image of the invisible God, the firstborn of every creature: For by him were all things created, that are in heaven, and that are in earth, visible and invisible, whether they be thrones, or dominions, or principalities, or powers …",
+          "t": "Who is the image of the invisible God, the firstborn of every creature: For by him were all things created, that are in heaven, and that are in earth, visible and invisible, whether they be thrones, or dominions, or principalities, or powers: all things were created by him, and for him:",
           "ref": "Colossians 1:15–16"
         },
         "prop": "tree",
@@ -3388,7 +3388,7 @@ export const BOOKS = [
           }
         ],
         "echo": {
-          "t": "Take, my brethren, the prophets, who have spoken in the name of the Lord, for an example of suffering affliction, and of patience. Behold, we count them happy which endure. …",
+          "t": "Take, my brethren, the prophets, who have spoken in the name of the Lord, for an example of suffering affliction, and of patience. Behold, we count them happy which endure. Ye have heard of the patience of Job, and have seen the end of the Lord; that the Lord is very pitiful, and of tender mercy.",
           "ref": "James 5:10–11"
         },
         "prop": "altar",
@@ -3485,7 +3485,7 @@ export const BOOKS = [
         "title": "Ruth’s loyalty and Boaz’s redemption preserve David’s line",
         "verses": [
           {
-            "t": "So Boaz took Ruth, and she was his wife: and when he went in unto her, the LORD gave her conception, and she bare a son. And the women said unto Naomi, Blessed be the LORD, which hath not left thee this day without a kinsman, that his name may be famous …",
+            "t": "So Boaz took Ruth, and she was his wife: and when he went in unto her, the LORD gave her conception, and she bare a son. And the women said unto Naomi, Blessed be the LORD, which hath not left thee this day without a kinsman, that his name may be famous in Israel.",
             "ref": "Ruth 4:13–14"
           }
         ],
@@ -3535,7 +3535,7 @@ export const BOOKS = [
         "title": "Jerusalem mourns after its destruction",
         "verses": [
           {
-            "t": "How doth the city sit solitary, that was full of people! how is she become as a widow! she that was great among the nations, and princess among the provinces, how is she become tributary! She weepeth sore in the night, and her tears are on her cheeks: among all her lovers …",
+            "t": "How doth the city sit solitary, that was full of people! how is she become as a widow! she that was great among the nations, and princess among the provinces, how is she become tributary! She weepeth sore in the night, and her tears are on her cheeks: among all her lovers she hath none to comfort her: all her friends have dealt treacherously with her, they are become her enemies.",
             "ref": "Lamentations 1:1–2"
           }
         ],
@@ -3585,12 +3585,12 @@ export const BOOKS = [
         "title": "Qohelet tests life under the sun and finds it vapor",
         "verses": [
           {
-            "t": "And I gave my heart to seek and search out by wisdom concerning all things that are done under heaven: this sore travail hath God given to the sons of man to be exercised therewith. I have seen all the works that are done under the sun; and, behold, all is vanity …",
+            "t": "And I gave my heart to seek and search out by wisdom concerning all things that are done under heaven: this sore travail hath God given to the sons of man to be exercised therewith. I have seen all the works that are done under the sun; and, behold, all is vanity and vexation of spirit.",
             "ref": "Ecclesiastes 1:13–14"
           }
         ],
         "echo": {
-          "t": "For the creature was made subject to vanity, not willingly, but by reason of him who hath subjected the same in hope, Because the creature itself also shall be delivered from the bondage of corruption into the glorious liberty of the children …",
+          "t": "For the creature was made subject to vanity, not willingly, but by reason of him who hath subjected the same in hope, Because the creature itself also shall be delivered from the bondage of corruption into the glorious liberty of the children of God.",
           "ref": "Romans 8:20–21"
         },
         "prop": "vineyard",
@@ -3634,12 +3634,12 @@ export const BOOKS = [
         "title": "Esther risks her life and the threatened Jews are delivered",
         "verses": [
           {
-            "t": "Then Esther bade them return Mordecai this answer, Go, gather together all the Jews that are present in Shushan, and fast ye for me, and neither eat nor drink three days, night or day: I also and my maidens will fast likewise; and so will I go in unto the king, which …",
+            "t": "Then Esther bade them return Mordecai this answer, Go, gather together all the Jews that are present in Shushan, and fast ye for me, and neither eat nor drink three days, night or day: I also and my maidens will fast likewise; and so will I go in unto the king, which is not according to the law: and if I perish, I perish.",
             "ref": "Esther 4:15–16"
           }
         ],
         "echo": {
-          "t": "And I heard a loud voice saying in heaven, Now is come salvation, and strength, and the kingdom of our God, and the power of his Christ: for the accuser of our brethren is cast down, which accused them before our God …",
+          "t": "And I heard a loud voice saying in heaven, Now is come salvation, and strength, and the kingdom of our God, and the power of his Christ: for the accuser of our brethren is cast down, which accused them before our God day and night.",
           "ref": "Revelation 12:10–11"
         },
         "prop": "throne",
@@ -3683,12 +3683,12 @@ export const BOOKS = [
         "title": "The stone kingdom shatters the empires",
         "verses": [
           {
-            "t": "And in the days of these kings shall the God of heaven set up a kingdom, which shall never be destroyed: and the kingdom shall not be left to other people, but it shall break in pieces and consume all these kingdoms, and it shall stand for ever. …",
+            "t": "And in the days of these kings shall the God of heaven set up a kingdom, which shall never be destroyed: and the kingdom shall not be left to other people, but it shall break in pieces and consume all these kingdoms, and it shall stand for ever.",
             "ref": "Daniel 2:44–45"
           }
         ],
         "echo": {
-          "t": "And he beheld them, and said, What is this then that is written, The stone which the builders rejected, the same is become the head of the corner? …",
+          "t": "And he beheld them, and said, What is this then that is written, The stone which the builders rejected, the same is become the head of the corner? Whosoever shall fall upon that stone shall be broken; but on whomsoever it shall fall, it will grind him to powder.",
           "ref": "Luke 20:17–18"
         },
         "prop": "stones",
@@ -3698,12 +3698,12 @@ export const BOOKS = [
         "title": "Daniel survives the lions’ den",
         "verses": [
           {
-            "t": "My God hath sent his angel, and hath shut the lions’ mouths, that they have not hurt me: forasmuch as before him innocency was found in me; and also before thee, O king, have I done no hurt. …",
+            "t": "My God hath sent his angel, and hath shut the lions’ mouths, that they have not hurt me: forasmuch as before him innocency was found in me; and also before thee, O king, have I done no hurt. Then was the king exceeding glad for him, and commanded that they should take Daniel up out of the den.",
             "ref": "Daniel 6:22–23"
           }
         ],
         "echo": {
-          "t": "Who through faith subdued kingdoms, wrought righteousness, obtained promises, stopped the mouths of lions, Quenched the violence of fire, escaped the edge of the sword, out of weakness were made strong, waxed valiant in fight, turned to flight the armies of the …",
+          "t": "Who through faith subdued kingdoms, wrought righteousness, obtained promises, stopped the mouths of lions, Quenched the violence of fire, escaped the edge of the sword, out of weakness were made strong, waxed valiant in fight, turned to flight the armies of the aliens.",
           "ref": "Hebrews 11:33–34"
         },
         "prop": null,
@@ -3713,12 +3713,12 @@ export const BOOKS = [
         "title": "One like a son of man receives everlasting dominion",
         "verses": [
           {
-            "t": "I saw in the night visions, and, behold, one like the Son of man came with the clouds of heaven, and came to the Ancient of days, and they brought him near before him. And there was given him dominion, and glory, and a kingdom, that all people, nations, and languages, should …",
+            "t": "I saw in the night visions, and, behold, one like the Son of man came with the clouds of heaven, and came to the Ancient of days, and they brought him near before him. And there was given him dominion, and glory, and a kingdom, that all people, nations, and languages, should serve him: his dominion is an everlasting dominion, which shall not pass away, and his kingdom that which shall not be destroyed.",
             "ref": "Daniel 7:13–14"
           }
         ],
         "echo": {
-          "t": "But he held his peace, and answered nothing. Again the high priest asked him, and said unto him, Art thou the Christ, the Son of the Blessed? …",
+          "t": "But he held his peace, and answered nothing. Again the high priest asked him, and said unto him, Art thou the Christ, the Son of the Blessed? And Jesus said, I am: and ye shall see the Son of man sitting on the right hand of power, and coming in the clouds of heaven.",
           "ref": "Mark 14:61–62"
         },
         "prop": "throne",
@@ -3728,12 +3728,12 @@ export const BOOKS = [
         "title": "Daniel foresees resurrection and final judgment",
         "verses": [
           {
-            "t": "And at that time shall Michael stand up, the great prince which standeth for the children of thy people: and there shall be a time of trouble, such as never was since there was a nation even to that same time: and at that time thy people shall be delivered, every one …",
+            "t": "And at that time shall Michael stand up, the great prince which standeth for the children of thy people: and there shall be a time of trouble, such as never was since there was a nation even to that same time: and at that time thy people shall be delivered, every one that shall be found written in the book.",
             "ref": "Daniel 12:1–2"
           }
         ],
         "echo": {
-          "t": "Marvel not at this: for the hour is coming, in the which all that are in the graves shall hear his voice, And shall come forth; they that have done good, unto the resurrection of life; and they that have done evil …",
+          "t": "Marvel not at this: for the hour is coming, in the which all that are in the graves shall hear his voice, And shall come forth; they that have done good, unto the resurrection of life; and they that have done evil, unto the resurrection of damnation.",
           "ref": "John 5:28–29"
         },
         "prop": null,
@@ -3778,7 +3778,7 @@ export const BOOKS = [
         "title": "The exiles return and rebuild the temple",
         "verses": [
           {
-            "t": "And the elders of the Jews builded, and they prospered through the prophesying of Haggai the prophet and Zechariah the son of Iddo. And they builded, and finished it, according to the commandment of the God of Israel, and according to the commandment of Cyrus, and Darius, and Artaxerxes king of Persia. …",
+            "t": "And the elders of the Jews builded, and they prospered through the prophesying of Haggai the prophet and Zechariah the son of Iddo. And they builded, and finished it, according to the commandment of the God of Israel, and according to the commandment of Cyrus, and Darius, and Artaxerxes king of Persia.",
             "ref": "Ezra 6:14–15"
           }
         ],
@@ -3793,12 +3793,12 @@ export const BOOKS = [
         "title": "Ezra reads the Torah to the restored community",
         "verses": [
           {
-            "t": "And Ezra opened the book in the sight of all the people; (for he was above all the people;) and when he opened it, all the people stood up: And Ezra blessed the LORD, the great God. …",
+            "t": "And Ezra opened the book in the sight of all the people; (for he was above all the people;) and when he opened it, all the people stood up: And Ezra blessed the LORD, the great God. And all the people answered, Amen, Amen, with lifting up their hands: and they bowed their heads, and worshipped the LORD with their faces to the ground.",
             "ref": "Nehemiah 8:5–6"
           }
         ],
         "echo": {
-          "t": "And he came to Nazareth, where he had been brought up: and, as his custom was, he went into the synagogue on the sabbath day, and stood up for to read. …",
+          "t": "And he came to Nazareth, where he had been brought up: and, as his custom was, he went into the synagogue on the sabbath day, and stood up for to read. And there was delivered unto him the book of the prophet Esaias.",
           "ref": "Luke 4:16–17"
         },
         "prop": "tablets",
@@ -3843,12 +3843,12 @@ export const BOOKS = [
         "title": "The Hebrew Bible ends with Cyrus authorizing return and rebuilding",
         "verses": [
           {
-            "t": "Now in the first year of Cyrus king of Persia, that the word of the LORD spoken by the mouth of Jeremiah might be accomplished, the LORD stirred up the spirit of Cyrus king of Persia, that he made a proclamation throughout all his kingdom, and put it also in writing, saying …",
+            "t": "Now in the first year of Cyrus king of Persia, that the word of the LORD spoken by the mouth of Jeremiah might be accomplished, the LORD stirred up the spirit of Cyrus king of Persia, that he made a proclamation throughout all his kingdom, and put it also in writing, saying, Thus saith Cyrus king of Persia, All the kingdoms of the earth hath the LORD God of heaven given me; and he hath charged me to build him an house in Jerusalem, which is in Judah. Who is there among you of all his people? The LORD his God be with him, and let him go up.",
             "ref": "2 Chronicles 36:22–23"
           }
         ],
         "echo": {
-          "t": "The Spirit of the Lord is upon me, because he hath anointed me to preach the gospel to the poor; he hath sent me to heal the brokenhearted, to preach deliverance to the captives, and recovering of sight to the blind, to …",
+          "t": "The Spirit of the Lord is upon me, because he hath anointed me to preach the gospel to the poor; he hath sent me to heal the brokenhearted, to preach deliverance to the captives, and recovering of sight to the blind, to set at liberty them that are bruised, To preach the acceptable year of the Lord.",
           "ref": "Luke 4:18–19"
         },
         "prop": "city",

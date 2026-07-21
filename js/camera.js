@@ -5,20 +5,25 @@
 // one repeated glide.
 import * as THREE from 'three';
 import { journey } from './path.js';
+import { DIRECTIONS } from './direction.js';
 import { clamp, smoothstep } from './utils.js';
 
-// Per-terrain-style travel mood.
-const STYLE_MOOD = {
-  mountains:  { eye: 3,  fov: -3, look: 7,  bob: 0.45, sway: 0.7, bank: 1.2 },
-  valley:     { eye: -1, fov: -3, look: 6,  bob: 0.5,  sway: 1.1, bank: 1.35 },
-  canyon:     { eye: -3, fov: -7, look: 9,  bob: 0.35, sway: 0.6, bank: 1.5 },
-  desert:     { eye: 7,  fov: 7,  look: -2, bob: 0.3,  sway: 1.5, bank: 0.8 },
-  plain:      { eye: 9,  fov: 9,  look: -3, bob: 0.25, sway: 1.7, bank: 0.6 },
-  hills:      { eye: 2,  fov: 0,  look: 3,  bob: 0.5,  sway: 1.0, bank: 1.0 },
-  seaCliffs:  { eye: 11, fov: 2,  look: 1,  bob: 0.6,  sway: 0.9, bank: 1.1 },
-  riverlands: { eye: 1,  fov: 2,  look: 2,  bob: 0.45, sway: 1.2, bank: 1.0 },
-};
-const MOOD_KEYS = ['eye', 'fov', 'look', 'bob', 'sway', 'bank'];
+const MOOD_KEYS = ['eye', 'fov', 'look', 'bob', 'sway', 'bank', 'lateral', 'orbit'];
+
+// Convert a per-book direction spec into a camera mood.
+function moodFromDir(dir) {
+  return {
+    eye: dir.eye,
+    fov: dir.fov,
+    look: dir.pitch * 44,        // gaze bias: up (+) / down over the land (-)
+    bob: dir.vantage === 'floatUp' ? 0.6 : dir.vantage === 'reverent' ? 0.2 : 0.4,
+    sway: dir.sway,
+    bank: dir.roll,
+    lateral: dir.lateral || 0,   // ride offset to one side of the path
+    orbit: dir.orbit || 0,       // slow searching arc of the gaze
+  };
+}
+const INTRO_MOOD = { eye: 8, fov: 4, look: 6, bob: 0.5, sway: 1.0, bank: 0.9, lateral: 0, orbit: 0.3 };
 
 // Dramatic per-beat moves, matched by book id + story title.
 const MOMENTS = [
@@ -47,10 +52,10 @@ export class CameraDirector {
     // Moods aligned to journey.paramRegions (intro + 24 books + outro).
     const prs = journey.paramRegions;
     this.moods = prs.map((r, i) => {
-      if (i === 0) return { ...STYLE_MOOD.riverlands, eye: 6, fov: 4 };      // intro: a touch lifted
-      if (i === prs.length - 1) return { ...STYLE_MOOD.hills, eye: 8, fov: 6 }; // outro: rising, open
-      const book = journey.regions[i - 1].book;
-      return { ...(STYLE_MOOD[book.terrain.style] || STYLE_MOOD.hills) };
+      if (i === 0) return { ...INTRO_MOOD };
+      if (i === prs.length - 1) return moodFromDir(DIRECTIONS.chronicles);
+      const dir = DIRECTIONS[journey.regions[i - 1].book.id];
+      return dir ? moodFromDir(dir) : { ...INTRO_MOOD };
     });
 
     // Resolve each moment to a world distance.
@@ -62,7 +67,7 @@ export class CameraDirector {
       if (!story) continue;
       this.moments.push({ def: m, sd: story.d });
     }
-    this._m = { eye: 0, fov: 0, look: 0, bob: 0, sway: 0, bank: 0 };
+    this._m = { eye: 0, fov: 0, look: 0, bob: 0, sway: 0, bank: 0, lateral: 0, orbit: 0 };
   }
 
   mood(d) {

@@ -199,6 +199,8 @@ body {
   left: 0;
   top: 0;
   width: min(384px, calc(100vw - 44px));
+  max-height: 82vh;
+  overflow: hidden;
   display: none;
   will-change: opacity;
   border-left: 1px solid color-mix(in srgb, var(--accent, #ffcf6b) 55%, transparent);

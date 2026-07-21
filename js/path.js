@@ -3,6 +3,7 @@
 // smoothly interpolated per-region visual parameters.
 import * as THREE from 'three';
 import { BOOKS } from './data.js';
+import { DIRECTIONS } from './direction.js';
 import { clamp, smoothstep, lerp, mulberry32 } from './utils.js';
 import { worldNoise } from './noise.js';
 
@@ -69,7 +70,7 @@ const BOOK_TERRAIN = {
   esther:       { vs: 40, ve: 260 },
   ecclesiastes: { amp: 14, vs: 46, ve: 300 },             // flat, pale, endless
 };
-const COLOR_KEYS = ['skyTop', 'skyHorizon', 'fog', 'sun', 'terrainLow', 'terrainHigh', 'accent'];
+const COLOR_KEYS = ['skyTop', 'skyHorizon', 'fog', 'sun', 'terrainLow', 'terrainHigh', 'accent', 'tint'];
 
 function paramsFromBook(book) {
   const st = STYLE[book.terrain.style] || STYLE.hills;
@@ -91,7 +92,9 @@ function paramsFromBook(book) {
   };
   const ov = BOOK_TERRAIN[book.id];
   if (ov) Object.assign(p, ov);
-  for (const k of COLOR_KEYS) p[k] = new THREE.Color(book.palette[k]);
+  for (const k of COLOR_KEYS) p[k] = new THREE.Color(book.palette[k] || book.palette.terrainLow);
+  const dir = DIRECTIONS[book.id];
+  p.tint = new THREE.Color(dir && dir.groundTint ? dir.groundTint : book.palette.terrainLow);
   return p;
 }
 
