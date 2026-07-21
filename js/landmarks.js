@@ -159,7 +159,7 @@ const BUILDERS = {
 // region id -> landmark spec
 const PLACEMENTS = [
   { book: 'exodus', type: 'pyramids', side: 1, u: 560, at: 0.15 },
-  { book: 'numbers', type: 'mesaField', side: 1, u: 40, at: 0.5 },
+  { book: 'numbers', type: 'mesaField', side: 1, u: 470, at: 0.5 },
   { book: 'joshua', type: 'holyCity', side: 1, u: 520, at: 0.7, opts: {} },
   { book: 'kings', type: 'holyCity', side: -1, u: 400, at: 0.2, opts: { gold: true } },
   { book: 'isaiah', type: 'snowRange', side: 1, u: 620, at: 0.5 },

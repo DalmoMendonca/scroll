@@ -742,33 +742,27 @@ const BUILDERS = {
   wall(ctx) {
     const g = new THREE.Group();
     const segs = [];
-    const mode =
-      ctx.book.id === 'joshua' && ctx.story ? 'fall' :
-      ctx.book.id === 'ezra-nehemiah' && ctx.story ? 'rebuild' :
-      ctx.book.id === 'daniel' && ctx.story ? 'writing' : 'broken';
+    const title = ctx.story ? ctx.story.data.title : '';
+    const mode = /Rahab/.test(title) ? 'rahab' : /Jericho/.test(title) ? 'fall' : 'stand';
 
-    if (mode === 'writing') {
-      const wallP = box(15, 8.5, 1.2, lam(0x3a3244)); wallP.position.y = 4.2; g.add(wallP);
-      const strokes = [];
-      for (let i = 0; i < 4; i++) {
-        const s = emissivePlane(1.1, 3.6, ctx.book.palette.accent, 1.5);
-        s.position.set(-4.8 + i * 3.2, 4.6, 0.75);
-        s.material.transparent = true; s.material.opacity = 0;
-        strokes.push(s); g.add(s);
+    if (mode === 'rahab') {
+      // a standing city wall with one lit window and a scarlet cord let down
+      const rng2 = ctx.rng;
+      for (let i = 0; i < 7; i++) {
+        const seg = box(11, 6.6, 1.8, i % 2 ? MAT.stone : MAT.stoneLight);
+        seg.position.set((i - 3) * 11.6, 3.3, (rng2() - 0.5) * 1.0);
+        seg.rotation.y = (rng2() - 0.5) * 0.1;
+        g.add(seg);
       }
-      const glow = makeSprite(0xc9b8ff, 14, 0); glow.position.set(0, 5, 2); g.add(glow);
+      const win = emissivePlane(1.6, 2.2, ctx.book.palette.accent, 1.1);
+      win.position.set(2, 4.6, 0.95); g.add(win);
+      const winGlow = makeSprite(0xffd98c, 5, 0.4); winGlow.position.set(2, 4.6, 1.4); g.add(winGlow);
+      const cord = box(0.22, 3.8, 0.22, new THREE.MeshBasicMaterial({ color: new THREE.Color(0xe8342a).multiplyScalar(1.3) }));
+      cord.position.set(2, 2.7, 1.05); g.add(cord);
+      const cordGlow = makeSprite(0xff3a2a, 3.4, 0.5); cordGlow.position.set(2, 2.7, 1.45); g.add(cordGlow);
       ctx.facePath = true;
-      ctx.focusH = 5;
-      return {
-        group: g,
-        update: (t, dt, camD) => {
-          const p = smoothstep(150, -10, ctx.placement.d - camD);
-          strokes.forEach((s, i) => {
-            s.material.opacity = clamp(p * 4 - i * 0.8, 0, 1) * (0.75 + 0.25 * Math.sin(t * 3 + i));
-          });
-          glow.material.opacity = p * 0.35;
-        },
-      };
+      ctx.focusH = 6;
+      return { group: g };
     }
 
     const rng = ctx.rng;
@@ -881,13 +875,16 @@ const BUILDERS = {
     const cols = [0xff6a5e, 0xffb36b, 0xffe98c, 0x8cd88a, 0x8aa8ff];
     cols.forEach((c, i) => {
       const arc = new THREE.Mesh(
-        new THREE.TorusGeometry(95 + i * 4.5, 1.9, 5, 40, Math.PI),
-        ghostMat(c, 0.16),
+        new THREE.TorusGeometry(120 + i * 5, 2.2, 5, 48, Math.PI),
+        ghostMat(c, 0.18),
       );
       g.add(arc);
     });
-    ctx.overrideU = -300 * Math.sign(ctx.placement.u || -1);
-    ctx.focusH = 60;
+    // Centred on the path and squared to the direction of travel, so the
+    // traveler approaches and passes beneath a full arch.
+    ctx.overrideU = 0;
+    ctx.alignToPath = true;
+    ctx.focusH = 80;
     return { group: g };
   },
 
@@ -1193,11 +1190,9 @@ const BUILDERS = {
   },
 };
 
-// ---- special set pieces bound to particular stories ------------------------
-const SPECIALS = [
-  { bookId: 'exodus', titleRe: /Night of the Lamb/i, builder: passoverDoors },
-  { bookId: 'kings', titleRe: /Whirlwind/i, builder: whirlwind },
-];
+// ---- story-bound set pieces, registered as regular props -------------------
+BUILDERS.passover = passoverDoors;
+BUILDERS.whirlwind = whirlwind;
 
 // Two doorframes alone on the plain, blood-marked, and the traveler passes
 // between them.
@@ -1318,17 +1313,6 @@ export function buildProps(scene) {
       if (!builder) continue;
       jobs.push({ region, pl, builder });
     }
-    // story-bound set pieces with no prop of their own
-    for (const sp of SPECIALS) {
-      if (region.book.id !== sp.bookId) continue;
-      const story = region.stories.find(s => sp.titleRe.test(s.data.title));
-      if (!story) continue;
-      jobs.push({
-        region,
-        pl: { type: 'special', note: '', d: story.d, side: story.side, u: story.side * 40, book: region.book, story },
-        builder: sp.builder,
-      });
-    }
   }
 
   for (const { region, pl, builder } of jobs) {
@@ -1385,7 +1369,11 @@ export function buildProps(scene) {
         if (Math.abs(u.d - camD) < u.range) u.fn(time, dt, camD);
       }
       for (const gt of gates) {
-        gt.g.visible = Math.abs(gt.d - camD) < 1500;
+        // Show a set piece only as its beat approaches and just past it, so
+        // the visual always matches the caption and nothing looms far out of
+        // sequence (delta > 0 = still ahead).
+        const delta = gt.d - camD;
+        gt.g.visible = delta < 760 && delta > -430;
       }
     },
   };

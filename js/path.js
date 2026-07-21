@@ -119,30 +119,18 @@ export class Journey {
         worldPos: null, // filled by props.js once terrain exists
       }));
 
-      // Story-owned props sit at their story; leftover book props scatter between.
+      // Every prop is owned by its story and sits AT that beat, so the visual
+      // always matches the caption (no free-floating set pieces out of sequence).
       const placements = [];
-      const claimed = new Set();
       const hasRiver = book.terrain.water === 'river';
       stories.forEach(s => {
         if (!s.data.prop) return;
-        const def = book.props.find(p => p.type === s.data.prop);
-        claimed.add(s.data.prop);
         // the river cut lives at u ∈ [~38, ~80]; keep right-side props past it
         const uMag = hasRiver && s.side > 0 ? 96 + rng() * 38 : 34 + rng() * 26;
         placements.push({
-          type: s.data.prop, note: def ? def.note : '',
+          type: s.data.prop, note: '',
           d: s.d, side: s.side, u: uMag * s.side,
           book, story: s,
-        });
-      });
-      const loose = book.props.filter(p => !claimed.has(p.type));
-      loose.forEach((p, i) => {
-        const side = (i % 2 === 0 ? -1 : 1) * startSide;
-        const fd = d + 200 + rng() * (len - 420);
-        placements.push({
-          type: p.type, note: p.note,
-          d: fd, side, u: (120 + rng() * 190) * side,
-          book, story: null,
         });
       });
 

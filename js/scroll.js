@@ -40,7 +40,7 @@ export class ScrollManager {
 
   update(dt) {
     if (this.drifting) {
-      const speed = window.innerHeight * 0.34; // px per second
+      const speed = window.innerHeight * 0.2; // px per second — contemplative pace
       window.scrollBy(0, speed * dt);
       const max = document.documentElement.scrollHeight - window.innerHeight - 2;
       if (window.scrollY >= max) this.stopDrift();

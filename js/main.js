@@ -87,7 +87,7 @@ const director = new CameraDirector();
 let joelD = null;
 {
   const twelve = journey.regions.find(r => r.book.id === 'the-twelve');
-  const joel = twelve && twelve.stories.find(s => /Locust/.test(s.data.title));
+  const joel = twelve && twelve.stories.find(s => /Joel promises/.test(s.data.title));
   if (joel) joelD = joel.d;
 }
 

@@ -226,7 +226,7 @@ function locusts(region, rng) {
 // ---- eyes in the dark ------------------------------------------------------
 function lionEyes(region, rng) {
   const isDen = region.book.id === 'daniel';
-  const story = isDen ? region.stories.find(s => /den/i.test(s.data.title)) : null;
+  const story = isDen ? region.stories.find(s => /lions/i.test(s.data.title)) : null;
   const d = story ? story.d : lerp(region.d0 + 200, region.d1 - 200, rng());
   const side = rng() > 0.5 ? 1 : -1;
   const group = new THREE.Group();
@@ -271,7 +271,7 @@ function lionEyes(region, rng) {
 
 // ---- the great fish --------------------------------------------------------
 function greatFish(region, rng) {
-  const story = region.stories.find(s => /deep|fish/i.test(s.data.title)) || region.stories[0];
+  const story = region.stories.find(s => /jonah|deep|fish/i.test(s.data.title)) || region.stories[0];
   const d = story.d;
   const u = -190;
   const waterY = waterLevelAt(d, 'sea');

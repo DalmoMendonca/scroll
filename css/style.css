@@ -198,33 +198,35 @@ body {
   position: fixed;
   left: 0;
   top: 0;
-  width: min(360px, calc(100vw - 48px));
+  width: min(384px, calc(100vw - 44px));
   display: none;
   will-change: opacity;
   border-left: 1px solid color-mix(in srgb, var(--accent, #ffcf6b) 55%, transparent);
-  padding: 0.9em 1.15em 1.05em 1.2em;
+  padding: 0.85em 1.1em 1em 1.15em;
   border-radius: 3px;
   background:
-    linear-gradient(105deg, rgba(6, 6, 14, 0.62), rgba(6, 6, 14, 0.30) 70%, rgba(6, 6, 14, 0) 100%);
+    linear-gradient(105deg, rgba(6, 6, 14, 0.66), rgba(6, 6, 14, 0.34) 72%, rgba(6, 6, 14, 0) 100%);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   transition: opacity 0.12s linear;
   z-index: 3;
 }
 .st-title {
-  font-size: 0.72rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-weight: 500;
+  line-height: 1.28;
   color: var(--accent, #ffcf6b);
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
-  margin-bottom: 0.7em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+  margin-bottom: 0.6em;
 }
 .st-verse {
-  font-size: 1.14rem;
-  line-height: 1.5;
-  margin: 0 0 0.55em;
+  font-size: 1.06rem;
+  line-height: 1.46;
+  margin: 0 0 0.5em;
   color: var(--ivory);
-  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.78), 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 .st-verse:last-of-type { margin-bottom: 0.3em; }
 .st-ref {
@@ -238,11 +240,11 @@ body {
 }
 .st-echo {
   font-style: italic;
-  font-size: 1.04rem;
-  line-height: 1.5;
+  font-size: 0.99rem;
+  line-height: 1.46;
   color: var(--accent, #ffcf6b);
-  margin-top: 0.85em;
-  padding-top: 0.75em;
+  margin-top: 0.8em;
+  padding-top: 0.7em;
   border-top: 1px solid color-mix(in srgb, var(--accent, #ffcf6b) 22%, transparent);
   letter-spacing: 0.02em;
   opacity: 0;

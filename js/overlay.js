@@ -137,7 +137,7 @@ export class Overlay {
         it.elem.style.transform = `translate(-50%, -50%) translateY(${ty.toFixed(2)}vh) scale(${(0.97 + q * 0.05).toFixed(3)})`;
       } else {
         const delta = it.s.d - d;
-        const vis = delta > -95 && delta < 290 && it.s.worldPos;
+        const vis = delta > -80 && delta < 260 && it.s.worldPos;
         this.setShown(it.elem, vis);
         if (!vis) { it.side = null; continue; }
         // Decide a stable side (left/right of screen) once, from where the
@@ -147,8 +147,8 @@ export class Overlay {
           _v.copy(it.s.worldPos).project(camera);
           it.side = _v.x <= 0 ? 'L' : 'R';
         }
-        const opIn = 1 - smoothstep(205, 270, delta);    // appear on approach
-        const opOut = smoothstep(-85, -40, delta);       // linger past the beat
+        const opIn = 1 - smoothstep(185, 245, delta);    // appear on approach
+        const opOut = smoothstep(-70, -35, delta);       // linger past the beat
         const opacity = clamp(opIn * opOut, 0, 1);
         const panelW = Math.min(360, W - 48);
         const left = it.side === 'L' ? Math.round(W * 0.055) : Math.round(W - panelW - W * 0.055);
