@@ -27,7 +27,7 @@ const BUILDERS = {
   pyramids(rng) {
     const g = new THREE.Group();
     const mat = lam(SAND);
-    const specs = [[70, 95, 0, 0], [52, 72, -150, 40], [40, 55, 120, -30]];
+    const specs = [[105, 145, 0, 0], [78, 108, -190, 50], [58, 82, 160, -40]];
     for (const [s, h, x, z] of specs) {
       const p = pyramid(s, h, mat);
       p.position.set(x, h / 2, z);
@@ -158,7 +158,7 @@ const BUILDERS = {
 
 // region id -> landmark spec
 const PLACEMENTS = [
-  { book: 'exodus', type: 'pyramids', side: 1, u: 560, at: 0.15 },
+  { book: 'exodus', type: 'pyramids', side: 1, u: 360, at: 0.15 },
   { book: 'numbers', type: 'mesaField', side: 1, u: 470, at: 0.5 },
   { book: 'joshua', type: 'holyCity', side: 1, u: 520, at: 0.7, opts: {} },
   { book: 'kings', type: 'holyCity', side: -1, u: 400, at: 0.2, opts: { gold: true } },

@@ -143,7 +143,8 @@ export class Overlay {
         // still long enough to read instead of drifting with the camera.
         if (it.side === null) {
           _v.copy(it.s.worldPos).project(camera);
-          it.side = _v.x <= 0 ? 'L' : 'R';
+          // pin the panel OPPOSITE the set piece so text never covers it
+          it.side = _v.x <= 0 ? 'R' : 'L';
         }
         const opIn = 1 - smoothstep(185, 245, delta);    // appear on approach
         const opOut = smoothstep(-70, -35, delta);       // linger past the beat

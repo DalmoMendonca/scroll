@@ -279,74 +279,133 @@ const BUILDERS = {
 
   ziggurat(ctx) {
     const g = new THREE.Group();
-    const tiers = 5;
+    // Babel towers over everything; other ziggurats are large but earthly.
+    const babel = ctx.book.id === 'genesis';
+    const tiers = babel ? 9 : 5;
+    const tierH = babel ? 12 : 4;
+    const baseW = babel ? 78 : 26;
+    const shrink = babel ? 7.4 : 4.6;
     for (let i = 0; i < tiers; i++) {
-      const w = 26 - i * 4.6;
-      const t = box(w, 4, w, i % 2 ? MAT.stoneDark : lam(0x7a5a48));
-      t.position.y = 2 + i * 4;
+      const w = baseW - i * shrink;
+      const t = box(w, tierH, w, i % 2 ? MAT.stoneDark : lam(0x7a5a48));
+      t.position.y = tierH / 2 + i * tierH;
       g.add(t);
     }
-    const ramp = box(4, 1.2, 16, MAT.stoneDark);
-    ramp.position.set(0, 4, 14); ramp.rotation.x = -0.5; g.add(ramp);
-    const shrine = box(4, 3, 4, lam(0x8a4a3a)); shrine.position.y = tiers * 4 + 1.5; g.add(shrine);
-    const ember = makeSprite(0xff8a4a, 4, 0.5); ember.position.y = tiers * 4 + 4; g.add(ember);
+    const top = tiers * tierH;
+    // a great spiralling ramp climbing the face
+    const rampN = babel ? tiers : 1;
+    for (let i = 0; i < rampN; i++) {
+      const w = baseW - i * shrink;
+      const ramp = box(babel ? 7 : 4, 1.4, babel ? w * 0.9 : 16, MAT.stoneDark);
+      ramp.position.set((i % 2 ? 1 : -1) * (babel ? 2 : 0), tierH / 2 + i * tierH + 1, (i % 2 ? 1 : -1) * w * 0.28);
+      ramp.rotation.x = -0.5; ramp.rotation.y = (i % 2) * Math.PI;
+      g.add(ramp);
+    }
+    const shrine = box(babel ? 12 : 4, babel ? 8 : 3, babel ? 12 : 4, lam(0x8a4a3a));
+    shrine.position.y = top + (babel ? 4 : 1.5); g.add(shrine);
+    const ember = makeSprite(0xff8a4a, babel ? 12 : 4, 0.5); ember.position.y = top + (babel ? 8 : 4); g.add(ember);
+    if (babel) {
+      // its top lost in cloud — "a tower whose top may reach unto heaven"
+      const clouds = [];
+      for (let i = 0; i < 5; i++) {
+        const c = makeSprite(0xb9a68e, 40 + i * 14, 0.2);
+        c.material.blending = THREE.NormalBlending;
+        c.position.set((i - 2) * 16, top - 6 + i * 8, 0);
+        clouds.push(c); g.add(c);
+      }
+      ctx.facePath = true;
+      ctx.focusH = 82;
+      return {
+        group: g,
+        update: (t) => {
+          clouds.forEach((c, i) => { c.position.x = (i - 2) * 16 + Math.sin(t * 0.15 + i) * 10; });
+        },
+      };
+    }
     ctx.focusH = 16;
     return { group: g };
   },
 
   city(ctx) {
     const g = new THREE.Group();
+    const rng = ctx.rng;
     const lonely = ctx.book.id === 'lamentations';
-    const lit = !lonely && (ctx.book.palette.stars > 0.2 || ctx.book.id === 'chronicles' ||
+    const burning = ctx.story && /Sodom falls/.test(ctx.story.data.title);
+    const ruin = lonely || burning;
+    const lit = !ruin && (ctx.book.palette.stars > 0.2 || ctx.book.id === 'chronicles' ||
       ['night', 'predawn', 'dusk', 'starryNight'].includes(ctx.book.palette.timeOfDay));
-    const n = 12 + Math.floor(ctx.rng() * 6);
-    const baseMat = lonely ? MAT.dark : (ctx.rng() > 0.5 ? MAT.stone : MAT.stoneLight);
+    const n = 16 + Math.floor(rng() * 8);
+    const baseMat = burning ? lam(0x241c18) : lonely ? MAT.dark : (rng() > 0.5 ? MAT.stone : MAT.stoneLight);
     const windows = [];
     const buildings = [];
     for (let i = 0; i < n; i++) {
-      const w = 3.5 + ctx.rng() * 5, h = 4 + ctx.rng() * (lonely ? 7 : 11), dd = 3.5 + ctx.rng() * 5;
+      // taller, wider footprints — a city reads as a city, not a hamlet
+      const w = 5 + rng() * 8, h = 7 + rng() * (ruin ? 12 : 20), dd = 5 + rng() * 8;
       const b = box(w, h, dd, baseMat);
-      const a = ctx.rng() * Math.PI * 2, rad = ctx.rng() * 34;
+      const a = rng() * Math.PI * 2, rad = rng() * 52;
       const ox = Math.cos(a) * rad, oz = Math.sin(a) * rad;
       b.position.set(ox, h / 2 - 0.6 + groundDelta(ctx, ox, oz), oz);
       g.add(b);
       buildings.push({ b, w, h, dd });
-      if (lonely && ctx.rng() > 0.55) { b.rotation.z = (ctx.rng() - 0.5) * 0.5; b.position.y -= h * 0.3; }
+      if (ruin && rng() > 0.5) { b.rotation.z = (rng() - 0.5) * 0.7; b.rotation.x = (rng() - 0.5) * 0.3; b.position.y -= h * 0.35; }
     }
-    // windows live on building faces so they read from outside
     const winMat = (bright) => new THREE.MeshBasicMaterial({
-      color: new THREE.Color(lonely ? 0xd1512e : 0xffd98c).multiplyScalar(bright),
-      side: THREE.DoubleSide,
+      color: new THREE.Color(0xffd98c).multiplyScalar(bright), side: THREE.DoubleSide,
     });
-    const nWin = lonely ? 1 : (lit ? 14 : 0);
+    const nWin = ruin ? 0 : (lit ? 20 : 0);
     for (let i = 0; i < nWin; i++) {
-      const bl = buildings[(ctx.rng() * buildings.length) | 0];
-      const win = plane(0.55, 0.8, winMat(1.25));
-      const face = lonely ? 2 : (ctx.rng() * 4) | 0; // 0:+x 1:-x 2:+z 3:-z
-      const ox = face === 0 ? bl.w / 2 + 0.06 : face === 1 ? -bl.w / 2 - 0.06 : (ctx.rng() - 0.5) * bl.w * 0.6;
-      const oz = face === 2 ? bl.dd / 2 + 0.06 : face === 3 ? -bl.dd / 2 - 0.06 : (ctx.rng() - 0.5) * bl.dd * 0.6;
-      win.position.set(bl.b.position.x + ox, bl.b.position.y - bl.h * 0.1 + ctx.rng() * bl.h * 0.4, bl.b.position.z + oz);
+      const bl = buildings[(rng() * buildings.length) | 0];
+      const win = plane(0.6, 0.9, winMat(1.25));
+      const face = (rng() * 4) | 0;
+      const ox = face === 0 ? bl.w / 2 + 0.06 : face === 1 ? -bl.w / 2 - 0.06 : (rng() - 0.5) * bl.w * 0.6;
+      const oz = face === 2 ? bl.dd / 2 + 0.06 : face === 3 ? -bl.dd / 2 - 0.06 : (rng() - 0.5) * bl.dd * 0.6;
+      win.position.set(bl.b.position.x + ox, bl.b.position.y - bl.h * 0.1 + rng() * bl.h * 0.4, bl.b.position.z + oz);
       if (face < 2) win.rotation.y = Math.PI / 2;
       windows.push(win); g.add(win);
-      if (lonely) {
-        const ember = makeSprite(0xd1512e, 5, 0.8);
-        ember.position.copy(win.position).z += 0.8;
-        g.add(ember);
-      }
     }
-    if (lit) { const halo = makeSprite(0xffce8a, 42, 0.13); halo.position.y = 12; g.add(halo); }
-    if (lonely) { const dying = makeSprite(0x8a2a1a, 60, 0.12); dying.position.y = 10; g.add(dying); }
-    if (lonely) ctx.facePath = true;
-    let update;
-    if (windows.length) {
-      update = (t) => {
-        windows.forEach((wsp, i) => {
-          wsp.material.color.multiplyScalar(1); // keep material hot
-          wsp.visible = Math.sin(t * 0.4 + i * 5.1) > -0.92;
-        });
+    if (lit) { const halo = makeSprite(0xffce8a, 52, 0.13); halo.position.y = 16; g.add(halo); }
+
+    const flames = [];
+    if (burning) {
+      // stylized fire and smoke pouring off the toppled city
+      for (let i = 0; i < 9; i++) {
+        const bl = buildings[(rng() * buildings.length) | 0];
+        const fl = flameGroup(ctx, 1.4 + rng() * 1.2, true);
+        fl.position.set(bl.b.position.x + (rng() - 0.5) * bl.w, bl.b.position.y + bl.h * 0.3, bl.b.position.z + (rng() - 0.5) * bl.dd);
+        flames.push(fl); g.add(fl);
+      }
+      const glow = makeSprite(0xff6a2a, 90, 0.4); glow.position.y = 14; g.add(glow);
+      const glow2 = makeSprite(0xffb35e, 46, 0.5); glow2.position.y = 8; g.add(glow2);
+      // a pillar of smoke rising over the plain, "as the smoke of a furnace"
+      const smokes = [];
+      for (let i = 0; i < 6; i++) {
+        const sm = makeSprite(0x2a221e, 28 + i * 10, 0.28);
+        sm.material.blending = THREE.NormalBlending;
+        smokes.push(sm); g.add(sm);
+      }
+      ctx.facePath = true;
+      ctx.focusH = 20;
+      return {
+        group: g,
+        update: (t) => {
+          flames.forEach(f => f.userData.update && f.userData.update(t));
+          smokes.forEach((s, i) => {
+            const q = ((t * 0.09 + i * 0.16) % 1);
+            s.position.set(6 + Math.sin(t * 0.3 + i) * 8, 18 + q * 70, -4);
+            s.material.opacity = 0.32 * (1 - q);
+            s.scale.setScalar(22 + q * 46);
+          });
+          glow.material.opacity = 0.35 + 0.12 * Math.sin(t * 4);
+        },
       };
     }
-    ctx.focusH = 10;
+
+    if (lonely) { const dying = makeSprite(0x8a2a1a, 70, 0.12); dying.position.y = 12; g.add(dying); ctx.facePath = true; }
+    ctx.focusH = 15;
+    let update;
+    if (windows.length) {
+      update = (t) => { windows.forEach((wsp, i) => { wsp.visible = Math.sin(t * 0.4 + i * 5.1) > -0.92; }); };
+    }
     return { group: g, update };
   },
 
@@ -424,14 +483,37 @@ const BUILDERS = {
         clouds.push(c); g.add(c);
       }
     }
-    if (clouds.length) {
+    // A patriarch's encampment — a cluster of tents round a fire, not a lone hut.
+    const camp = ctx.book.id === 'genesis' || ctx.book.id === 'samuel';
+    const embers = [];
+    if (camp) {
+      for (const [dx, dz, sc, rot] of [[-11, 5, 0.72, 0.6], [10, -6, 0.64, -0.9], [-8, -9, 0.6, 2.1]]) {
+        const t = new THREE.Group();
+        const b = box(9, 3.4, 5.5, MAT.cloth); b.position.y = 1.7; t.add(b);
+        const rl = plane(10, 4, MAT.clothDark); rl.rotation.set(-Math.PI / 2 + 0.75, 0, 0); rl.position.set(0, 4.6, -1.6); t.add(rl);
+        const rr = rl.clone(); rr.rotation.x = -Math.PI / 2 - 0.75; rr.position.z = 1.6; t.add(rr);
+        const dr = emissivePlane(1.6, 2.6, ctx.book.palette.accent, 0.8); dr.position.set(0, 1.4, 2.79); t.add(dr);
+        t.position.set(dx, 0, dz); t.rotation.y = rot; t.scale.setScalar(sc);
+        g.add(t);
+      }
+      // the camp fire
+      const fireGlow = makeSprite(0xffb35e, 8, 0.5); fireGlow.position.set(1, 1.4, 6); g.add(fireGlow);
+      for (let i = 0; i < 4; i++) { const e = makeSprite(0xffdf9e, 1.6, 0.8, true); embers.push(e); g.add(e); }
+      const pen = box(0.2, 0.9, 8, MAT.woodDark); pen.position.set(-14, 0.5, -2); g.add(pen); // a low fold wall
+    }
+    if (clouds.length || embers.length) {
       g.userData.update = (t) => {
         clouds.forEach((c, i) => { c.position.x = (i - 1) * 3.4 + Math.sin(t * 0.24 + i * 2) * 1.8; });
+        embers.forEach((e, i) => {
+          const q = ((t * 0.5 + i * 0.25) % 1);
+          e.position.set(1 + Math.sin(i * 3 + t * 2) * 0.8, 1.4 + q * 5, 6 + Math.cos(i) * 0.6);
+          e.material.opacity = 0.85 * (1 - q);
+        });
       };
     }
-    g.scale.setScalar(1.35);
+    g.scale.setScalar(camp ? 1.5 : 1.35);
     ctx.facePath = true;
-    ctx.focusH = 6;
+    ctx.focusH = camp ? 8 : 6;
     return { group: g, update: g.userData.update };
   },
 
@@ -490,15 +572,25 @@ const BUILDERS = {
     const glow = makeSprite(0xff9a4a, 30, 0.5); glow.position.y = 8; g.add(glow);
     const glowTop = makeSprite(0xffdf9e, 18, 0.35); glowTop.position.y = 56; g.add(glowTop);
 
-    let extra = null;
+    let sea = null;
     if (ctx.book.id === 'exodus' && ctx.story) {
-      extra = buildSeaWalls(ctx);
-      g.add(extra);
+      sea = buildSeaWalls(ctx);
+      g.add(sea.group);
     }
     ctx.focusH = 30;
     return {
       group: g,
-      update: (t) => { mat.uniforms.uTime.value = t; },
+      update: (t) => {
+        mat.uniforms.uTime.value = t;
+        if (sea) {
+          for (let i = 0; i < sea.fish.length; i++) {
+            const f = sea.fish[i];
+            f.position.y = f.userData.by + Math.sin(t * 0.5 + f.userData.ph) * 1.6;
+            f.rotation.z = Math.sin(t * 0.7 + f.userData.ph) * 0.15;
+          }
+          for (let i = 0; i < sea.floor.length; i++) sea.floor[i].material.opacity = 0.1 + 0.06 * Math.sin(t * 1.3 + i);
+        }
+      },
     };
   },
 
@@ -1194,6 +1286,50 @@ const BUILDERS = {
 BUILDERS.passover = passoverDoors;
 BUILDERS.whirlwind = whirlwind;
 
+// Jacob wrestling till daybreak — two figures locked at the Jabbok ford, the
+// stranger blazing with light, the moment the name Israel is given.
+BUILDERS.wrestle = function (ctx) {
+  const g = new THREE.Group();
+  const capsule = (r, h, mat) => new THREE.Mesh(new THREE.CapsuleGeometry(r, h, 4, 8), mat);
+  // Jacob — earthy, straining, leaning in
+  const jacob = capsule(0.9, 3.0, lam(0x5a4433));
+  jacob.position.set(-1.3, 2.6, 0); jacob.rotation.z = 0.42; g.add(jacob);
+  const jHead = blob(0.7, lam(0x6a5340)); jHead.position.set(-2.0, 4.3, 0); g.add(jHead);
+  // the stranger — radiant, immovable
+  const angel = capsule(1.0, 3.4, lam(0xe8d79a, { emissive: 0x8a7a3a, emissiveIntensity: 1.0 }));
+  angel.position.set(1.3, 2.9, 0); angel.rotation.z = -0.5; g.add(angel);
+  const aHead = blob(0.75, lam(0xf0e2ad, { emissive: 0x8a7a3a, emissiveIntensity: 0.9 }));
+  aHead.position.set(2.0, 4.7, 0); g.add(aHead);
+  // gripping arms between them
+  for (const [x, y, rot, mat] of [[-0.2, 3.4, 0.5, lam(0x5a4433)], [0.2, 3.7, -0.5, lam(0xe8d79a, { emissive: 0x8a7a3a, emissiveIntensity: 0.9 })]]) {
+    const arm = cyl(0.22, 0.26, 2.4, mat, 5); arm.position.set(x, y, 0.3); arm.rotation.z = rot; g.add(arm);
+  }
+  // the touched hip, out of joint
+  const hip = makeSprite(0xff8a5e, 3.2, 0.6); hip.position.set(-0.3, 2.2, 0.4); g.add(hip);
+  // a great radiant burst — daybreak breaking over the struggle
+  const burst = makeSprite(0xfff2c9, 22, 0.55); burst.position.set(0.4, 4.0, -1.5); g.add(burst);
+  const rays = [];
+  for (let i = 0; i < 8; i++) {
+    const ray = makeSprite(0xffe9b8, 1, 0.3);
+    ray.scale.set(2.4, 34, 1); ray.material.rotation = (i / 8) * Math.PI;
+    ray.position.set(0.4, 4.0, -1.6); rays.push(ray); g.add(ray);
+  }
+  const halo = makeSprite(0xffe0a0, 40, 0.18); halo.position.set(0.4, 4, -2); g.add(halo);
+  ctx.facePath = true;
+  ctx.focusH = 5;
+  return {
+    group: g,
+    update: (t) => {
+      const grip = Math.sin(t * 1.6) * 0.05;
+      jacob.rotation.z = 0.42 + grip; angel.rotation.z = -0.5 - grip;
+      g.rotation.y = Math.sin(t * 0.25) * 0.16;
+      burst.material.opacity = 0.5 + 0.18 * Math.sin(t * 2.3);
+      hip.material.opacity = 0.5 + 0.25 * Math.sin(t * 5);
+      rays.forEach((r, i) => { r.material.rotation = (i / 8) * Math.PI + t * 0.1; });
+    },
+  };
+};
+
 // Two doorframes alone on the plain, blood-marked, and the traveler passes
 // between them.
 function passoverDoors(ctx) {
@@ -1268,33 +1404,75 @@ function whirlwind(ctx) {
 function buildSeaWalls(ctx) {
   const g = new THREE.Group();
   const smp = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
-  const wallMat = new THREE.MeshLambertMaterial({
-    color: 0x0f3050, transparent: true, opacity: 0.86,
-    emissive: 0x0a3550, emissiveIntensity: 1.1, flatShading: true, side: THREE.DoubleSide,
+  // deep at the seabed, bright and foaming toward the crest
+  const mat = new THREE.MeshLambertMaterial({
+    vertexColors: true, transparent: true, opacity: 0.86,
+    emissive: 0x123a54, emissiveIntensity: 1.0, side: THREE.DoubleSide, flatShading: false,
   });
-  const foamMat = new THREE.MeshBasicMaterial({
-    color: 0xcfe8f0, transparent: true, opacity: 0.65,
-    blending: THREE.AdditiveBlending, depthWrite: false,
-  });
-  const d0 = ctx.placement.d - 55, len = 200, segs = 6;
-  for (let i = 0; i < segs; i++) {
-    const d = d0 + (i + 0.5) * (len / segs);
-    journey.sample(d, smp);
-    const yaw = Math.atan2(smp.tan.x, smp.tan.z);
-    for (const s of [-1, 1]) {
-      const seg = box(len / segs + 2, 24, 7, wallMat);
-      const u = s * 27;
-      seg.position.set(smp.pos.x + smp.lat.x * u, heightAt(d, u) + 11, smp.pos.z + smp.lat.z * u);
-      seg.rotation.y = yaw + Math.PI / 2;
-      g.add(seg);
-      const foam = box(len / segs + 2, 0.5, 7.4, foamMat);
-      foam.position.copy(seg.position); foam.position.y += 12.2;
-      foam.rotation.y = seg.rotation.y;
-      g.add(foam);
+  const DEEP = new THREE.Color(0x0a2740), MID = new THREE.Color(0x1f6a9a), CREST = new THREE.Color(0xbfe8f5);
+  const _c = new THREE.Color();
+  const H = 46, step = 8, U = 30;
+  const d0 = ctx.placement.d - 95, d1 = ctx.placement.d + 165;
+  const rows = Math.ceil((d1 - d0) / step) + 1;
+
+  for (const s of [-1, 1]) {
+    const positions = [], colors = [], normals = [], idx = [];
+    for (let r = 0; r < rows; r++) {
+      const d = d0 + r * step; journey.sample(d, smp);
+      const u = s * U;
+      const wobble = Math.sin(r * 0.6) * 1.4;
+      const bx = smp.pos.x + smp.lat.x * (u + wobble), bz = smp.pos.z + smp.lat.z * (u + wobble);
+      const by = heightAt(d, u) - 2;
+      positions.push(bx, by, bz, bx, by + H, bz);
+      _c.copy(DEEP); colors.push(_c.r, _c.g, _c.b);
+      _c.copy(MID).lerp(CREST, 0.5); colors.push(_c.r, _c.g, _c.b);
+      const nx = -s * smp.lat.x, nz = -s * smp.lat.z;
+      normals.push(nx, 0, nz, nx, 0, nz);
+    }
+    for (let r = 0; r < rows - 1; r++) { const a = r * 2; idx.push(a, a + 1, a + 2, a + 2, a + 1, a + 3); }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geo.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+    geo.setIndex(idx);
+    geo.computeBoundingSphere();
+    const wall = new THREE.Mesh(geo, mat);
+    wall.frustumCulled = false;
+    g.add(wall);
+    // foam crest ridge along the top
+    for (let r = 0; r < rows; r += 2) {
+      const d = d0 + r * step; journey.sample(d, smp);
+      const u = s * U;
+      const f = makeSprite(0xdff2ff, 7, 0.55);
+      f.position.set(smp.pos.x + smp.lat.x * u, heightAt(d, u) - 2 + H, smp.pos.z + smp.lat.z * u);
+      g.add(f);
     }
   }
+
+  // fish suspended in the standing water
+  const fish = [];
+  const fishMat = new THREE.MeshBasicMaterial({ color: 0x0a2a3a, transparent: true, opacity: 0.55 });
+  for (let i = 0; i < 10; i++) {
+    const d = d0 + (0.2 + 0.6 * (i / 10)) * (d1 - d0); journey.sample(d, smp);
+    const s = i % 2 ? 1 : -1, u = s * (U - 2);
+    const f = new THREE.Mesh(new THREE.OctahedronGeometry(1.4 + Math.random() * 0.8, 0), fishMat);
+    f.scale.set(2.4, 0.9, 0.7);
+    const by = heightAt(d, u) + 8 + Math.random() * 24;
+    f.position.set(smp.pos.x + smp.lat.x * u, by, smp.pos.z + smp.lat.z * u);
+    f.userData.by = by; f.userData.ph = Math.random() * 9;
+    fish.push(f); g.add(f);
+  }
+  // wet seabed glow on the road floor
+  const floor = [];
+  for (let i = 0; i < 5; i++) {
+    const d = d0 + (i + 0.5) / 5 * (d1 - d0); journey.sample(d, smp);
+    const fl = makeSprite(0x8fd0e8, 34, 0.14);
+    fl.position.set(smp.pos.x, heightAt(d, 0) + 0.4, smp.pos.z);
+    floor.push(fl); g.add(fl);
+  }
+
   g.userData.isWorldSpace = true;
-  return g;
+  return { group: g, mat, fish, floor };
 }
 
 // ---- placement manager -----------------------------------------------------

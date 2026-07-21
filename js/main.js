@@ -183,6 +183,8 @@ function frame(now) {
 
   // dramatic per-beat camera moves (descend, soar, shake, vista, ...)
   const fx = director.drama(d, time, camPos, lookPos, smp, prefersReducedMotion);
+  // turn to behold marquee set pieces (Babel, the pyramids, the parted sea...)
+  const beholdFov = director.behold(d, time, camPos, lookPos);
 
   const targetRoll = clamp(-journey.curvature(d) * 900, -0.055, 0.055) * mood.bank + fx.rollAdd;
   roll = damp(roll, targetRoll, 2.6, dt);
@@ -190,7 +192,7 @@ function frame(now) {
   camera.position.copy(camPos);
   camera.lookAt(lookPos);
 
-  const wantFov = baseFov + mood.fov + fx.fovAdd;
+  const wantFov = baseFov + mood.fov + fx.fovAdd + beholdFov;
   if (Math.abs(camera.fov - wantFov) > 0.02) { camera.fov = wantFov; camera.updateProjectionMatrix(); }
 
   // eclipse: sun darkened, moon to blood (Joel)

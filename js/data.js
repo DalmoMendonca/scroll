@@ -444,7 +444,7 @@ export const BOOKS = [
           "t": "For in Christ Jesus neither circumcision availeth any thing, nor uncircumcision, but a new creature. And as many as walk according to this rule, peace be on them, and mercy, and upon the Israel of God.",
           "ref": "Galatians 6:15–16"
         },
-        "prop": null,
+        "prop": "wrestle",
         "flare": false
       },
       {

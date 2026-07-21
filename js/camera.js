@@ -6,7 +6,19 @@
 import * as THREE from 'three';
 import { journey } from './path.js';
 import { DIRECTIONS } from './direction.js';
+import { heightAt } from './terrain.js';
 import { clamp, smoothstep } from './utils.js';
+
+// "Behold" moments: as a marquee set piece approaches, the camera stops glancing
+// and turns to admire it — dropping low to look up a tower, rising to take in a
+// vista, pushing in for a close, cinematic beat.
+const BEHOLD = [
+  { book: 'genesis', re: /Babel/,       kind: 'prop',     framing: 'tower',    range: 230, drop: 12 },
+  { book: 'genesis', re: /wrestles/,    kind: 'prop',     framing: 'closeup',  range: 150 },
+  { book: 'genesis', re: /Sodom falls/, kind: 'prop',     framing: 'wide',     range: 190 },
+  { book: 'exodus',  re: /oppressed and Moses/, kind: 'landmark', lu: 360, ls: 1, lfrac: 0.15, framing: 'wide', range: 300 },
+  { book: 'exodus',  re: /crosses the sea/,     kind: 'corridor', framing: 'corridor', range: 200 },
+];
 
 const MOOD_KEYS = ['eye', 'fov', 'look', 'bob', 'sway', 'bank', 'lateral', 'orbit'];
 
@@ -67,7 +79,64 @@ export class CameraDirector {
       if (!story) continue;
       this.moments.push({ def: m, sd: story.d });
     }
+    // Resolve behold targets (prop world positions / landmark points).
+    this.beholds = [];
+    const smp = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
+    for (const b of BEHOLD) {
+      const region = journey.regions.find(r => r.book.id === b.book);
+      if (!region) continue;
+      const story = region.stories.find(s => b.re.test(s.data.title));
+      if (!story) continue;
+      let target = null;
+      if (b.kind === 'landmark') {
+        const ld = region.d0 + region.len * b.lfrac;
+        journey.sample(ld, smp);
+        const u = b.lu * b.ls;
+        target = new THREE.Vector3(
+          smp.pos.x + smp.lat.x * u, heightAt(ld, u) + 60, smp.pos.z + smp.lat.z * u);
+      } else if (story.worldPos) {
+        target = story.worldPos.clone();
+      }
+      this.beholds.push({ def: b, sd: story.d, target });
+    }
+    this._target = new THREE.Vector3();
     this._m = { eye: 0, fov: 0, look: 0, bob: 0, sway: 0, bank: 0, lateral: 0, orbit: 0 };
+  }
+
+  // Turn to admire marquee set pieces. Mutates camPos/lookPos; returns fovAdd.
+  behold(d, time, camPos, lookPos) {
+    let fovAdd = 0;
+    for (const { def, sd, target } of this.beholds) {
+      if (!target) continue;
+      // wide as we approach, then fade fast once passed — never look backward
+      const delta = d - sd;
+      const sigma = delta < 0 ? def.range : def.range * 0.3;
+      const b = Math.exp(-0.5 * (delta / sigma) * (delta / sigma));
+      if (b < 0.01) continue;
+      const t = this._target.copy(target);
+      switch (def.framing) {
+        case 'tower':                       // drop low, tilt up the full height
+          camPos.y -= (def.drop || 10) * b;
+          lookPos.lerp(t, 0.72 * b);
+          fovAdd += 8 * b;
+          break;
+        case 'closeup':                     // push in, hold the beat
+          lookPos.lerp(t, 0.62 * b);
+          camPos.y += 3 * b;
+          fovAdd -= 9 * b;
+          break;
+        case 'wide':                        // rise and take it in
+          camPos.y += 9 * b;
+          lookPos.lerp(t, 0.5 * b);
+          fovAdd += 7 * b;
+          break;
+        case 'corridor':                    // center the gaze straight down it
+          lookPos.lerp(t, 0.42 * b);
+          fovAdd -= 5 * b;
+          break;
+      }
+    }
+    return fovAdd;
   }
 
   mood(d) {
