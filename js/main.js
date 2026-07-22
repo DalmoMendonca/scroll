@@ -13,6 +13,7 @@ import { Atmosphere } from './fx.js';
 import { Overlay } from './overlay.js';
 import { ScrollManager } from './scroll.js';
 import { CameraDirector } from './camera.js';
+import { Post } from './post.js';
 import { clamp, lerp, smoothstep, gauss, damp, makeSprite, prefersReducedMotion } from './utils.js';
 
 const canvas = document.getElementById('world');
@@ -86,6 +87,32 @@ for (const r of journey.regions) {
 const scroll = new ScrollManager();
 const overlay = new Overlay(document.getElementById('overlay'), scroll);
 const director = new CameraDirector();
+const post = new Post(renderer, scene, camera);
+
+// Beats that flare with divine radiance get a bloom boost.
+const BLOOM_BEATS = [
+  ['genesis', /Creation begins/, 0.7], ['genesis', /binding|Ram/, 0.4],
+  ['exodus', /burning bush/, 0.6], ['exodus', /crosses the sea/, 0.5],
+  ['exodus', /Ten Words/, 0.5], ['exodus', /tabernacle is filled with glory/, 0.95],
+  ['numbers', /bronze serpent/, 0.4], ['numbers', /star from Jacob/, 0.6],
+  ['kings', /Baal on Carmel/, 0.75], ['kings', /Solomon builds and dedicates/, 0.5],
+  ['isaiah', /sees YHWH enthroned/, 0.55], ['isaiah', /new heavens/, 0.75],
+  ['the-twelve', /Joel promises the Spirit/, 0.5],
+  ['psalms', /priest-king/, 0.5], ['daniel', /son of man/, 0.6],
+  ['ezekiel', /divine chariot/, 0.6], ['chronicles', /Cyrus/, 0.5],
+];
+const bloomBeats = [];
+for (const [book, re, boost] of BLOOM_BEATS) {
+  const region = journey.regions.find(r => r.book.id === book);
+  const story = region && region.stories.find(s => re.test(s.data.title));
+  if (story) bloomBeats.push({ d: story.d, boost });
+}
+const ecclRegion = journey.regions.find(r => r.book.id === 'ecclesiastes');
+const songRegion = journey.regions.find(r => r.book.id === 'song-of-songs');
+function bandW(region, d) {
+  return smoothstep(region.d0 - 40, region.d0 + 140, d) * (1 - smoothstep(region.d1 - 140, region.d1 + 40, d));
+}
+const postTarget = {};
 
 // Joel's "sun to darkness, moon to blood" — the eclipse beat.
 let joelD = null;
@@ -247,7 +274,29 @@ function frame(now) {
   creatures.update(d, time);
   overlay.update(d, camera, window.innerWidth, window.innerHeight);
 
-  renderer.render(scene, camera);
+  // ---- post-processing targets ----
+  let bloomBoost = 0;
+  for (const bb of bloomBeats) bloomBoost = Math.max(bloomBoost, bb.boost * gauss(d - bb.d, 130));
+  const ecclW = bandW(ecclRegion, d);
+  const songW = bandW(songRegion, d);
+  postTarget.bloom = 0.3 + bloomBoost + eclipse * 0.12;
+  postTarget.sat = lerp(1, 0.42, ecclW);
+  postTarget.grain = ecclW * 0.11;
+  postTarget.vignette = 0.16 + ecclW * 0.2 + songW * 0.1;
+  postTarget.contrast = lerp(1, 0.94, ecclW);
+  postTarget.bright = 1;
+  postTarget.tint = '#ccd4d8';
+  postTarget.tintAmt = ecclW * 0.12;
+  postTarget.blur = songW * 0.014;
+  postTarget.focus = 42;
+  if (songW > 0.05 && region) {
+    let best = null, bw = 0;
+    for (const s of region.stories) { if (!s.worldPos) continue; const w = gauss(s.d - d, 120); if (w > bw) { bw = w; best = s; } }
+    if (best) postTarget.focus = camPos.distanceTo(best.worldPos);
+  }
+  post.update(dt, time, postTarget);
+
+  post.render();
 
   if (firstFrame) {
     firstFrame = false;
@@ -263,6 +312,7 @@ function frame(now) {
   if (++frameCount % 150 === 0 && emaFrame > 27 && dprLevel > 1) {
     dprLevel = Math.max(1, dprLevel - 0.25);
     renderer.setPixelRatio(dprLevel);
+    post.setSize(window.innerWidth, window.innerHeight, dprLevel);
     emaFrame = 16;
   }
 }
@@ -274,6 +324,7 @@ function onResize() {
   camera.fov = baseFov;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  post.setSize(window.innerWidth, window.innerHeight, dprLevel);
 }
 window.addEventListener('resize', onResize);
 onResize();
