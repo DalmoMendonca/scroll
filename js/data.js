@@ -825,7 +825,7 @@ export const BOOKS = [
           "t": "And there shall be no more curse: but the throne of God and of the Lamb shall be in it; and his servants shall serve him: And they shall see his face; and his name shall be in their foreheads.",
           "ref": "Revelation 22:3–4"
         },
-        "prop": null,
+        "prop": "sapphire",
         "flare": false
       },
       {
@@ -2681,7 +2681,7 @@ export const BOOKS = [
           "t": "And I saw a new heaven and a new earth: for the first heaven and the first earth were passed away; and there was no more sea. And I John saw the holy city, new Jerusalem, coming down from God out of heaven, prepared as a bride adorned for her husband.",
           "ref": "Revelation 21:1–2"
         },
-        "prop": null,
+        "prop": "crystal",
         "flare": false
       }
     ]

@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { journey } from './path.js';
 import { heightAt, waterLevelAt } from './terrain.js';
 import { mulberry32, makeSprite, clamp, lerp, smoothstep, gauss } from './utils.js';
+import { Reflector } from '../vendor/jsm/objects/Reflector.js';
 
 // ---- shared materials / geometry helpers -----------------------------------
 function lam(color, opts = {}) {
@@ -1598,6 +1599,143 @@ BUILDERS.wrestle = function (ctx) {
       burst.material.opacity = 0.5 + 0.18 * Math.sin(t * 2.3);
       hip.material.opacity = 0.5 + 0.25 * Math.sin(t * 5);
       rays.forEach((r, i) => { r.material.rotation = (i / 8) * Math.PI + t * 0.1; });
+    },
+  };
+};
+
+// A cached equirectangular "sky" environment: bright zenith, pale blue band,
+// warm horizon. Gives glass and crystal something luminous to reflect/refract.
+let _skyEnv = null;
+function skyEnvMap() {
+  if (_skyEnv) return _skyEnv;
+  const w = 512, h = 256;
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+  const c = cv.getContext('2d');
+  const grd = c.createLinearGradient(0, 0, 0, h);
+  grd.addColorStop(0.0, '#f6fbff');
+  grd.addColorStop(0.42, '#bcd6f4');
+  grd.addColorStop(0.62, '#e7d9c6');
+  grd.addColorStop(0.7, '#f4e8d4');
+  grd.addColorStop(1.0, '#5a4636');
+  c.fillStyle = grd; c.fillRect(0, 0, w, h);
+  // a soft sun on the horizon
+  const sun = c.createRadialGradient(w * 0.5, h * 0.6, 4, w * 0.5, h * 0.6, 70);
+  sun.addColorStop(0, 'rgba(255,250,235,0.95)'); sun.addColorStop(1, 'rgba(255,250,235,0)');
+  c.fillStyle = sun; c.fillRect(0, 0, w, h);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  _skyEnv = tex;
+  return tex;
+}
+
+// "Under his feet as it were a paved work of a sapphire stone, and as it were
+// the body of heaven in his clearness." A true planar mirror (Reflector) laid on
+// a raised dais reflects the glory and the heavens back to the elders. At the
+// camera's grazing angle the sapphire floor catches the whole sky.
+BUILDERS.sapphire = function (ctx) {
+  const g = new THREE.Group();
+  const W = 150, D = 360;
+  // a low polished plinth so the mirror stands clear of the rolling ground
+  const plinth = box(W + 16, 6, D + 16, MAT.stoneDark); plinth.position.y = -1.2; g.add(plinth);
+  const mirror = new Reflector(new THREE.PlaneGeometry(W, D), {
+    color: 0x8399c8, textureWidth: 1024, textureHeight: 1024, clipBias: 0.003,
+  });
+  mirror.rotation.x = -Math.PI / 2;
+  mirror.position.y = 2.05;
+  g.add(mirror);
+  // a sapphire wash so the stone reads deep blue even where reflection is dim
+  const tint = new THREE.Mesh(new THREE.PlaneGeometry(W, D),
+    new THREE.MeshBasicMaterial({ color: 0x2246a0, transparent: true, opacity: 0.30, depthWrite: false, blending: THREE.AdditiveBlending }));
+  tint.rotation.x = -Math.PI / 2; tint.position.y = 2.1; g.add(tint);
+  // pale pavement border framing the sapphire floor
+  for (const s of [-1, 1]) {
+    const kerb = box(7, 2.2, D + 16, MAT.stoneLight); kerb.position.set(s * (W / 2 + 4), 2.0, 0); g.add(kerb);
+  }
+  // the glory hovering ahead over the pavement — the radiance the floor mirrors
+  const glory = new THREE.Group(); glory.position.set(0, 52, 40);
+  const core = makeSprite(0xf3f6ff, 66, 0.5); glory.add(core);
+  const halo = makeSprite(0x9fc0ff, 150, 0.16); glory.add(halo);
+  const sapphireDisc = new THREE.Mesh(new THREE.CircleGeometry(22, 40),
+    new THREE.MeshBasicMaterial({ color: 0x9cc0ff, transparent: true, opacity: 0.6, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }));
+  sapphireDisc.lookAt(0, 0, -1); glory.add(sapphireDisc);
+  const rays = [];
+  for (let i = 0; i < 10; i++) {
+    const ray = makeSprite(0xdce8ff, 1, 0.26); ray.scale.set(5, 110, 1);
+    ray.material.rotation = (i / 10) * Math.PI; glory.add(ray); rays.push(ray);
+  }
+  g.add(glory);
+  // elders standing along the edges, small and dark against the light
+  const rngE = ctx.rng;
+  for (let i = 0; i < 24; i++) {
+    const side = i % 2 ? 1 : -1;
+    const fig = box(0.8, 3.2 + rngE() * 0.6, 0.8, MAT.dark);
+    fig.position.set(side * (W / 2 - 3 - rngE() * 5), 3.6, -D / 2 + 14 + rngE() * (D - 28));
+    g.add(fig);
+  }
+  ctx.alignToPath = true; ctx.overrideU = 0; ctx.focusH = 16;
+  return {
+    group: g,
+    update: (t) => {
+      core.material.opacity = 0.44 + 0.1 * Math.sin(t * 1.1);
+      sapphireDisc.material.opacity = 0.5 + 0.15 * Math.sin(t * 0.8 + 1);
+      glory.rotation.y = t * 0.05;
+      rays.forEach((r, i) => { r.material.rotation = (i / 10) * Math.PI + t * 0.06; });
+    },
+  };
+};
+
+// "Behold, I create new heavens and a new earth." An avenue of crystal — faceted
+// spires of physically-based transmission glass that refract the mountains and
+// sky behind them and reflect the heavens from a sky env-map, so the whole city
+// glitters. The path threads down the middle.
+BUILDERS.crystal = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  const env = skyEnvMap();
+  const glass = new THREE.MeshPhysicalMaterial({
+    transmission: 0.92, thickness: 6, roughness: 0.04, metalness: 0.0,
+    ior: 1.5, dispersion: 2.6, iridescence: 0.8, iridescenceIOR: 1.3,
+    attenuationColor: new THREE.Color(0xbfe0ff), attenuationDistance: 90,
+    specularIntensity: 1.0, clearcoat: 0.7, clearcoatRoughness: 0.08,
+    envMap: env, envMapIntensity: 1.6,
+    emissive: new THREE.Color(0x2a5a9c), emissiveIntensity: 0.22,
+    color: 0xffffff, transparent: true, opacity: 0.9, side: THREE.FrontSide,
+  });
+  const spires = [];
+  const bases = [];
+  // an avenue: spires line both sides, a clear corridor down the centre
+  const layout = [
+    [-22, -60, 78, 9], [24, -30, 66, 8], [-26, 0, 90, 10], [28, 34, 58, 7],
+    [-24, 60, 70, 8], [22, 96, 50, 6], [-30, -110, 54, 7], [30, -150, 46, 6],
+  ];
+  for (const [x, z, h, r] of layout) {
+    const seg = 5 + Math.floor(rng() * 2);
+    // a faceted spire: tall prism capped by a pyramid
+    const spire = new THREE.Group();
+    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.72, r, h * 0.68, seg), glass);
+    shaft.position.y = h * 0.34; spire.add(shaft);
+    const cap = new THREE.Mesh(new THREE.ConeGeometry(r * 0.72, h * 0.4, seg), glass);
+    cap.position.y = h * 0.68 + h * 0.2; spire.add(cap);
+    spire.position.set(x, 0, z);
+    spire.rotation.y = rng() * Math.PI;
+    g.add(spire); spires.push({ s: spire, h });
+    // inner ember so each spire glows from within
+    const ember = makeSprite(0xcfe8ff, r * 1.5, 0.5);
+    ember.position.set(x, h * 0.5, z); g.add(ember); bases.push(ember);
+  }
+  // a jasper-pale foundation avenue underfoot
+  const road = box(30, 1.6, 320, MAT.stoneLight); road.position.set(0, 0.4, -10); g.add(road);
+  // radiance crowning the whole city — "the glory of God did lighten it"
+  const crown = makeSprite(0xeaf3ff, 90, 0.2); crown.position.set(0, 96, 0); g.add(crown);
+  ctx.alignToPath = true; ctx.overrideU = 0; ctx.focusH = 40;
+  return {
+    group: g,
+    update: (t) => {
+      for (let i = 0; i < spires.length; i++) {
+        spires[i].s.rotation.y += 0.0012 * (i % 2 ? 1 : -1);
+        bases[i].material.opacity = 0.4 + 0.14 * Math.sin(t * 0.7 + i);
+      }
     },
   };
 };
