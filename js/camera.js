@@ -14,6 +14,7 @@ import { clamp, smoothstep } from './utils.js';
 // vista, pushing in for a close, cinematic beat.
 const BEHOLD = [
   { book: 'genesis', re: /Babel/,       kind: 'prop',     framing: 'tower',    range: 230, drop: 12 },
+  { book: 'daniel',  re: /stone kingdom/, kind: 'prop',   framing: 'tower',    range: 210, drop: 10 },
   { book: 'genesis', re: /wrestles/,    kind: 'prop',     framing: 'closeup',  range: 150 },
   { book: 'genesis', re: /Sodom falls/, kind: 'prop',     framing: 'wide',     range: 190 },
   { book: 'exodus',  re: /oppressed and Moses/, kind: 'landmark', lu: 360, ls: 1, lfrac: 0.15, framing: 'wide', range: 300 },

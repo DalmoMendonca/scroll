@@ -1339,6 +1339,123 @@ const BUILDERS = {
 BUILDERS.passover = passoverDoors;
 BUILDERS.whirlwind = whirlwind;
 
+// A glowing plane of Hebrew type drawn to a canvas (using the loaded Frank Ruhl
+// Libre webfont) — crisp scripture that can float in 3D space.
+function hebrewPlane(text, worldW, colorHex) {
+  const cw = 1024, ch = 256;
+  const cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  const draw = () => {
+    const c = cv.getContext('2d');
+    c.clearRect(0, 0, cw, ch);
+    c.fillStyle = '#fff';
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.font = "500 168px 'Frank Ruhl Libre', 'Times New Roman', serif";
+    c.shadowColor = colorHex; c.shadowBlur = 30;
+    c.fillText(text, cw / 2, ch / 2 + 8);
+    c.fillText(text, cw / 2, ch / 2 + 8);
+    tex.needsUpdate = true;
+  };
+  draw();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(worldW, worldW * ch / cw), mat);
+  return m;
+}
+
+// Ezra opens the book and the words of the Torah rise, lifted up over the people.
+BUILDERS.wordsrising = function (ctx) {
+  const g = new THREE.Group();
+  // a pulpit of wood
+  const base = box(6, 4, 4, MAT.wood); base.position.y = 2; g.add(base);
+  const bookL = plane(3.4, 2.4, MAT.cloth); bookL.rotation.set(-1.15, 0, 0.05); bookL.position.set(-1.7, 4.5, 0.2); g.add(bookL);
+  const bookR = plane(3.4, 2.4, MAT.cloth); bookR.rotation.set(-1.15, 0, -0.05); bookR.position.set(1.7, 4.5, 0.2); g.add(bookR);
+  const glow = makeSprite(ctx.book.palette.accent, 10, 0.4); glow.position.set(0, 6, 0); g.add(glow);
+  // rising Hebrew words
+  const WORDS = ['תּוֹרָה', 'בְּרֵאשִׁית', 'שְׁמַע', 'דָּבָר', 'אָמֵן'];
+  const words = [];
+  for (let i = 0; i < WORDS.length; i++) {
+    const w = hebrewPlane(WORDS[i], 15, ctx.book.palette.accent);
+    words.push({ m: w, ph: i * 1.3, x: (i % 2 ? 1 : -1) * (2 + Math.random() * 1.5) });
+    g.add(w);
+  }
+  ctx.facePath = true;
+  ctx.focusH = 12;
+  return {
+    group: g,
+    update: (t) => {
+      for (const wd of words) {
+        const q = ((t * 0.16 + wd.ph) % 1);
+        wd.m.position.set(wd.x + Math.sin(t * 0.5 + wd.ph) * 0.6, 6 + q * 20, 1);
+        wd.m.material.opacity = Math.sin(q * Math.PI) * 0.95;
+      }
+    },
+  };
+};
+
+// The colossus of empires (gold head to feet of clay) pre-fractured into shards
+// that fly on ballistic arcs as the stone strikes and grows into a mountain.
+BUILDERS.shatter = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  const SECTIONS = [
+    [0, 9, 8, 0x8a7f6a],    // feet — iron mixed with clay
+    [9, 27, 6.5, 0x565b62], // legs — iron
+    [27, 41, 8.5, 0xa9743a],// belly & thighs — bronze
+    [41, 57, 9.5, 0xc9cdd6],// chest & arms — silver
+    [57, 70, 6.5, 0xcaa54a],// head — gold
+  ];
+  const shards = [];
+  for (const [y0, y1, r, col] of SECTIONS) {
+    const mat = lam(col, { emissive: new THREE.Color(col).multiplyScalar(0.12), emissiveIntensity: 1 });
+    const n = Math.round((y1 - y0) * 1.4);
+    for (let i = 0; i < n; i++) {
+      const sz = 2.2 + rng() * 3.2;
+      const b = box(sz, sz * (0.7 + rng() * 0.6), sz, mat);
+      const a = rng() * Math.PI * 2, rr = rng() * r;
+      const rest = new THREE.Vector3(Math.cos(a) * rr, y0 + rng() * (y1 - y0), Math.sin(a) * rr);
+      b.position.copy(rest);
+      const restRot = new THREE.Euler(rng() * 0.4, rng() * Math.PI, rng() * 0.4);
+      b.rotation.copy(restRot);
+      g.add(b);
+      const out = rest.clone().setY(0).normalize();
+      shards.push({
+        mesh: b, rest, restRot,
+        vel: new THREE.Vector3(out.x * (6 + rng() * 10), 6 + rng() * 12, out.z * (6 + rng() * 10)),
+        ang: new THREE.Vector3((rng() - 0.5) * 4, (rng() - 0.5) * 4, (rng() - 0.5) * 4),
+        delay: (rest.y / 70) * 0.5,   // feet shatter first
+      });
+    }
+  }
+  // the stone cut without hands
+  const stone = blob(4.5, lam(0x6e6e78), 1); stone.position.set(0, 4, 34); g.add(stone);
+  const dust = makeSprite(0xbfb6a8, 30, 0); dust.position.set(0, 6, 0); g.add(dust);
+  ctx.facePath = true;
+  ctx.focusH = 44;
+  return {
+    group: g,
+    update: (t, dt, camD) => {
+      const delta = ctx.placement.d - camD;           // approaching when > 0
+      const stoneT = smoothstep(140, 26, delta);        // stone flies to the feet
+      stone.position.set(0, 4 + stoneT * 2, 34 - stoneT * 30);
+      const grow = 1 + smoothstep(24, -70, delta) * 9;  // then becomes a great mountain
+      stone.scale.setScalar(grow);
+      const sp = smoothstep(46, -34, delta);            // shatter progress 0→1
+      dust.material.opacity = 0.5 * Math.sin(clamp(sp, 0, 1) * Math.PI);
+      for (const s of shards) {
+        const st = clamp((sp - s.delay) / Math.max(0.05, 1 - s.delay), 0, 1);
+        const tt = st * 2.6;
+        s.mesh.position.set(
+          s.rest.x + s.vel.x * tt,
+          Math.max(0.5, s.rest.y + s.vel.y * tt - 5.0 * tt * tt),
+          s.rest.z + s.vel.z * tt);
+        s.mesh.rotation.set(s.restRot.x + s.ang.x * tt, s.restRot.y + s.ang.y * tt, s.restRot.z + s.ang.z * tt);
+      }
+    },
+  };
+};
+
 // Jacob wrestling till daybreak — two figures locked at the Jabbok ford, the
 // stranger blazing with light, the moment the name Israel is given.
 BUILDERS.wrestle = function (ctx) {

@@ -3691,7 +3691,7 @@ export const BOOKS = [
           "t": "And he beheld them, and said, What is this then that is written, The stone which the builders rejected, the same is become the head of the corner? Whosoever shall fall upon that stone shall be broken; but on whomsoever it shall fall, it will grind him to powder.",
           "ref": "Luke 20:17–18"
         },
-        "prop": "stones",
+        "prop": "shatter",
         "flare": false
       },
       {
@@ -3801,7 +3801,7 @@ export const BOOKS = [
           "t": "And he came to Nazareth, where he had been brought up: and, as his custom was, he went into the synagogue on the sabbath day, and stood up for to read. And there was delivered unto him the book of the prophet Esaias.",
           "ref": "Luke 4:16–17"
         },
-        "prop": "tablets",
+        "prop": "wordsrising",
         "flare": false
       }
     ]
