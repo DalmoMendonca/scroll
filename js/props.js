@@ -159,6 +159,46 @@ function columnMesh(r, h, mat) {
   return m;
 }
 
+// Volumetric clouds: the fragment shader raymarches an fBm density field into
+// the plane, self-shadowing toward the light, so the cloud has real depth.
+function volumetricCloudMaterial(tint) {
+  return new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 }, uLight: { value: new THREE.Vector3(0.5, 0.6, 0.3).normalize() },
+      uTint: { value: new THREE.Color(tint) }, uScale: { value: 1 },
+    },
+    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+    fragmentShader: `
+      varying vec2 vUv; uniform float uTime,uScale; uniform vec3 uLight,uTint;
+      float hash(vec3 p){ p=fract(p*0.3183099+0.1); p*=17.0; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
+      float vnoise(vec3 x){ vec3 i=floor(x),f=fract(x); f=f*f*(3.0-2.0*f);
+        return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
+                   mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z); }
+      float fbm(vec3 p){ float s=0.0,a=0.5; for(int i=0;i<5;i++){ s+=a*vnoise(p); p*=2.03; a*=0.5; } return s; }
+      void main(){
+        vec3 p = vec3((vUv-0.5)*6.0*uScale, uTime*0.04);
+        float trans=1.0; vec3 col=vec3(0.0);
+        for(int i=0;i<28;i++){
+          float d = fbm(p) - 0.52;
+          if(d>0.0){
+            float ls = fbm(p + uLight*0.4) - 0.52;
+            float lit = exp(-max(ls,0.0)*4.0);
+            vec3 c = mix(vec3(0.34,0.40,0.52), mix(vec3(1.0),uTint,0.4), lit);
+            float a = clamp(d*0.9,0.0,1.0)*0.16;
+            col += c*a*trans; trans *= 1.0-a;
+          }
+          p += vec3(0.0,0.0,0.07) + uLight*0.03;
+          if(trans<0.02) break;
+        }
+        float edge = smoothstep(0.0,0.28,vUv.x)*smoothstep(1.0,0.72,vUv.x)*smoothstep(0.0,0.34,vUv.y)*smoothstep(1.0,0.7,vUv.y);
+        gl_FragColor = vec4(col, (1.0-trans)*edge);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  });
+}
+
 // ---- builders --------------------------------------------------------------
 const BUILDERS = {
 
@@ -1214,6 +1254,18 @@ const BUILDERS = {
         s.material.blending = THREE.NormalBlending;
         smokes.push(s); g.add(s);
       }
+      // "coming with the clouds of heaven" — real raymarched volumetric clouds
+      const cloudMats = [];
+      if (id === 'daniel') {
+        for (let i = 0; i < 3; i++) {
+          const cm = volumetricCloudMaterial(0xd8e2ff);
+          cm.uniforms.uScale.value = 1 + i * 0.4;
+          const plane = new THREE.Mesh(new THREE.PlaneGeometry(420, 200), cm);
+          plane.position.set((i - 1) * 60, -30 - i * 14, -20 - i * 40);
+          plane.renderOrder = 1;
+          cloudMats.push(cm); g.add(plane);
+        }
+      }
       ctx.skyHeight = 210;
       ctx.overrideU = (ctx.placement.u < 0 ? -1 : 1) * 440;
       ctx.focusH = 0;
@@ -1223,6 +1275,7 @@ const BUILDERS = {
           smokes.forEach((s, i) => {
             s.position.set(Math.sin(t * 0.1 + i * 2.2) * 30, -26 - i * 12 + Math.sin(t * 0.16 + i) * 6, 10);
           });
+          cloudMats.forEach(cm => { cm.uniforms.uTime.value = t; });
         },
       };
     }

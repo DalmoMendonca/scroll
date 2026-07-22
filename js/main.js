@@ -14,6 +14,8 @@ import { Overlay } from './overlay.js';
 import { ScrollManager } from './scroll.js';
 import { CameraDirector } from './camera.js';
 import { Post } from './post.js';
+import { GPUFlow } from './gpuflow.js';
+import { GPUFlock } from './gpuflock.js';
 import { clamp, lerp, smoothstep, gauss, damp, makeSprite, prefersReducedMotion } from './utils.js';
 
 const canvas = document.getElementById('world');
@@ -120,6 +122,30 @@ let joelD = null;
   const twelve = journey.regions.find(r => r.book.id === 'the-twelve');
   const joel = twelve && twelve.stories.find(s => /Joel promises/.test(s.data.title));
   if (joel) joelD = joel.d;
+}
+
+// Feature 5: the Spirit poured out (Joel) as a GPGPU curl-noise flow field.
+let spiritFlow = null;
+if (joelD != null) {
+  const s = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
+  journey.sample(joelD, s);
+  const anchor = new THREE.Vector3(s.pos.x, heightAt(joelD, 0) + 34, s.pos.z);
+  spiritFlow = new GPUFlow(renderer, scene, anchor, '#ffe6a8', new THREE.Vector3(155, 95, 230));
+  spiritFlow.beatD = joelD;
+}
+
+// Feature 6: Elijah's ravens as a GPU flock (murmuration).
+let ravenFlock = null;
+{
+  const kings = journey.regions.find(r => r.book.id === 'kings');
+  const el = kings && kings.stories.find(s => /fed by ravens/.test(s.data.title));
+  if (el) {
+    const s = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
+    journey.sample(el.d, s);
+    const anchor = new THREE.Vector3(s.pos.x + s.lat.x * 55, heightAt(el.d, 55) + 42, s.pos.z + s.lat.z * 55);
+    ravenFlock = new GPUFlock(renderer, scene, anchor, new THREE.Vector3(95, 55, 95));
+    ravenFlock.beatD = el.d;
+  }
 }
 
 // UI wiring
@@ -267,6 +293,8 @@ function frame(now) {
     m.uniforms.uGlint.value = clamp(P.sunElev * 5, 0, 1);
   }
   particles.update(d, time, camPos, dprLevel);
+  if (spiritFlow) spiritFlow.update(dt, time, d, dprLevel);
+  if (ravenFlock) ravenFlock.update(dt, time, d, dprLevel);
   thread.update(time);
   landmarks.update(d);
   scatter.update(d);
