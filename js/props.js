@@ -1364,6 +1364,108 @@ function hebrewPlane(text, worldW, colorHex) {
   return m;
 }
 
+// A churning fluid surface: domain-warped fBm flow makes turbulent, advecting
+// water with foam crests — the floodwaters.
+function fluidWaterMaterial() {
+  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib.fog, {
+    uTime: { value: 0 }, uLevel: { value: 0 }, uSun: { value: new THREE.Color(0xbcd8ee) },
+  }]);
+  return new THREE.ShaderMaterial({
+    uniforms, transparent: true, fog: true, side: THREE.DoubleSide, depthWrite: false,
+    vertexShader: `
+      varying vec3 vW;
+      #include <fog_pars_vertex>
+      void main(){
+        vec4 wp = modelMatrix * vec4(position,1.0); vW = wp.xyz;
+        vec4 mvPosition = viewMatrix * wp;
+        gl_Position = projectionMatrix * mvPosition;
+        #include <fog_vertex>
+      }`,
+    fragmentShader: `
+      varying vec3 vW; uniform float uTime; uniform vec3 uSun;
+      #include <fog_pars_fragment>
+      float h(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5); }
+      float n(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
+        return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y); }
+      float fbm(vec2 p){ float s=0.,a=.5; for(int i=0;i<5;i++){ s+=a*n(p); p=p*2.03+vec2(1.7); a*=.5; } return s; }
+      void main(){
+        vec2 p = vW.xz*0.028;
+        vec2 q = vec2(fbm(p+uTime*0.05), fbm(p+vec2(5.2,1.3)-uTime*0.04));
+        float f = fbm(p + q*2.4 + uTime*0.03);
+        vec3 deep=vec3(0.10,0.20,0.30), mid=vec3(0.30,0.50,0.64);
+        vec3 col = mix(deep, mid, f);
+        float foam = smoothstep(0.56,0.74,f);
+        col = mix(col, vec3(0.85,0.9,0.95), foam*0.85);
+        col += uSun * pow(f,2.5) * 0.4 + 0.05;
+        gl_FragColor = vec4(col, 0.94);
+        #include <fog_fragment>
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  });
+}
+
+// Dancing refracted light on the water — caustics.
+BUILDERS.caustics = function (ctx) {
+  const g = new THREE.Group();
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(0xd6f2ff) } },
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+    vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+    fragmentShader: `varying vec2 vUv; uniform float uTime; uniform vec3 uColor;
+      float caustic(vec2 uv){
+        vec2 p = mod(uv*6.28318, 6.28318) - 250.0; vec2 i = p; float c=1.0, inten=0.005;
+        for(int n=0;n<5;n++){ float t=uTime*(1.0-(3.5/float(n+1)));
+          i = p + vec2(cos(t-i.x)+sin(t+i.y), sin(t-i.y)+cos(t+i.x));
+          c += 1.0/length(vec2(p.x/(sin(i.x+t)/inten), p.y/(cos(i.y+t)/inten))); }
+        c /= 5.0; c = 1.17 - pow(c, 1.4); return pow(abs(c), 8.0); }
+      void main(){
+        float k = caustic(vUv*3.0);
+        float edge = smoothstep(0.0,0.15,vUv.x)*smoothstep(1.0,0.85,vUv.x)*smoothstep(0.0,0.15,vUv.y)*smoothstep(1.0,0.85,vUv.y);
+        gl_FragColor = vec4(uColor, clamp(k,0.0,1.0)*edge*0.9);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  });
+  const plane = new THREE.Mesh(new THREE.PlaneGeometry(60, 220), mat);
+  plane.rotation.x = -Math.PI / 2;
+  plane.position.y = 0.5;
+  g.add(plane);
+  const glow = makeSprite(0xbfe8f5, 26, 0.2); glow.position.set(0, 3, 0); g.add(glow);
+  ctx.overrideU = 55;   // over the river channel
+  ctx.alignToPath = true; ctx.focusH = 3;
+  return { group: g, update: (t) => { mat.uniforms.uTime.value = t; } };
+};
+
+BUILDERS.flood = function (ctx) {
+  const g = new THREE.Group();
+  const mat = fluidWaterMaterial();
+  const water = new THREE.Mesh(new THREE.PlaneGeometry(900, 900, 1, 1), mat);
+  water.rotation.x = -Math.PI / 2;
+  g.add(water);
+  // Noah's ark riding the flood
+  const ark = new THREE.Group();
+  const hull = box(24, 6, 9, MAT.woodDark); hull.position.y = 3.4; ark.add(hull);
+  const cabin = box(12, 3.2, 6.4, MAT.wood); cabin.position.y = 8; ark.add(cabin);
+  const win = emissivePlane(1.4, 1.1, ctx.book.palette.accent, 1.4); win.position.set(3, 8.2, 3.3); ark.add(win);
+  const dove = makeSprite(0xf0ece0, 1.4, 0.9, true); ark.add(dove);
+  ark.position.set(24, 0, -8); g.add(ark);
+  ctx.overrideU = 0; ctx.alignToPath = true; ctx.focusH = 8;
+  return {
+    group: g,
+    update: (t, dt, camD) => {
+      mat.uniforms.uTime.value = t;
+      const drop = smoothstep(30, -150, ctx.placement.d - camD);   // the waters abate as you pass
+      water.position.y = 10 - drop * 26;                            // floods the land, then drains
+      ark.rotation.z = Math.sin(t * 0.5) * 0.04;
+      ark.position.y = 10 - drop * 26;
+      const dq = ((t * 0.1) % 1);
+      dove.position.set(4 + Math.sin(t) * 8, 12 + Math.sin(t * 0.7) * 3, 4 + Math.cos(t * 0.6) * 8);
+      dove.material.opacity = 0.85;
+    },
+  };
+};
+
 // Ezra opens the book and the words of the Torah rise, lifted up over the people.
 BUILDERS.wordsrising = function (ctx) {
   const g = new THREE.Group();

@@ -204,7 +204,7 @@ export const BOOKS = [
           "t": "For this they willingly are ignorant of, that by the word of God the heavens were of old, and the earth standing out of the water and in the water: Whereby the world that then was, being overflowed with water, perished:",
           "ref": "2 Peter 3:5–6"
         },
-        "prop": "ark",
+        "prop": "flood",
         "flare": false
       },
       {
@@ -2406,7 +2406,7 @@ export const BOOKS = [
           "t": "And many lepers were in Israel in the time of Eliseus the prophet; and none of them was cleansed, saving Naaman the Syrian.",
           "ref": "Luke 4:27"
         },
-        "prop": null,
+        "prop": "caustics",
         "flare": false
       },
       {
