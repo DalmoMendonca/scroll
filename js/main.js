@@ -388,6 +388,7 @@ document.addEventListener('visibilitychange', () => {
 setInterval(() => { if (document.hidden) frame(performance.now()); }, 500);
 
 // Debug/authoring hooks (harmless in production).
+window.__scene = scene;
 window.__scroll = {
   journey,
   setD(d) {

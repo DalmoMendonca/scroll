@@ -655,6 +655,7 @@ const BUILDERS = {
             f.rotation.z = Math.sin(t * 0.7 + f.userData.ph) * 0.15;
           }
           for (let i = 0; i < sea.floor.length; i++) sea.floor[i].material.opacity = 0.1 + 0.06 * Math.sin(t * 1.3 + i);
+          for (let i = 0; i < sea.seaMats.length; i++) sea.seaMats[i].uniforms.uTime.value = t;
         }
       },
     };
@@ -1392,12 +1393,12 @@ function hebrewPlane(text, worldW, colorHex) {
 
 // A churning fluid surface: domain-warped fBm flow makes turbulent, advecting
 // water with foam crests — the floodwaters.
-function fluidWaterMaterial() {
+function fluidWaterMaterial(mood = 1, sun = 0xbcd8ee, opacity = 0.94, depthWrite = false) {
   const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib.fog, {
-    uTime: { value: 0 }, uLevel: { value: 0 }, uSun: { value: new THREE.Color(0xbcd8ee) },
+    uTime: { value: 0 }, uLevel: { value: 0 }, uSun: { value: new THREE.Color(sun) }, uMood: { value: mood }, uOpacity: { value: opacity },
   }]);
   return new THREE.ShaderMaterial({
-    uniforms, transparent: true, fog: true, side: THREE.DoubleSide, depthWrite: false,
+    uniforms, transparent: opacity < 0.999, fog: true, side: THREE.DoubleSide, depthWrite,
     vertexShader: `
       varying vec3 vW;
       #include <fog_pars_vertex>
@@ -1408,7 +1409,7 @@ function fluidWaterMaterial() {
         #include <fog_vertex>
       }`,
     fragmentShader: `
-      varying vec3 vW; uniform float uTime; uniform vec3 uSun;
+      varying vec3 vW; uniform float uTime, uMood, uOpacity; uniform vec3 uSun;
       #include <fog_pars_fragment>
       float h(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5); }
       float n(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
@@ -1423,7 +1424,8 @@ function fluidWaterMaterial() {
         float foam = smoothstep(0.56,0.74,f);
         col = mix(col, vec3(0.85,0.9,0.95), foam*0.85);
         col += uSun * pow(f,2.5) * 0.4 + 0.05;
-        gl_FragColor = vec4(col, 0.94);
+        col *= uMood;                                   // storm dims and greys the sea
+        gl_FragColor = vec4(col, uOpacity);
         #include <fog_fragment>
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
@@ -1463,31 +1465,180 @@ BUILDERS.caustics = function (ctx) {
   return { group: g, update: (t) => { mat.uniforms.uTime.value = t; } };
 };
 
+// ---- shared cinematic toolkit: storm, infinite water --------------------------
+
+// A vertical rain-streak texture.
+let _rainTex = null;
+function rainTexture() {
+  if (_rainTex) return _rainTex;
+  const w = 8, h = 64, cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+  const c = cv.getContext('2d');
+  const grd = c.createLinearGradient(0, 0, 0, h);
+  grd.addColorStop(0, 'rgba(255,255,255,0)'); grd.addColorStop(0.5, 'rgba(255,255,255,0.9)'); grd.addColorStop(1, 'rgba(255,255,255,0)');
+  c.fillStyle = grd; c.fillRect(w / 2 - 1, 0, 2, h);
+  _rainTex = new THREE.CanvasTexture(cv);
+  return _rainTex;
+}
+
+// A wide churning water surface (fBm fluid) that reads as an endless sea.
+function infiniteWater(size = 4000, mood = 1, sun, opacity = 0.94, depthWrite = false) {
+  const mat = fluidWaterMaterial(mood, sun, opacity, depthWrite);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(size, size, 1, 1), mat);
+  m.rotation.x = -Math.PI / 2;
+  return { mesh: m, mat };
+}
+
+// Heavy rain + a churning dark cloud ceiling + lightning flashes and bolts.
+// Returns { group, update(t, dt, prox) }; prox (0..1) fades it in near the beat.
+function stormLayer(opts = {}) {
+  const o = Object.assign({ area: 320, height: 240, cloudY: 165, count: 3000, tint: 0x0c141f, lightning: true, rain: true }, opts);
+  const group = new THREE.Group();
+  // rain: falling streaks advected on the GPU (wraps within uHeight)
+  const N = o.rain ? o.count : 0, pos = new Float32Array(N * 3), spd = new Float32Array(N);
+  for (let i = 0; i < N; i++) {
+    pos[i * 3] = (Math.random() - 0.5) * o.area * 2.2;
+    pos[i * 3 + 1] = Math.random() * o.height;
+    pos[i * 3 + 2] = (Math.random() - 0.5) * o.area * 2.2;
+    spd[i] = 120 + Math.random() * 160;
+  }
+  const rgeo = new THREE.BufferGeometry();
+  rgeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  rgeo.setAttribute('aSpeed', new THREE.BufferAttribute(spd, 1));
+  rgeo.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, o.height / 2, 0), o.area * 3);
+  const runi = { uTime: { value: 0 }, uPx: { value: 1 }, uHeight: { value: o.height }, uFade: { value: 1 }, uMap: { value: rainTexture() } };
+  const rmat = new THREE.ShaderMaterial({
+    uniforms: runi, transparent: true, depthWrite: false,
+    vertexShader: `uniform float uTime,uPx,uHeight; attribute float aSpeed;
+      void main(){ float y = mod(position.y - uTime*aSpeed, uHeight); vec3 p = vec3(position.x, y, position.z);
+        vec4 mv = modelViewMatrix*vec4(p,1.0); gl_PointSize = uPx*14.0*(300.0/-mv.z); gl_Position = projectionMatrix*mv; }`,
+    fragmentShader: `uniform sampler2D uMap; uniform float uFade; void main(){ vec4 c=texture2D(uMap,gl_PointCoord);
+      if(c.a<0.02) discard; gl_FragColor = vec4(0.70,0.80,0.92, c.a*0.55*uFade); }`,
+  });
+  const rain = new THREE.Points(rgeo, rmat); rain.frustumCulled = false; group.add(rain);
+  // storm-cloud ceiling: overlapping dark drifting masses
+  const clouds = [];
+  for (let i = 0; i < 16; i++) {
+    const c = makeSprite(o.tint, 140 + Math.random() * 90, 0.55);
+    c.material.blending = THREE.NormalBlending;
+    c.position.set((Math.random() - 0.5) * o.area * 2.6, o.cloudY + (Math.random() - 0.5) * 46, (Math.random() - 0.5) * o.area * 2.6);
+    clouds.push({ s: c, dx: (Math.random() - 0.5) * 5 }); group.add(c);
+  }
+  // lightning: a full-sky flash and a bright bolt striking at a random spot
+  const flash = makeSprite(0xd6e6ff, o.area * 3.2, 0); flash.material.blending = THREE.AdditiveBlending; flash.position.set(0, o.cloudY, 0); group.add(flash);
+  const bolt = makeSprite(0xffffff, 1, 0); bolt.scale.set(7, o.height * 1.1, 1); bolt.material.blending = THREE.AdditiveBlending; bolt.position.set(0, o.height * 0.5, -60); group.add(bolt);
+  let flashE = 0, timer = 1.2 + Math.random() * 2.5;
+  return {
+    group,
+    update: (t, dt, prox) => {
+      runi.uTime.value = t; runi.uFade.value = prox;
+      for (const c of clouds) { c.s.position.x += c.dx * dt; c.s.material.opacity = 0.5 * prox; }
+      if (o.lightning) {
+        timer -= dt;
+        if (timer <= 0) { flashE = 1; bolt.position.x = (Math.random() - 0.5) * o.area; bolt.position.z = -40 - Math.random() * 60; timer = 1.6 + Math.random() * 3.6; }
+        flashE = Math.max(0, flashE - dt * 3.2);
+        const fl = flashE * flashE;
+        flash.material.opacity = fl * 0.5 * prox;
+        bolt.material.opacity = fl * 0.95 * prox;
+      }
+    },
+  };
+}
+
+// The great deluge: an endless churning sea under a violent storm, the ark
+// riding it — then the waters abate as you pass (Genesis 7-8).
 BUILDERS.flood = function (ctx) {
   const g = new THREE.Group();
-  const mat = fluidWaterMaterial();
-  const water = new THREE.Mesh(new THREE.PlaneGeometry(900, 900, 1, 1), mat);
-  water.rotation.x = -Math.PI / 2;
+  const { mesh: water, mat } = infiniteWater(4200, 0.54, 0x7f96b2, 1.0, true);   // opaque, storm-grey: drowns the land
   g.add(water);
+  const storm = stormLayer({ area: 340, height: 260, cloudY: 150, count: 4200 });
+  g.add(storm.group);
   // Noah's ark riding the flood
   const ark = new THREE.Group();
-  const hull = box(24, 6, 9, MAT.woodDark); hull.position.y = 3.4; ark.add(hull);
-  const cabin = box(12, 3.2, 6.4, MAT.wood); cabin.position.y = 8; ark.add(cabin);
-  const win = emissivePlane(1.4, 1.1, ctx.book.palette.accent, 1.4); win.position.set(3, 8.2, 3.3); ark.add(win);
-  const dove = makeSprite(0xf0ece0, 1.4, 0.9, true); ark.add(dove);
-  ark.position.set(24, 0, -8); g.add(ark);
+  const hull = box(30, 8, 12, MAT.woodDark); hull.position.y = 4.4; ark.add(hull);
+  const cabin = box(16, 4.4, 8.4, MAT.wood); cabin.position.y = 10.6; ark.add(cabin);
+  const roof = box(17, 1.2, 9.2, MAT.woodDark); roof.position.y = 13; ark.add(roof);
+  const win = emissivePlane(1.8, 1.4, 0xffcf8a, 2.2); win.position.set(4, 10.8, 4.3); ark.add(win);
+  const lantern = makeSprite(0xffb761, 9, 0.5); lantern.position.set(5, 11, 4.6); ark.add(lantern);
+  const dove = makeSprite(0xf0ece0, 1.6, 0.9, true); ark.add(dove);
+  ark.position.set(30, 0, -12); g.add(ark);
   ctx.overrideU = 0; ctx.alignToPath = true; ctx.focusH = 8;
+  const PEAK = 24;   // high enough to drown the near land at the height of the flood
   return {
     group: g,
     update: (t, dt, camD) => {
       mat.uniforms.uTime.value = t;
-      const drop = smoothstep(30, -150, ctx.placement.d - camD);   // the waters abate as you pass
-      water.position.y = 10 - drop * 26;                            // floods the land, then drains
-      ark.rotation.z = Math.sin(t * 0.5) * 0.04;
-      ark.position.y = 10 - drop * 26;
-      const dq = ((t * 0.1) % 1);
-      dove.position.set(4 + Math.sin(t) * 8, 12 + Math.sin(t * 0.7) * 3, 4 + Math.cos(t * 0.6) * 8);
-      dove.material.opacity = 0.85;
+      const prox = 1 - Math.min(1, Math.abs(ctx.placement.d - camD) / 300);
+      const drop = smoothstep(20, -150, ctx.placement.d - camD);   // the waters abate as you pass
+      // track the terrain under the camera so the near land stays drowned at the flood's height
+      const floor = heightAt(camD, 0);
+      const level = (floor + PEAK - drop * 46) - (ctx.baseY || 0);  // local y; world level follows the camera
+      water.position.y = level;
+      ark.position.y = level - 1;
+      ark.rotation.z = Math.sin(t * 0.5) * 0.05;
+      storm.update(t, dt || 0.016, prox * (1 - drop));             // storm clears as the flood recedes
+      dove.position.set(4 + Math.sin(t) * 8, level + 4 + Math.sin(t * 0.7) * 3, 4 + Math.cos(t * 0.6) * 8);
+      dove.material.opacity = 0.85 * (1 - drop);
+    },
+  };
+};
+
+// Mount Sinai in the theophany: "thunders and lightnings, and a thick cloud
+// upon the mount... and the LORD descended upon it in fire, and the smoke
+// thereof ascended... and the whole mount quaked greatly" (Exodus 19).
+BUILDERS.sinai = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  const H = 118;
+  // the great dark mountain and its rugged flanks, looming beside the path
+  const rock = lam(0x2b241d), rock2 = lam(0x231d17);
+  const peak = new THREE.Mesh(new THREE.ConeGeometry(86, H, 7), rock); peak.position.y = H / 2; g.add(peak);
+  for (const [dx, dz, r, h] of [[-62, 24, 40, 70], [66, -14, 46, 78], [24, 54, 36, 60]]) {
+    const f = new THREE.Mesh(new THREE.ConeGeometry(r, h, 6), rng() > 0.5 ? rock : rock2);
+    f.position.set(dx, h / 2, dz); f.rotation.y = rng() * Math.PI; g.add(f);
+  }
+  // the summit ablaze — "the LORD descended in fire": a great crown of fire over
+  // the peak (additive, so it burns bright over the dark mountain)
+  const fireGlow = [];
+  for (const [x, y, sz] of [[0, H - 4, 100], [-22, H - 14, 66], [24, H - 12, 72], [0, H + 16, 60], [-12, H + 6, 50], [14, H + 8, 46]]) {
+    const f = makeSprite(0xff7a2a, sz, 0.8); f.position.set(x, y, 2); fireGlow.push(f); g.add(f);
+  }
+  const fire = flameGroup(ctx, 28, false); fire.position.set(0, H - 12, 4); g.add(fire);
+  const core = makeSprite(0xffe8c0, 56, 0.95); core.position.set(0, H - 2, 3); g.add(core);
+  const halo = makeSprite(0xffa838, 230, 0.45); halo.position.set(0, H + 2, -2); g.add(halo);
+  // thick smoke of a furnace ascending high into the sky (dark, against the sky)
+  const smokes = [];
+  for (let i = 0; i < 10; i++) {
+    const s = makeSprite(0x241d26, 40 + i * 7, 0.55); s.material.blending = THREE.NormalBlending;
+    s.position.set((rng() - 0.5) * 40, H + 6 + i * 18, (rng() - 0.5) * 26 - 4);
+    smokes.push({ s, ph: rng() * 9 }); g.add(s);
+  }
+  // thunders and lightnings breaking onto the mount
+  const storm = stormLayer({ area: 130, height: 170, cloudY: H + 20, count: 0, rain: false, tint: 0x0e0a12, lightning: true });
+  storm.group.position.y = 16; g.add(storm.group);
+  // the tablets of the covenant, blazing in the fire above the peak
+  const tab = new THREE.Group(); tab.position.set(0, H + 40, 0);
+  for (const s of [-1, 1]) {
+    const slab = new THREE.Mesh(new THREE.BoxGeometry(11, 17, 2), lam(0xe4dcc8, { emissive: 0xb08838, emissiveIntensity: 1.5 }));
+    slab.position.x = s * 6.4; slab.rotation.z = s * 0.05; tab.add(slab);
+  }
+  const tabGlow = makeSprite(0xfff2c9, 46, 0.5); tab.add(tabGlow); g.add(tab);
+  ctx.facePath = true; ctx.overrideU = 110; ctx.focusH = H - 4;
+  const beatD = ctx.placement.d;
+  return {
+    group: g,
+    update: (t, dt, camD) => {
+      fire.userData.update(t);
+      const prox = 1 - Math.min(1, Math.abs(beatD - camD) / 360);
+      storm.update(t, dt || 0.016, Math.max(0.5, prox));
+      core.material.opacity = 0.7 + 0.2 * Math.sin(t * 3.1);
+      halo.material.opacity = 0.32 + 0.12 * Math.sin(t * 1.7);
+      tabGlow.material.opacity = 0.4 + 0.18 * Math.sin(t * 2.2);
+      for (let i = 0; i < fireGlow.length; i++) fireGlow[i].material.opacity = 0.8 + 0.2 * Math.sin(t * 4 + i * 1.7);
+      for (let i = 0; i < smokes.length; i++) {
+        const q = ((t * 0.05 + smokes[i].ph) % 1);
+        smokes[i].s.position.y = H + 6 + q * 150;
+        smokes[i].s.material.opacity = 0.5 * (1 - q);
+      }
     },
   };
 };
@@ -1589,38 +1740,47 @@ BUILDERS.shatter = function (ctx) {
 BUILDERS.wrestle = function (ctx) {
   const g = new THREE.Group();
   const capsule = (r, h, mat) => new THREE.Mesh(new THREE.CapsuleGeometry(r, h, 4, 8), mat);
-  // Jacob — earthy, straining, leaning in
+  const S = 2.9;   // the struggle staged ~3x larger than before
+  // the precipice at Peniel — a rocky promontory rising out of the land, the
+  // ground falling sheer away below the wrestlers
+  const crag = new THREE.Group();
+  const spire = blob(24, MAT.stoneDark, 1); spire.scale.set(1.5, 1.7, 1.4); spire.position.y = -30; crag.add(spire);
+  const buttress = blob(16, lam(0x362b23), 1); buttress.scale.set(1.2, 1.5, 1.1); buttress.position.set(-14, -24, 6); crag.add(buttress);
+  const ledge = box(40, 6, 34, MAT.stone); ledge.position.y = -3; crag.add(ledge);
+  const lip = box(46, 3, 8, MAT.stoneLight); lip.position.set(0, -1.5, 15); crag.add(lip);   // the brink, facing the drop
+  g.add(crag);
+  // the wrestlers, scaled up, locked at the brink
+  const fight = new THREE.Group(); fight.scale.setScalar(S); fight.position.set(0, 0, 3);
   const jacob = capsule(0.9, 3.0, lam(0x5a4433));
-  jacob.position.set(-1.3, 2.6, 0); jacob.rotation.z = 0.42; g.add(jacob);
-  const jHead = blob(0.7, lam(0x6a5340)); jHead.position.set(-2.0, 4.3, 0); g.add(jHead);
-  // the stranger — radiant, immovable
+  jacob.position.set(-1.3, 2.6, 0); jacob.rotation.z = 0.42; fight.add(jacob);
+  const jHead = blob(0.7, lam(0x6a5340)); jHead.position.set(-2.0, 4.3, 0); fight.add(jHead);
   const angel = capsule(1.0, 3.4, lam(0xe8d79a, { emissive: 0x8a7a3a, emissiveIntensity: 1.0 }));
-  angel.position.set(1.3, 2.9, 0); angel.rotation.z = -0.5; g.add(angel);
+  angel.position.set(1.3, 2.9, 0); angel.rotation.z = -0.5; fight.add(angel);
   const aHead = blob(0.75, lam(0xf0e2ad, { emissive: 0x8a7a3a, emissiveIntensity: 0.9 }));
-  aHead.position.set(2.0, 4.7, 0); g.add(aHead);
-  // gripping arms between them
+  aHead.position.set(2.0, 4.7, 0); fight.add(aHead);
   for (const [x, y, rot, mat] of [[-0.2, 3.4, 0.5, lam(0x5a4433)], [0.2, 3.7, -0.5, lam(0xe8d79a, { emissive: 0x8a7a3a, emissiveIntensity: 0.9 })]]) {
-    const arm = cyl(0.22, 0.26, 2.4, mat, 5); arm.position.set(x, y, 0.3); arm.rotation.z = rot; g.add(arm);
+    const arm = cyl(0.22, 0.26, 2.4, mat, 5); arm.position.set(x, y, 0.3); arm.rotation.z = rot; fight.add(arm);
   }
-  // the touched hip, out of joint
-  const hip = makeSprite(0xff8a5e, 3.2, 0.6); hip.position.set(-0.3, 2.2, 0.4); g.add(hip);
-  // a great radiant burst — daybreak breaking over the struggle
-  const burst = makeSprite(0xfff2c9, 22, 0.55); burst.position.set(0.4, 4.0, -1.5); g.add(burst);
+  const hip = makeSprite(0xff8a5e, 3.2, 0.6); hip.position.set(-0.3, 2.2, 0.4); fight.add(hip);
+  g.add(fight);
+  // a great radiant burst — daybreak breaking over the struggle, scaled to match
+  const burst = makeSprite(0xfff2c9, 64, 0.55); burst.position.set(1, 15, -8); g.add(burst);
   const rays = [];
   for (let i = 0; i < 8; i++) {
     const ray = makeSprite(0xffe9b8, 1, 0.3);
-    ray.scale.set(2.4, 34, 1); ray.material.rotation = (i / 8) * Math.PI;
-    ray.position.set(0.4, 4.0, -1.6); rays.push(ray); g.add(ray);
+    ray.scale.set(7, 100, 1); ray.material.rotation = (i / 8) * Math.PI;
+    ray.position.set(1, 15, -9); rays.push(ray); g.add(ray);
   }
-  const halo = makeSprite(0xffe0a0, 40, 0.18); halo.position.set(0.4, 4, -2); g.add(halo);
+  const halo = makeSprite(0xffe0a0, 120, 0.18); halo.position.set(1, 15, -10); g.add(halo);
   ctx.facePath = true;
-  ctx.focusH = 5;
+  ctx.focusH = 18;
+  ctx.skyHeight = 30;   // lift the promontory high above the surrounding land
   return {
     group: g,
     update: (t) => {
       const grip = Math.sin(t * 1.6) * 0.05;
       jacob.rotation.z = 0.42 + grip; angel.rotation.z = -0.5 - grip;
-      g.rotation.y = Math.sin(t * 0.25) * 0.16;
+      fight.rotation.y = Math.sin(t * 0.25) * 0.14;
       burst.material.opacity = 0.5 + 0.18 * Math.sin(t * 2.3);
       hip.material.opacity = 0.5 + 0.25 * Math.sin(t * 5);
       rays.forEach((r, i) => { r.material.rotation = (i / 8) * Math.PI + t * 0.1; });
@@ -1985,64 +2145,56 @@ BUILDERS.moriah = function (ctx) {
   };
 };
 
-// Two doorframes alone on the plain, blood-marked, and the traveler passes
-// between them.
+// One massive blood-marked doorway on the plain; the traveler passes straight
+// through the opening, the blood daubed on the posts and lintel close at hand,
+// warm light and the Passover meal glowing within (Exodus 12).
 function passoverDoors(ctx) {
   const g = new THREE.Group();
-  const bloodMat = new THREE.MeshBasicMaterial({
-    color: new THREE.Color(0xe83424).multiplyScalar(1.5), side: THREE.DoubleSide,
-  });
-  // decal material: the daubed blood projected onto the wood
-  const decalMat = new THREE.MeshBasicMaterial({
-    map: bloodTexture(), transparent: true, color: 0xb52a1a,
-    depthTest: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4,
-  });
+  const bloodTex = bloodTexture();
   const marks = [];
-  // project a blood decal onto a target box mesh (front +z face) — Exodus 12:22,
-  // "strike the lintel and the two side posts with the blood"
-  const daub = (frame, target, size, seed) => {
-    target.updateWorldMatrix(true, false);
-    const rnd = mulberry32(seed);
-    const pos = new THREE.Vector3(target.position.x + (rnd() - 0.5) * 0.3, target.position.y + (rnd() - 0.5) * 2, 0.45);
-    const orient = new THREE.Euler(0, 0, rnd() * Math.PI);
-    const dg = new DecalGeometry(target, pos, orient, size);
-    const decal = new THREE.Mesh(dg, decalMat);
-    frame.add(decal);
-    return decal;
+  const bloodPlane = (w, h) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+      new THREE.MeshBasicMaterial({ map: bloodTex, transparent: true, color: 0xc42a18, depthWrite: false, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4 }));
+    marks.push(m); return m;
   };
+  const OPEN = 12, POSTH = 18, PT = 2.6;   // opening width, post height, post thickness
+  const wood = lam(0x4a3524), woodL = lam(0x5f4530);
+  // the two great doorposts, hewn and banded
   for (const s of [-1, 1]) {
-    const frame = new THREE.Group();
-    for (const px of [-2.4, 2.4]) {
-      const post = box(0.8, 7.6, 0.8, MAT.woodDark); post.position.set(px, 3.8, 0); frame.add(post);
-      post.updateMatrix(); post.matrixWorld.copy(post.matrix);
-      marks.push(daub(frame, post, new THREE.Vector3(2.2, 4.4, 1.6), 100 + px * 7 + s));
-      marks.push(daub(frame, post, new THREE.Vector3(1.8, 2.6, 1.6), 200 + px * 5 + s));
-    }
-    const lintel = box(6.4, 0.9, 0.9, MAT.woodDark); lintel.position.y = 7.9; frame.add(lintel);
-    lintel.updateMatrix(); lintel.matrixWorld.copy(lintel.matrix);
-    marks.push(daub(frame, lintel, new THREE.Vector3(5.4, 1.4, 1.6), 300 + s));
-    const doorLight = new THREE.Mesh(unitPlane, new THREE.MeshBasicMaterial({
-      color: new THREE.Color(0xffb36b).multiplyScalar(0.5), transparent: true, opacity: 0.5,
-      side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false,
-    }));
-    doorLight.scale.set(4.4, 7.2, 1);
-    doorLight.position.set(0, 3.8, 0);
-    frame.add(doorLight);
-    const hearth = makeSprite(0xffb36b, 9, 0.4); hearth.position.set(0, 3.2, 0.6); frame.add(hearth);
-    const bloodGlow = makeSprite(0xff3a2a, 7, 0.35); bloodGlow.position.set(0, 7.9, 0.4); frame.add(bloodGlow);
-    frame.position.set(0, 0, s * 14);
-    frame.rotation.y = Math.PI / 2; // doorway faces along the path
-    g.add(frame);
+    const px = s * (OPEN / 2 + PT / 2);
+    const post = box(PT, POSTH, PT, wood); post.position.set(px, POSTH / 2, 0); g.add(post);
+    const band = box(PT + 0.5, 1.4, PT + 0.5, woodL); band.position.set(px, POSTH - 3, 0); g.add(band);
+    // blood struck down the inner face (seen as the traveler passes between them)
+    const bpi = bloodPlane(POSTH * 0.5, POSTH * 0.62); bpi.rotation.y = -s * Math.PI / 2;
+    bpi.position.set(s * (OPEN / 2 - 0.05), POSTH * 0.5, 0); g.add(bpi);
+    // and on the front face, toward the approaching traveler
+    const bpf = bloodPlane(PT * 0.8, POSTH * 0.5); bpf.position.set(px, POSTH * 0.52, -PT / 2 - 0.05); g.add(bpf);
   }
-  ctx.overrideU = 0;
-  ctx.alignToPath = true;
-  ctx.focusH = 7;
+  // the lintel — a heavy beam across the top
+  const spanW = OPEN + PT * 2 + 1.2;
+  const lintel = box(spanW, 3.0, PT + 0.8, wood); lintel.position.set(0, POSTH + 1.5, 0); g.add(lintel);
+  const lintelCap = box(spanW + 1, 1.0, PT + 1.4, woodL); lintel.position.y = POSTH + 1.5; lintelCap.position.set(0, POSTH + 3.2, 0); g.add(lintelCap);
+  // blood struck on the lintel, front and underside
+  const lb = bloodPlane(OPEN + 1, 2.0); lb.position.set(0, POSTH + 1.0, -PT / 2 - 0.45); g.add(lb);
+  const lbu = bloodPlane(OPEN + 1, PT); lbu.rotation.x = Math.PI / 2; lbu.position.set(0, POSTH - 0.05, 0); g.add(lbu);
+  // a stone threshold underfoot
+  const thresh = box(spanW, 1.4, PT + 1.2, MAT.stone); thresh.position.set(0, 0.7, 0); g.add(thresh);
+  // flanking house walls with warm windows — the sheltered home
+  for (const s of [-1, 1]) {
+    const wall = box(16, POSTH + 3, PT, lam(0x6a5038)); wall.position.set(s * (OPEN / 2 + PT + 8), (POSTH + 3) / 2, -0.3); g.add(wall);
+    const win = emissivePlane(2.6, 2.2, 0xffb45a, 1.8); win.position.set(s * (OPEN / 2 + PT + 8), 9, -PT / 2 - 0.06); g.add(win);
+  }
+  // warm light and the meal glowing from within the doorway
+  const inner = new THREE.Mesh(new THREE.PlaneGeometry(OPEN, POSTH - 2),
+    new THREE.MeshBasicMaterial({ color: 0xffcf8a, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+  inner.position.set(0, POSTH / 2, 1.6); g.add(inner);
+  const hearth = makeSprite(0xffb761, 18, 0.5); hearth.position.set(0, 7, 3.5); g.add(hearth);
+  ctx.overrideU = 0; ctx.alignToPath = true; ctx.focusH = 10;
   return {
     group: g,
     update: (t) => {
-      for (let i = 0; i < marks.length; i++) {
-        marks[i].material.color.setHex(0xe83424).multiplyScalar(1.35 + 0.35 * Math.sin(t * 1.6 + i));
-      }
+      for (let i = 0; i < marks.length; i++) marks[i].material.color.setHex(0xc42a18).multiplyScalar(0.95 + 0.22 * Math.sin(t * 1.6 + i));
+      hearth.material.opacity = 0.4 + 0.12 * Math.sin(t * 2.5);
     },
   };
 }
@@ -2079,14 +2231,15 @@ function buildSeaWalls(ctx) {
   const smp = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
   // deep at the seabed, bright and foaming toward the crest
   const mat = new THREE.MeshLambertMaterial({
-    vertexColors: true, transparent: true, opacity: 0.86,
+    vertexColors: true, transparent: true, opacity: 0.95,
     emissive: 0x123a54, emissiveIntensity: 1.0, side: THREE.DoubleSide, flatShading: false,
   });
   const DEEP = new THREE.Color(0x0a2740), MID = new THREE.Color(0x1f6a9a), CREST = new THREE.Color(0xbfe8f5);
   const _c = new THREE.Color();
-  const H = 46, step = 8, U = 30;
-  const d0 = ctx.placement.d - 95, d1 = ctx.placement.d + 165;
+  const H = 88, step = 8, U = 30;
+  const d0 = ctx.placement.d - 160, d1 = ctx.placement.d + 250;
   const rows = Math.ceil((d1 - d0) / step) + 1;
+  const seaMats = [];
 
   for (const s of [-1, 1]) {
     const positions = [], colors = [], normals = [], idx = [];
@@ -2122,6 +2275,22 @@ function buildSeaWalls(ctx) {
     }
   }
 
+  // The sea stretches away past each wall to the horizon: a vast churning
+  // surface at the crest height on both sides, the dry corridor cut between.
+  journey.sample(ctx.placement.d, smp);
+  const crestY = heightAt(ctx.placement.d, U) - 2 + H;
+  for (const s of [-1, 1]) {
+    const W = 8000, L = 6000;
+    const off = U + W / 2 + 2;
+    const seaMat = fluidWaterMaterial(0.95, 0x9fd0ea, 0.98, true);   // opaque standing wall-sea
+    const sea = new THREE.Mesh(new THREE.PlaneGeometry(W, L), seaMat);
+    sea.rotation.x = -Math.PI / 2;
+    sea.position.set(smp.pos.x + smp.lat.x * (s * off), crestY, smp.pos.z + smp.lat.z * (s * off));
+    sea.frustumCulled = false;
+    g.add(sea);
+    seaMats.push(seaMat);
+  }
+
   // fish suspended in the standing water
   const fish = [];
   const fishMat = new THREE.MeshBasicMaterial({ color: 0x0a2a3a, transparent: true, opacity: 0.55 });
@@ -2145,7 +2314,7 @@ function buildSeaWalls(ctx) {
   }
 
   g.userData.isWorldSpace = true;
-  return { group: g, mat, fish, floor };
+  return { group: g, mat, fish, floor, seaMats };
 }
 
 // "The Sun of righteousness shall arise with healing in his wings." A dawn built

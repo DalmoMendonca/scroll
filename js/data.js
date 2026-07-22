@@ -780,7 +780,7 @@ export const BOOKS = [
           "t": "For ye are not come unto the mount that might be touched, and that burned with fire, nor unto blackness, and darkness, and tempest, And the sound of a trumpet, and the voice of words; which voice they that heard intreated that the word should not be spoken to them any more:",
           "ref": "Hebrews 12:18–19"
         },
-        "prop": "tablets",
+        "prop": "sinai",
         "flare": false
       },
       {

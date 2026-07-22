@@ -15,10 +15,11 @@ import { clamp, smoothstep, lerp } from './utils.js';
 const BEHOLD = [
   { book: 'genesis', re: /Babel/,       kind: 'prop',     framing: 'tower',    range: 230, drop: 12 },
   { book: 'daniel',  re: /stone kingdom/, kind: 'prop',   framing: 'tower',    range: 210, drop: 10 },
-  { book: 'genesis', re: /wrestles/,    kind: 'prop',     framing: 'closeup',  range: 150 },
+  { book: 'genesis', re: /wrestles/,    kind: 'prop',     framing: 'tower',    range: 180, drop: 8 },
   { book: 'genesis', re: /Sodom falls/, kind: 'prop',     framing: 'wide',     range: 190 },
   { book: 'exodus',  re: /oppressed and Moses/, kind: 'landmark', lu: 360, ls: 1, lfrac: 0.15, framing: 'wide', range: 300 },
   { book: 'exodus',  re: /crosses the sea/,     kind: 'corridor', framing: 'corridor', range: 200 },
+  { book: 'exodus',  re: /arrives at Sinai/,    kind: 'prop',     framing: 'wide',     range: 260 },
   { book: 'numbers', re: /star from Jacob/,     kind: 'prop',     framing: 'tower',    range: 200, drop: 4 },
   { book: 'ezekiel', re: /divine chariot/,      kind: 'prop',     framing: 'wide',     range: 240 },
   { book: 'jeremiah', re: /potter reshape/,     kind: 'prop',     framing: 'closeup',  range: 150 },
@@ -61,7 +62,12 @@ const INTRO_MOOD = { eye: 8, fov: 4, look: 6, bob: 0.5, sway: 1.0, bank: 0.9, la
 
 // Dramatic per-beat moves, matched by book id + story title.
 const MOMENTS = [
+  { book: 'genesis',      re: /floodwaters/,          type: 'ascend',  mag: 20, range: 175, fov: 6 },
+  { book: 'genesis',      re: /floodwaters/,          type: 'shake',   mag: 0.5, range: 150 },
+  { book: 'exodus',       re: /receives the Passover/, type: 'pushin',  mag: 1, range: 80, fov: -4 },
   { book: 'exodus',       re: /arrives at Sinai/,     type: 'ascend',  mag: 30, range: 150, fov: -3 },
+  { book: 'exodus',       re: /arrives at Sinai/,     type: 'shake',   mag: 0.6, range: 150 },
+  { book: 'exodus',       re: /arrives at Sinai/,     type: 'gloom',   dark: 0.5, range: 175 },
   { book: 'deuteronomy',  re: /dies within sight/,    type: 'ascend',  mag: 46, range: 190, fov: 8 },
   { book: 'joshua',       re: /crosses the Jordan/,   type: 'vista',   mag: 15, range: 175, fov: 9 },
   { book: 'judges',       re: /Samson dies destroying/,type: 'shake',  mag: 0.6, range: 110 },
@@ -258,6 +264,10 @@ export class CameraDirector {
           break;
         case 'lowskim':
           camPos.y -= def.mag * b;
+          break;
+        case 'gloom':                        // thick darkness falls (no camera move)
+          exposureMul *= (1 - (def.dark || 0.4) * b);
+          fogFarMul *= (1 - 0.3 * b);
           break;
         case 'shake':
           if (!reduceMotion) {
