@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import { journey } from './path.js';
 import { heightAt, waterLevelAt } from './terrain.js';
-import { mulberry32, makeSprite, clamp, lerp, smoothstep, gauss } from './utils.js';
+import { mulberry32, makeSprite, clamp, lerp, smoothstep, gauss, getGlowTexture } from './utils.js';
 import { Reflector } from '../vendor/jsm/objects/Reflector.js';
 
 // ---- shared materials / geometry helpers -----------------------------------
@@ -1736,6 +1736,171 @@ BUILDERS.crystal = function (ctx) {
         spires[i].s.rotation.y += 0.0012 * (i % 2 ? 1 : -1);
         bases[i].material.opacity = 0.4 + 0.14 * Math.sin(t * 0.7 + i);
       }
+    },
+  };
+};
+
+// "Wheels within wheels", the living creatures, a sapphire throne and the fire
+// and rainbow of the glory — rendered as an ethereal cloud of thousands of soft
+// gaussian splats (the concept borrowed from gaussian-splatting) rather than
+// hard geometry, so the whole vision shimmers and never resolves into an idol.
+BUILDERS.chariot = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  const tex = getGlowTexture();
+  // build one Points cloud from structured shells, each point carrying a colour
+  const pts = [];
+  const cols = [];
+  const spin = [];   // which points belong to the whirling wheels (>=0 = wheel id)
+  const pushPt = (x, y, z, c, wheel = -1) => { pts.push(x, y, z); cols.push(c.r, c.g, c.b); spin.push(wheel); };
+  const amber = new THREE.Color(0xffbf6a).multiplyScalar(0.6), topaz = new THREE.Color(0xffe6a8).multiplyScalar(0.62);
+  const sapph = new THREE.Color(0x6da2ff).multiplyScalar(0.62), whitefire = new THREE.Color(0xfff4dc).multiplyScalar(0.6);
+  // four whirling wheels — each a torus, "a wheel in the middle of a wheel"
+  const wheelPos = [[-16, 10, -12], [16, 10, -12], [-16, 10, 14], [16, 10, 14]];
+  for (let w = 0; w < 4; w++) {
+    const [cx, cy, cz] = wheelPos[w];
+    for (let i = 0; i < 320; i++) {
+      const a = rng() * Math.PI * 2, rr = 9 + (rng() - 0.5) * 1.2;
+      const tube = (rng() - 0.5) * 1.4;
+      // two perpendicular rings sharing a centre = wheel within a wheel
+      if (i % 2 === 0) { pushPt(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr, cz + tube, amber.clone().lerp(topaz, rng()), w); }
+      else { pushPt(cx + tube, cy + Math.sin(a) * rr, cz + Math.cos(a) * rr, amber.clone().lerp(topaz, rng()), w); }
+    }
+  }
+  // the living-creature radiance — a shimmering column of white fire
+  for (let i = 0; i < 900; i++) {
+    const a = rng() * Math.PI * 2, rr = (0.3 + rng() * 0.7) * (8 - rng() * 3);
+    const y = 6 + rng() * 44;
+    pushPt(Math.cos(a) * rr, y, Math.sin(a) * rr, whitefire.clone().lerp(amber, rng() * 0.5));
+  }
+  // the sapphire throne above the firmament — a blue dome cluster
+  for (let i = 0; i < 700; i++) {
+    const u = rng(), v = rng();
+    const th = u * Math.PI * 2, ph = Math.acos(1 - v * 0.9);
+    const rr = 12 + (rng() - 0.5) * 2;
+    pushPt(Math.sin(ph) * Math.cos(th) * rr, 52 + Math.cos(ph) * rr * 0.8, Math.sin(ph) * Math.sin(th) * rr,
+      sapph.clone().lerp(whitefire, rng() * 0.4));
+  }
+  // the rainbow of the brightness round about — a hued arc over the throne
+  for (let i = 0; i < 500; i++) {
+    const a = Math.PI * (0.08 + rng() * 0.84);
+    const rr = 30 + (rng() - 0.5) * 1.6;
+    const hue = 0.0 + (a / Math.PI) * 0.85;
+    const c = new THREE.Color().setHSL(hue, 0.7, 0.5).multiplyScalar(0.72);
+    pushPt(Math.cos(a) * rr, 52 + Math.sin(a) * rr, -18 + (rng() - 0.5) * 3, c);
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+  geo.setAttribute('acolor', new THREE.Float32BufferAttribute(cols, 3));
+  geo.setAttribute('wheel', new THREE.Float32BufferAttribute(spin, 1));
+  const seeds = new Float32Array(spin.length); for (let i = 0; i < seeds.length; i++) seeds[i] = rng();
+  geo.setAttribute('seed', new THREE.Float32BufferAttribute(seeds, 1));
+  const uniforms = { uTime: { value: 0 }, uPx: { value: 1 }, uMap: { value: tex }, uFade: { value: 1 } };
+  const mat = new THREE.ShaderMaterial({
+    uniforms, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    vertexShader: `
+      uniform float uTime, uPx; attribute vec3 acolor; attribute float wheel; attribute float seed;
+      varying vec3 vC; varying float vTw;
+      void main(){
+        vC = acolor; vTw = 0.5 + 0.28*sin(uTime*3.0 + seed*40.0);
+        vec3 p = position;
+        if(wheel >= 0.0){                       // roll each wheel in its own vertical plane
+          float cx = mod(wheel,2.0) < 0.5 ? -16.0 : 16.0;
+          float ang = uTime*1.1*(wheel < 1.5 ? 1.0 : -1.0);
+          float s=sin(ang), co=cos(ang);
+          vec2 d = vec2(p.x - cx, p.y - 10.0);
+          p.x = cx + d.x*co - d.y*s; p.y = 10.0 + d.x*s + d.y*co;
+        }
+        vec4 mv = modelViewMatrix * vec4(p,1.0);
+        gl_PointSize = uPx*3.0*(300.0/-mv.z);
+        gl_Position = projectionMatrix*mv;
+      }`,
+    fragmentShader: `
+      uniform sampler2D uMap; uniform float uFade; varying vec3 vC; varying float vTw;
+      void main(){ float m=texture2D(uMap,gl_PointCoord).r; if(m<0.02) discard;
+        gl_FragColor=vec4(vC, m*vTw*uFade);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment> }`,
+  });
+  const cloud = new THREE.Points(geo, mat);
+  cloud.frustumCulled = false;
+  g.add(cloud);
+  // a soft base halo grounding the vision in flame
+  const flame = makeSprite(0xff7a3a, 26, 0.16); flame.position.y = 8; g.add(flame);
+  ctx.facePath = true; ctx.overrideU = 42; ctx.focusH = 34; ctx.skyHeight = 22;
+  const beatD = ctx.placement.d;
+  return {
+    group: g,
+    update: (t, dt, camD) => {
+      uniforms.uTime.value = t;
+      uniforms.uPx.value = Math.min(window.devicePixelRatio || 1, 2);
+      const prox = 1 - Math.min(1, Math.abs(camD - beatD) / 300);
+      uniforms.uFade.value = 0.35 + 0.65 * prox;      // swells as you draw near
+      flame.material.opacity = (0.12 + 0.08 * Math.sin(t * 4.0)) * prox;
+    },
+  };
+};
+
+// "There shall come a Star out of Jacob." A brilliant star hangs in the night
+// sky, a long thick tail of light streaming down out of the land — a luminous
+// tapering trail (a MeshLine-style ribbon) bright at the star and fading to
+// nothing along its length.
+BUILDERS.startrail = function (ctx) {
+  const g = new THREE.Group();
+  // the tail sweeps up out of Jacob (low, behind) to the star (high, ahead)
+  const HEAD = new THREE.Vector3(18, 90, 34);
+  const curve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-96, 8, -46), new THREE.Vector3(-52, 34, -24),
+    new THREE.Vector3(-14, 62, 2), new THREE.Vector3(2, 80, 20), HEAD,
+  ]);
+  const tube = new THREE.TubeGeometry(curve, 180, 2.4, 10, false);
+  const trailMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(0xfff0c0) }, uFade: { value: 1 } },
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+    vertexShader: `varying float vU; varying vec2 vC; void main(){ vU=uv.x; vC=uv;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+    fragmentShader: `
+      varying float vU; varying vec2 vC; uniform float uTime, uFade; uniform vec3 uColor;
+      void main(){
+        float body = smoothstep(0.0, 0.85, vU);        // fade to nothing at the tail
+        float head = smoothstep(0.9, 1.0, vU) * 1.8;   // hot core at the star
+        float shimmer = 0.85 + 0.15*sin(uTime*3.0 + vU*30.0);
+        float cross = smoothstep(0.35, 0.5, vC.y) * smoothstep(0.65, 0.5, vC.y); // brighter core line
+        float a = (body*0.7 + head) * (0.6 + 0.4*cross) * shimmer * uFade;
+        if(a < 0.01) discard;
+        gl_FragColor = vec4(uColor * (0.8 + head), clamp(a,0.0,1.0));
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment> }`,
+  });
+  const trail = new THREE.Mesh(tube, trailMat); g.add(trail);
+  // the star itself — a hot brilliant core with radiating spikes
+  const star = new THREE.Group(); star.position.copy(HEAD);
+  const core = makeSprite(0xffffff, 11, 0.95); star.add(core);
+  const glow = makeSprite(0xffe6a0, 30, 0.45); star.add(glow);
+  const spark = makeSprite(0xfff4d0, 9, 0.9, true); star.add(spark);
+  const rays = [];
+  for (let i = 0; i < 4; i++) {
+    const ray = makeSprite(0xfff0cf, 1, 0.5); ray.scale.set(2.2, 44, 1);
+    ray.material.rotation = (i / 4) * Math.PI; star.add(ray); rays.push(ray);
+  }
+  g.add(star);
+  // a low altar mound where Balaam looks up and beholds it
+  const mound = cyl(5, 7, 3, MAT.stoneDark, 6); mound.position.set(-8, 1.5, 26); g.add(mound);
+  const altarGlow = makeSprite(0xffcaa0, 7, 0.3); altarGlow.position.set(-8, 4, 26); g.add(altarGlow);
+  ctx.facePath = true; ctx.focusH = 88; ctx.skyHeight = 18;
+  const beatD = ctx.placement.d;
+  return {
+    group: g,
+    update: (t, dt, camD) => {
+      trailMat.uniforms.uTime.value = t;
+      const prox = 1 - Math.min(1, Math.abs(camD - beatD) / 340);
+      trailMat.uniforms.uFade.value = 0.4 + 0.6 * prox;
+      const pulse = 0.8 + 0.2 * Math.sin(t * 2.2);
+      core.material.opacity = 0.95 * pulse; glow.material.opacity = 0.45 * pulse;
+      spark.material.rotation = t * 1.6;
+      star.position.y = HEAD.y + Math.sin(t * 0.5) * 1.2;   // a gentle drift in the heavens
+      rays.forEach((r, i) => { r.material.rotation = (i / 4) * Math.PI + t * 0.05; });
+      altarGlow.material.opacity = 0.24 + 0.1 * Math.sin(t * 3);
     },
   };
 };

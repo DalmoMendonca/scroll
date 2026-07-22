@@ -1135,7 +1135,7 @@ export const BOOKS = [
           "t": "I Jesus have sent mine angel to testify unto you these things in the churches. I am the root and the offspring of David, and the bright and morning star.",
           "ref": "Revelation 22:16"
         },
-        "prop": "altar",
+        "prop": "startrail",
         "flare": false
       },
       {
@@ -2887,7 +2887,7 @@ export const BOOKS = [
           "t": "And immediately I was in the spirit: and, behold, a throne was set in heaven, and one sat on the throne. And he that sat was to look upon like a jasper and a sardine stone: and there was a rainbow round about the throne, in sight like unto an emerald.",
           "ref": "Revelation 4:2–3"
         },
-        "prop": "throne",
+        "prop": "chariot",
         "flare": false
       },
       {

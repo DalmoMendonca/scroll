@@ -19,6 +19,8 @@ const BEHOLD = [
   { book: 'genesis', re: /Sodom falls/, kind: 'prop',     framing: 'wide',     range: 190 },
   { book: 'exodus',  re: /oppressed and Moses/, kind: 'landmark', lu: 360, ls: 1, lfrac: 0.15, framing: 'wide', range: 300 },
   { book: 'exodus',  re: /crosses the sea/,     kind: 'corridor', framing: 'corridor', range: 200 },
+  { book: 'numbers', re: /star from Jacob/,     kind: 'prop',     framing: 'tower',    range: 200, drop: 4 },
+  { book: 'ezekiel', re: /divine chariot/,      kind: 'prop',     framing: 'wide',     range: 240 },
 ];
 
 const MOOD_KEYS = ['eye', 'fov', 'look', 'bob', 'sway', 'bank', 'lateral', 'orbit'];
