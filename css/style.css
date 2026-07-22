@@ -265,24 +265,34 @@ body {
   display: none;
   z-index: 3;
 }
+.outro::before {
+  content: '';
+  position: absolute;
+  inset: -18% -16%;
+  background: radial-gradient(ellipse at center, rgba(18, 12, 26, 0.6), rgba(18, 12, 26, 0) 72%);
+  z-index: -1;
+}
 .ot-he {
   font-family: var(--hebrew);
   font-weight: 300;
   font-size: clamp(4rem, 13vw, 8.5rem);
-  color: #f8f1df;
-  text-shadow: 0 2px 70px rgba(255, 220, 150, 0.3);
+  color: #fbf5e6;
+  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.55), 0 0 70px rgba(255, 220, 150, 0.3);
 }
 .ot-line {
   font-style: italic;
-  font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
   margin-top: 1.4rem;
-  opacity: 0.88;
+  opacity: 1;
+  color: #fff7ea;
+  text-shadow: 0 1px 22px rgba(0, 0, 0, 0.72), 0 0 3px rgba(0, 0, 0, 0.5);
 }
 .ot-sub {
   font-size: 1.02rem;
   letter-spacing: 0.08em;
   margin-top: 1.7rem;
-  opacity: 0.62;
+  opacity: 0.9;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.6);
 }
 #again {
   pointer-events: auto;

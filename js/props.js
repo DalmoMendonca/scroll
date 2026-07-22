@@ -141,6 +141,38 @@ function flameGroup(ctx, scale = 1, smoke = true) {
   return g;
 }
 
+// A convincing flame "card": an fbm-noise fire on a billboard plane — rising,
+// flickering tongues that shade from a white-hot core through orange to deep red.
+// Cross several of these for a volumetric flame. Opaque fire so it reads on any sky.
+function flameCardMaterial() {
+  return new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 }, uSeed: { value: Math.random() * 10 } },
+    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+    fragmentShader: `
+      varying vec2 vUv; uniform float uTime, uSeed;
+      float h(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5); }
+      float n(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
+        return mix(mix(h(i),h(i+vec2(1,0)),f.x), mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x), f.y); }
+      float fbm(vec2 p){ float s=0.,a=.5; for(int i=0;i<5;i++){ s+=a*n(p); p=p*2.02+vec2(1.3); a*=.5; } return s; }
+      void main(){
+        vec2 uv = vUv;
+        float t = uTime + uSeed;
+        float d = fbm(vec2(uv.x*3.5, uv.y*2.2 - t*1.9));      // noise streaming upward
+        float shape = 1.0 - uv.y;                             // more fuel at the base
+        float body = smoothstep(0.40, 0.95, d*0.7 + shape*0.62);
+        float side = clamp(1.0 - abs(uv.x-0.5)*2.0/(0.34 + uv.y*0.62), 0.0, 1.0);  // narrows upward
+        float f = body * side * smoothstep(1.0, 0.55, uv.y);  // taper the tips
+        if(f < 0.04) discard;
+        vec3 col = mix(vec3(0.72,0.05,0.02), vec3(1.0,0.55,0.08), smoothstep(0.1,0.5,f));
+        col = mix(col, vec3(1.0,0.95,0.72), smoothstep(0.55,0.9,f));   // white-hot core
+        gl_FragColor = vec4(col, clamp(f*1.5, 0.0, 1.0));
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  });
+}
+
 // Column of fire / cloud with scrolling shader.
 function columnMaterial(colorA, colorB, isCloud) {
   return new THREE.ShaderMaterial({
@@ -694,16 +726,16 @@ const BUILDERS = {
     ctx.focusH = 30;
     return {
       group: g,
-      update: (t) => {
+      update: (t, dt, camD) => {
         mat.uniforms.uTime.value = t;
         if (sea) {
+          sea.group.visible = Math.abs(camD - sea.beatD) < 500;   // only near the crossing, never a distant sheet
           for (let i = 0; i < sea.fish.length; i++) {
             const f = sea.fish[i];
             f.position.y = f.userData.by + Math.sin(t * 0.5 + f.userData.ph) * 1.6;
             f.rotation.z = Math.sin(t * 0.7 + f.userData.ph) * 0.15;
           }
           for (let i = 0; i < sea.floor.length; i++) sea.floor[i].material.opacity = 0.1 + 0.06 * Math.sin(t * 1.3 + i);
-          for (let i = 0; i < sea.seaMats.length; i++) sea.seaMats[i].uniforms.uTime.value = t;
         }
       },
     };
@@ -745,35 +777,36 @@ const BUILDERS = {
     const rng = ctx.rng;
     // the bush — green and unconsumed at the heart of the fire
     const bushMat = lam(0x2e4a2a, { emissive: 0x14260c, emissiveIntensity: 0.5 });
-    const bush = blob(5, bushMat, 1); bush.position.y = 4; bush.scale.y *= 0.9; g.add(bush);
-    const bush2 = blob(3.2, bushMat, 1); bush2.position.set(2.4, 3.4, 1.2); g.add(bush2);
-    const bush3 = blob(2.6, bushMat, 0); bush3.position.set(-2.6, 3, -0.6); g.add(bush3);
-    // tall living tongues of fire wrapping it (emissive mesh, reads against any sky)
-    const fireMat = lam(0xff8a2e, { emissive: 0xff6a1e, emissiveIntensity: 2.8 });
-    const tongues = [];
-    for (let i = 0; i < 16; i++) {
-      const a = (i / 16) * Math.PI * 2, rr = 1.5 + rng() * 4;
-      const tg = new THREE.Mesh(new THREE.ConeGeometry(0.8 + rng() * 0.8, 5 + rng() * 8, 5), fireMat);
-      tg.position.set(Math.cos(a) * rr, 4 + rng() * 5, Math.sin(a) * rr);
-      tongues.push({ m: tg, ph: rng() * 9, b: tg.position.y, h: tg.scale.y }); g.add(tg);
-    }
-    // radiance — holy ground
-    const glow = makeSprite(0xff7a2a, 34, 0.6); glow.position.y = 7; g.add(glow);
-    const core = makeSprite(0xffe6b0, 16, 0.75); core.position.y = 6; g.add(core);
-    const halo = makeSprite(0xffcf8a, 60, 0.22); halo.position.y = 7; g.add(halo);
-    const rays = [];
-    for (let i = 0; i < 8; i++) { const r = makeSprite(0xffe9b8, 1, 0.3); r.scale.set(2.6, 40, 1); r.material.rotation = (i / 8) * Math.PI; r.position.y = 8; rays.push(r); g.add(r); }
+    const bush = blob(4.4, bushMat, 1); bush.position.y = 3.6; bush.scale.y *= 0.9; g.add(bush);
+    const bush2 = blob(2.8, bushMat, 1); bush2.position.set(2.1, 3, 1); g.add(bush2);
+    const bush3 = blob(2.3, bushMat, 0); bush3.position.set(-2.3, 2.7, -0.5); g.add(bush3);
+    // real flame: crossed billboard cards with an fbm fire shader, so the bush
+    // stands wrapped in living tongues that read from any angle
+    const flameMats = [];
+    const card = (w, h, x, z, ry) => {
+      const m = flameCardMaterial(); flameMats.push(m);
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h, 1, 1), m);
+      mesh.position.set(x, h / 2 + 1.4, z); mesh.rotation.y = ry;
+      g.add(mesh);
+    };
+    card(20, 26, 0, 0, 0); card(20, 26, 0, 0, Math.PI / 2);       // central crossed flame, tall
+    card(15, 21, 3.4, 0.5, 0.5); card(15, 21, -3.2, 0.8, -0.6);   // flanking tongues
+    card(12, 17, 1.2, -2.6, 1.1); card(12, 17, -1.6, 2.6, -1.2);
+    card(9, 13, 4, -1, 0.9); card(9, 13, -4, 1, -0.9);            // outer licks
+    // a modest warm glow (kept low so the flames themselves read as the hero)
+    const glow = makeSprite(0xff6a1e, 18, 0.35); glow.position.y = 6; g.add(glow);
+    const core = makeSprite(0xffd9a0, 7, 0.4); core.position.y = 5.5; g.add(core);
+    const halo = makeSprite(0xffb347, 44, 0.12); halo.position.y = 8; g.add(halo);
     const embers = [];
-    for (let i = 0; i < 10; i++) { const e = makeSprite(0xffcf8a, 1.0, 0.8, true); embers.push(e); g.add(e); }
-    ctx.facePath = true; ctx.focusH = 8;
+    for (let i = 0; i < 14; i++) { const e = makeSprite(0xffcf8a, 1.0, 0.8, true); embers.push(e); g.add(e); }
+    ctx.facePath = true; ctx.focusH = 9;
     return {
       group: g,
       update: (t) => {
-        for (const tg of tongues) { tg.m.scale.y = 0.8 + 0.45 * Math.sin(t * 6 + tg.ph); tg.m.position.y = tg.b + Math.sin(t * 4 + tg.ph) * 0.6; }
-        glow.material.opacity = 0.5 + 0.15 * Math.sin(t * 5);
-        core.material.opacity = 0.6 + 0.2 * Math.sin(t * 7);
-        rays.forEach((r, i) => { r.material.rotation = (i / 8) * Math.PI + t * 0.1; });
-        embers.forEach((e, i) => { const q = ((t * 0.45 + i * 0.13) % 1); e.position.set(Math.sin(i * 9 + t) * 3.4, 3 + q * 11, Math.cos(i * 7) * 3.4); e.material.opacity = 0.8 * (1 - q); });
+        for (let i = 0; i < flameMats.length; i++) flameMats[i].uniforms.uTime.value = t;
+        glow.material.opacity = 0.3 + 0.12 * Math.sin(t * 5);
+        core.material.opacity = 0.35 + 0.15 * Math.sin(t * 7);
+        embers.forEach((e, i) => { const q = ((t * 0.45 + i * 0.13) % 1); e.position.set(Math.sin(i * 9 + t) * 3.6, 3 + q * 13, Math.cos(i * 7) * 3.6); e.material.opacity = 0.8 * (1 - q); });
       },
     };
   },
@@ -1618,22 +1651,27 @@ BUILDERS.flood = function (ctx) {
   const dove = makeSprite(0xf0ece0, 1.6, 0.9, true); ark.add(dove);
   ark.position.set(30, 0, -12); g.add(ark);
   ctx.overrideU = 0; ctx.alignToPath = true; ctx.focusH = 8;
-  const PEAK = 24;   // high enough to drown the near land at the height of the flood
+  const PEAK = 24, DRAINED = -26;   // full flood height vs. drained below ground
   return {
     group: g,
     update: (t, dt, camD) => {
       mat.uniforms.uTime.value = t;
-      const prox = 1 - Math.min(1, Math.abs(ctx.placement.d - camD) / 300);
-      const drop = smoothstep(20, -150, ctx.placement.d - camD);   // the waters abate as you pass
-      // track the terrain under the camera so the near land stays drowned at the flood's height
+      const dd = ctx.placement.d - camD;                 // >0 approaching, <0 past
+      // 1) the rain comes first — ramps in far out, before any water gathers
+      const recede = smoothstep(-40, -190, dd);          // the waters abate once you pass
+      const rain = smoothstep(640, 300, dd) * (1 - recede);
+      // 2) the waters then accumulate, rising from drained to full by the beat
+      const rise = smoothstep(520, 40, dd);
       const floor = heightAt(camD, 0);
-      const level = (floor + PEAK - drop * 46) - (ctx.baseY || 0);  // local y; world level follows the camera
+      const rel = lerp(DRAINED, PEAK, rise) - recede * (PEAK - DRAINED + 12);
+      const level = (floor + rel) - (ctx.baseY || 0);    // local; world level tracks the camera's ground
       water.position.y = level;
       ark.position.y = level - 1;
       ark.rotation.z = Math.sin(t * 0.5) * 0.05;
-      storm.update(t, dt || 0.016, prox * (1 - drop));             // storm clears as the flood recedes
+      ark.visible = rise > 0.25 && recede < 0.9;         // the ark lifts up as the waters bear it
+      storm.update(t, dt || 0.016, rain);
       dove.position.set(4 + Math.sin(t) * 8, level + 4 + Math.sin(t * 0.7) * 3, 4 + Math.cos(t * 0.6) * 8);
-      dove.material.opacity = 0.85 * (1 - drop);
+      dove.material.opacity = 0.85 * rise * (1 - recede);
     },
   };
 };
@@ -1873,23 +1911,32 @@ BUILDERS.newcovenant = function (ctx) {
 
 // The suffering servant: a bowed, wounded figure with arms outstretched, wounds
 // of light, a lamb at his feet — bearing the people's sorrows (Isaiah 53).
+// "He is brought as a lamb to the slaughter... he openeth not his mouth." A
+// single dignified lamb under a soft radiance, its head lowered, one wound of
+// light on its side — the reverent symbol of the suffering servant (Isaiah 53).
 BUILDERS.servant = function (ctx) {
   const g = new THREE.Group();
-  const skin = lam(0x8a7360);
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(1.2, 3.4, 4, 8), skin); body.rotation.z = 0.18; body.position.y = 3.2; g.add(body);
-  const head = blob(0.95, lam(0x9a8370)); head.position.set(-0.7, 5.6, 0); head.rotation.z = 0.3; g.add(head);
-  for (const s of [-1, 1]) { const arm = cyl(0.26, 0.3, 3.6, skin, 5); arm.position.set(s * 1.7, 4.4, 0); arm.rotation.z = s * 1.15; g.add(arm); }
-  const wounds = [];
-  for (const p of [[-3.1, 4.7, 0.2], [3.1, 4.7, 0.2], [0.5, 3.4, 1.2]]) { const w = makeSprite(0xfff2d0, 2.6, 0.7, true); w.position.set(p[0], p[1], p[2]); wounds.push(w); g.add(w); }
-  const lamb = new THREE.Mesh(new THREE.CapsuleGeometry(0.7, 1.2, 4, 8), lam(0xe8e0cc)); lamb.rotation.z = Math.PI / 2; lamb.position.set(3.4, 1, 2.4); g.add(lamb);
-  const lambHead = blob(0.5, lam(0xf0e8d4)); lambHead.position.set(4.4, 1.2, 2.4); g.add(lambHead);
-  const halo = makeSprite(0xd8d0e8, 44, 0.24); halo.position.y = 5; g.add(halo);
-  ctx.facePath = true; ctx.focusH = 6;
+  const rng = ctx.rng;
+  const wool = lam(0xeae4d4, { emissive: 0x2a261e, emissiveIntensity: 0.35 });
+  const face = lam(0x6a5f52);
+  // the woolly body
+  const body = blob(2.7, wool, 1); body.scale.set(1.5, 1.05, 1.1); body.position.set(0, 3.4, 0); g.add(body);
+  for (let i = 0; i < 16; i++) { const a = rng() * Math.PI * 2; const w = blob(0.9 + rng() * 0.7, wool, 0); w.position.set(Math.cos(a) * 3.4 * (0.4 + rng() * 0.6), 3.4 + (rng() - 0.5) * 2.4, Math.sin(a) * 1.7 * (0.4 + rng() * 0.6)); g.add(w); }
+  // the head, lowered in meekness
+  const head = blob(1.2, wool, 1); head.position.set(3.5, 2.5, 0); g.add(head);
+  const snout = blob(0.7, face); snout.scale.set(1.3, 0.85, 0.9); snout.position.set(4.7, 2.1, 0); g.add(snout);
+  for (const s of [-1, 1]) { const ear = blob(0.5, wool, 0); ear.scale.set(0.55, 1.2, 0.5); ear.position.set(3.3, 3.4, s * 0.95); ear.rotation.z = -0.4; g.add(ear); }
+  for (const [lx, lz] of [[-1.7, -0.7], [-1.7, 0.7], [1.5, -0.7], [1.5, 0.7]]) { const leg = cyl(0.24, 0.32, 2.6, face, 5); leg.position.set(lx, 1.3, lz); g.add(leg); }
+  // a soft radiance, and one wound of light on its side (with his stripes we are healed)
+  const halo = makeSprite(0xf0ecff, 34, 0.22); halo.position.set(1, 5.4, 0); g.add(halo);
+  const wound = makeSprite(0xffe0d0, 3.6, 0.45, true); wound.position.set(0.2, 3.4, 1.7); g.add(wound);
+  const glow = makeSprite(0xffd9c0, 12, 0.2); glow.position.set(1, 3.4, 0); g.add(glow);
+  ctx.facePath = true; ctx.focusH = 5;
   return {
     group: g,
     update: (t) => {
-      for (let i = 0; i < wounds.length; i++) wounds[i].material.opacity = 0.5 + 0.3 * Math.sin(t * 2 + i * 2);
-      halo.material.opacity = 0.2 + 0.08 * Math.sin(t);
+      halo.material.opacity = 0.18 + 0.08 * Math.sin(t * 0.9);
+      wound.material.opacity = 0.3 + 0.2 * Math.sin(t * 1.6);
     },
   };
 };
@@ -2060,48 +2107,56 @@ BUILDERS.shatter = function (ctx) {
 // stranger blazing with light, the moment the name Israel is given.
 BUILDERS.wrestle = function (ctx) {
   const g = new THREE.Group();
-  const capsule = (r, h, mat) => new THREE.Mesh(new THREE.CapsuleGeometry(r, h, 4, 8), mat);
-  const S = 2.9;   // the struggle staged ~3x larger than before
-  // the precipice at Peniel — a rocky promontory rising out of the land, the
-  // ground falling sheer away below the wrestlers
-  const crag = new THREE.Group();
-  const spire = blob(24, MAT.stoneDark, 1); spire.scale.set(1.5, 1.7, 1.4); spire.position.y = -30; crag.add(spire);
-  const buttress = blob(16, lam(0x362b23), 1); buttress.scale.set(1.2, 1.5, 1.1); buttress.position.set(-14, -24, 6); crag.add(buttress);
-  const ledge = box(40, 6, 34, MAT.stone); ledge.position.y = -3; crag.add(ledge);
-  const lip = box(46, 3, 8, MAT.stoneLight); lip.position.set(0, -1.5, 15); crag.add(lip);   // the brink, facing the drop
-  g.add(crag);
-  // the wrestlers, scaled up, locked at the brink
-  const fight = new THREE.Group(); fight.scale.setScalar(S); fight.position.set(0, 0, 3);
-  const jacob = capsule(0.9, 3.0, lam(0x5a4433));
-  jacob.position.set(-1.3, 2.6, 0); jacob.rotation.z = 0.42; fight.add(jacob);
-  const jHead = blob(0.7, lam(0x6a5340)); jHead.position.set(-2.0, 4.3, 0); fight.add(jHead);
-  const angel = capsule(1.0, 3.4, lam(0xe8d79a, { emissive: 0x8a7a3a, emissiveIntensity: 1.0 }));
-  angel.position.set(1.3, 2.9, 0); angel.rotation.z = -0.5; fight.add(angel);
-  const aHead = blob(0.75, lam(0xf0e2ad, { emissive: 0x8a7a3a, emissiveIntensity: 0.9 }));
-  aHead.position.set(2.0, 4.7, 0); fight.add(aHead);
-  for (const [x, y, rot, mat] of [[-0.2, 3.4, 0.5, lam(0x5a4433)], [0.2, 3.7, -0.5, lam(0xe8d79a, { emissive: 0x8a7a3a, emissiveIntensity: 0.9 })]]) {
-    const arm = cyl(0.22, 0.26, 2.4, mat, 5); arm.position.set(x, y, 0.3); arm.rotation.z = rot; fight.add(arm);
-  }
-  const hip = makeSprite(0xff8a5e, 3.2, 0.6); hip.position.set(-0.3, 2.2, 0.4); fight.add(hip);
+  const limb = (r, h, mat) => new THREE.Mesh(new THREE.CapsuleGeometry(r, h, 3, 6), mat);
+  const S = 3.0;
+  // the cliff at Peniel: a plateau with a sheer face dropping to the river Jabbok
+  const rockD = MAT.stoneDark, rockM = lam(0x3a2d24);
+  const cliff = new THREE.Group();
+  const top = box(48, 10, 40, MAT.stone); top.position.set(0, -5, -8); cliff.add(top);      // the plateau they stand on
+  const face = box(54, 66, 10, rockM); face.position.set(0, -40, 12); face.rotation.x = 0.05; cliff.add(face);   // the sheer drop
+  const face2 = box(34, 60, 9, rockD); face2.position.set(-20, -38, 16); face2.rotation.set(0.1, 0.4, 0.05); cliff.add(face2);
+  const buttress = blob(20, rockD, 1); buttress.scale.set(1.4, 2.4, 1.2); buttress.position.set(18, -46, 8); cliff.add(buttress);
+  g.add(cliff);
+  // the river winding far below at the foot of the cliff
+  const riverMat = fluidWaterMaterial(0.7, 0x6f95b8, 0.92, false);
+  const river = new THREE.Mesh(new THREE.PlaneGeometry(260, 46), riverMat);
+  river.rotation.x = -Math.PI / 2; river.rotation.z = 0.28; river.position.set(-14, -46, 66); g.add(river);
+  // the two wrestlers locked in a clinch at the very brink
+  const fight = new THREE.Group(); fight.scale.setScalar(S); fight.position.set(0, 0, 9);
+  const jMat = lam(0x5a4433), aMat = lam(0xe8d79a, { emissive: 0x8a7a3a, emissiveIntensity: 1.0 });
+  // Jacob — straining in from the left
+  const J = new THREE.Group(); J.position.set(-1.7, 0, 0);
+  const jTorso = limb(0.85, 2.2, jMat); jTorso.position.set(0, 3.1, 0); jTorso.rotation.z = 0.55; J.add(jTorso);
+  const jHead = blob(0.62, lam(0x6a5340)); jHead.position.set(0.8, 4.7, 0); J.add(jHead);
+  const jLegF = limb(0.34, 1.7, jMat); jLegF.position.set(-0.5, 1.1, 0.5); jLegF.rotation.z = 0.35; J.add(jLegF);
+  const jLegB = limb(0.34, 1.7, jMat); jLegB.position.set(-1.5, 1.2, -0.4); jLegB.rotation.z = 0.6; J.add(jLegB);
+  const jArm1 = limb(0.27, 1.6, jMat); jArm1.position.set(1.2, 3.9, 0.35); jArm1.rotation.z = -0.95; J.add(jArm1);   // over the angel's shoulder
+  const jArm2 = limb(0.27, 1.5, jMat); jArm2.position.set(1.0, 2.8, 0.55); jArm2.rotation.z = -1.35; J.add(jArm2);   // gripping the angel's waist
+  fight.add(J);
+  // the stranger — firm and radiant, from the right
+  const A = new THREE.Group(); A.position.set(1.7, 0, 0);
+  const aTorso = limb(0.9, 2.4, aMat); aTorso.position.set(0, 3.3, 0); aTorso.rotation.z = -0.38; A.add(aTorso);
+  const aHead = blob(0.66, lam(0xf0e2ad, { emissive: 0x8a7a3a, emissiveIntensity: 0.9 })); aHead.position.set(-0.6, 5.2, 0); A.add(aHead);
+  const aLegF = limb(0.36, 1.9, aMat); aLegF.position.set(0.5, 1.2, 0.4); aLegF.rotation.z = -0.28; A.add(aLegF);
+  const aLegB = limb(0.36, 1.9, aMat); aLegB.position.set(1.4, 1.2, -0.3); aLegB.rotation.z = -0.5; A.add(aLegB);
+  const aArm1 = limb(0.29, 1.7, aMat); aArm1.position.set(-1.2, 4.1, 0.35); aArm1.rotation.z = 0.95; A.add(aArm1);   // gripping Jacob's shoulder
+  const aArm2 = limb(0.29, 1.5, aMat); aArm2.position.set(-1.05, 2.5, 0.55); aArm2.rotation.z = 1.45; A.add(aArm2);  // reaching to the hollow of Jacob's thigh
+  fight.add(A);
+  const hip = makeSprite(0xff8a5e, 3.0, 0.6); hip.position.set(-0.2, 2.5, 0.7); fight.add(hip);   // the touched hip, out of joint
   g.add(fight);
-  // a great radiant burst — daybreak breaking over the struggle, scaled to match
-  const burst = makeSprite(0xfff2c9, 64, 0.55); burst.position.set(1, 15, -8); g.add(burst);
+  // daybreak breaking over the struggle
+  const burst = makeSprite(0xfff2c9, 62, 0.55); burst.position.set(2, 16, -10); g.add(burst);
   const rays = [];
-  for (let i = 0; i < 8; i++) {
-    const ray = makeSprite(0xffe9b8, 1, 0.3);
-    ray.scale.set(7, 100, 1); ray.material.rotation = (i / 8) * Math.PI;
-    ray.position.set(1, 15, -9); rays.push(ray); g.add(ray);
-  }
-  const halo = makeSprite(0xffe0a0, 120, 0.18); halo.position.set(1, 15, -10); g.add(halo);
-  ctx.facePath = true;
-  ctx.focusH = 18;
-  ctx.skyHeight = 30;   // lift the promontory high above the surrounding land
+  for (let i = 0; i < 8; i++) { const ray = makeSprite(0xffe9b8, 1, 0.3); ray.scale.set(7, 100, 1); ray.material.rotation = (i / 8) * Math.PI; ray.position.set(2, 16, -11); rays.push(ray); g.add(ray); }
+  const halo = makeSprite(0xffe0a0, 120, 0.18); halo.position.set(2, 16, -12); g.add(halo);
+  ctx.facePath = true; ctx.focusH = 16; ctx.skyHeight = 46;   // high on the cliff
   return {
     group: g,
     update: (t) => {
-      const grip = Math.sin(t * 1.6) * 0.05;
-      jacob.rotation.z = 0.42 + grip; angel.rotation.z = -0.5 - grip;
-      fight.rotation.y = Math.sin(t * 0.25) * 0.14;
+      riverMat.uniforms.uTime.value = t;
+      const strain = Math.sin(t * 1.7) * 0.06;
+      J.rotation.z = strain; A.rotation.z = -strain;             // heaving against each other
+      fight.rotation.y = Math.sin(t * 0.22) * 0.12;
       burst.material.opacity = 0.5 + 0.18 * Math.sin(t * 2.3);
       hip.material.opacity = 0.5 + 0.25 * Math.sin(t * 5);
       rays.forEach((r, i) => { r.material.rotation = (i / 8) * Math.PI + t * 0.1; });
@@ -2273,27 +2328,40 @@ BUILDERS.chariot = function (ctx) {
       else { pushPt(cx + tube, cy + Math.sin(a) * rr, cz + Math.cos(a) * rr, amber.clone().lerp(topaz, rng()), w); }
     }
   }
-  // the living-creature radiance — a shimmering column of white fire
-  for (let i = 0; i < 900; i++) {
-    const a = rng() * Math.PI * 2, rr = (0.3 + rng() * 0.7) * (8 - rng() * 3);
-    const y = 6 + rng() * 44;
-    pushPt(Math.cos(a) * rr, y, Math.sin(a) * rr, whitefire.clone().lerp(amber, rng() * 0.5));
+  // four living creatures standing upright over the four wheels, wings flaring
+  // outward — a broad winged presence, not a single column
+  for (const [cx, , cz] of wheelPos) {
+    for (let i = 0; i < 230; i++) {
+      const a = rng() * Math.PI * 2, y = 15 + rng() * 22;
+      const flare = (y - 15) / 22;
+      const rr = (0.4 + rng() * 0.6) * 4.6 * (1 + flare * 1.3);
+      pushPt(cx + Math.cos(a) * rr, y, cz + Math.sin(a) * rr, whitefire.clone().lerp(amber, rng() * 0.5));
+    }
   }
-  // the sapphire throne above the firmament — a blue dome cluster
-  for (let i = 0; i < 700; i++) {
-    const u = rng(), v = rng();
-    const th = u * Math.PI * 2, ph = Math.acos(1 - v * 0.9);
-    const rr = 12 + (rng() - 0.5) * 2;
-    pushPt(Math.sin(ph) * Math.cos(th) * rr, 52 + Math.cos(ph) * rr * 0.8, Math.sin(ph) * Math.sin(th) * rr,
-      sapph.clone().lerp(whitefire, rng() * 0.4));
+  // the firmament: a broad, flat crystalline expanse spread over the creatures
+  for (let i = 0; i < 460; i++) {
+    const a = rng() * Math.PI * 2, rr = Math.sqrt(rng()) * 27;
+    pushPt(Math.cos(a) * rr, 40 + (rng() - 0.5) * 2.4, Math.sin(a) * rr * 0.8, sapph.clone().lerp(whitefire, 0.5 + rng() * 0.3));
   }
-  // the rainbow of the brightness round about — a hued arc over the throne
-  for (let i = 0; i < 500; i++) {
-    const a = Math.PI * (0.08 + rng() * 0.84);
-    const rr = 30 + (rng() - 0.5) * 1.6;
-    const hue = 0.0 + (a / Math.PI) * 0.85;
+  // the throne upon the firmament — a WIDE low sapphire seat with a broad back
+  for (let i = 0; i < 560; i++) {
+    let x, y, z;
+    if (rng() < 0.62) { x = (rng() - 0.5) * 32; z = (rng() - 0.5) * 18; y = 44 + rng() * 3; }   // seat
+    else { x = (rng() - 0.5) * 32; z = -9 - rng() * 3; y = 44 + rng() * 15; }                    // low back
+    pushPt(x, y, z, sapph.clone().lerp(whitefire, rng() * 0.4));
+  }
+  // a seated glory of amber fire upon the throne — broad and low
+  for (let i = 0; i < 240; i++) {
+    const a = rng() * Math.PI * 2, rr = Math.sqrt(rng()) * 9;
+    pushPt(Math.cos(a) * rr, 50 + rng() * 7, Math.sin(a) * rr - 2, amber.clone().lerp(topaz, rng()));
+  }
+  // the rainbow of the brightness round about — a wide hued arc over the whole
+  for (let i = 0; i < 540; i++) {
+    const a = Math.PI * (0.05 + rng() * 0.9);
+    const rr = 42 + (rng() - 0.5) * 2;
+    const hue = (a / Math.PI) * 0.85;
     const c = new THREE.Color().setHSL(hue, 0.7, 0.5).multiplyScalar(0.72);
-    pushPt(Math.cos(a) * rr, 52 + Math.sin(a) * rr, -18 + (rng() - 0.5) * 3, c);
+    pushPt(Math.cos(a) * rr, 42 + Math.sin(a) * rr * 0.66, -22 + (rng() - 0.5) * 3, c);
   }
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
@@ -2341,7 +2409,7 @@ BUILDERS.chariot = function (ctx) {
       uniforms.uTime.value = t;
       uniforms.uPx.value = Math.min(window.devicePixelRatio || 1, 2);
       const prox = 1 - Math.min(1, Math.abs(camD - beatD) / 300);
-      uniforms.uFade.value = 0.35 + 0.65 * prox;      // swells as you draw near
+      uniforms.uFade.value = 0.28 + 0.45 * prox;      // swells as you draw near (kept from blowing out)
       flame.material.opacity = (0.12 + 0.08 * Math.sin(t * 4.0)) * prox;
     },
   };
@@ -2550,92 +2618,83 @@ function whirlwind(ctx) {
 function buildSeaWalls(ctx) {
   const g = new THREE.Group();
   const smp = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
-  // deep at the seabed, bright and foaming toward the crest
+  // deep at the seabed, bright and foaming toward the crest — opaque so no dry
+  // land shows past the wall: it is a sheer face of an endless standing sea
   const mat = new THREE.MeshLambertMaterial({
-    vertexColors: true, transparent: true, opacity: 0.95,
-    emissive: 0x123a54, emissiveIntensity: 1.0, side: THREE.DoubleSide, flatShading: false,
+    vertexColors: true, emissive: 0x0e3048, emissiveIntensity: 0.9, side: THREE.DoubleSide, flatShading: false,
   });
-  const DEEP = new THREE.Color(0x0a2740), MID = new THREE.Color(0x1f6a9a), CREST = new THREE.Color(0xbfe8f5);
+  const DEEP = new THREE.Color(0x081f34), MID = new THREE.Color(0x1a5c8a), CREST = new THREE.Color(0xcdeeff);
   const _c = new THREE.Color();
-  const H = 88, step = 8, U = 30;
-  const d0 = ctx.placement.d - 160, d1 = ctx.placement.d + 250;
+  // towering and long, running away to the horizon in both directions
+  const H = 165, step = 8, U = 26, DEPTH = 26;
+  const d0 = ctx.placement.d - 520, d1 = ctx.placement.d + 620;
   const rows = Math.ceil((d1 - d0) / step) + 1;
-  const seaMats = [];
 
   for (const s of [-1, 1]) {
+    // build the wall as a solid slab (a front face toward the corridor + a thick
+    // body outward) so it reads as a mass of water, not a thin curtain
     const positions = [], colors = [], normals = [], idx = [];
+    let base = 0;
     for (let r = 0; r < rows; r++) {
       const d = d0 + r * step; journey.sample(d, smp);
-      const u = s * U;
-      const wobble = Math.sin(r * 0.6) * 1.4;
-      const bx = smp.pos.x + smp.lat.x * (u + wobble), bz = smp.pos.z + smp.lat.z * (u + wobble);
-      const by = heightAt(d, u) - 2;
-      positions.push(bx, by, bz, bx, by + H, bz);
+      const wob = Math.sin(r * 0.5) * 2.2 + Math.sin(r * 0.17) * 4;
+      const uIn = s * (U + wob), uOut = s * (U + DEPTH + wob);
+      const bx = smp.pos.x + smp.lat.x * uIn, bz = smp.pos.z + smp.lat.z * uIn;   // inner (corridor) foot
+      const ox = smp.pos.x + smp.lat.x * uOut, oz = smp.pos.z + smp.lat.z * uOut;  // outer foot
+      const by = heightAt(d, s * U) - 3, topH = H + Math.sin(r * 0.31) * 20;
+      // inner-bottom, inner-top, outer-top (a leaning face + a capped top)
+      positions.push(bx, by, bz, bx, by + topH, bz, ox, by + topH * 0.96, oz);
       _c.copy(DEEP); colors.push(_c.r, _c.g, _c.b);
+      _c.copy(MID).lerp(CREST, 0.6); colors.push(_c.r, _c.g, _c.b);
       _c.copy(MID).lerp(CREST, 0.5); colors.push(_c.r, _c.g, _c.b);
       const nx = -s * smp.lat.x, nz = -s * smp.lat.z;
-      normals.push(nx, 0, nz, nx, 0, nz);
+      normals.push(nx, 0, nz, nx, 0.3, nz, nx, 0.9, nz);
     }
-    for (let r = 0; r < rows - 1; r++) { const a = r * 2; idx.push(a, a + 1, a + 2, a + 2, a + 1, a + 3); }
+    for (let r = 0; r < rows - 1; r++) {
+      const a = base + r * 3, b = base + (r + 1) * 3;
+      idx.push(a, a + 1, b, b, a + 1, b + 1);       // inner face
+      idx.push(a + 1, a + 2, b + 1, b + 1, a + 2, b + 2); // sloped top
+    }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     geo.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
     geo.setIndex(idx);
     geo.computeBoundingSphere();
-    const wall = new THREE.Mesh(geo, mat);
-    wall.frustumCulled = false;
-    g.add(wall);
-    // foam crest ridge along the top
+    const wall = new THREE.Mesh(geo, mat); wall.frustumCulled = false; g.add(wall);
+    // foam boiling along the crest
     for (let r = 0; r < rows; r += 2) {
       const d = d0 + r * step; journey.sample(d, smp);
-      const u = s * U;
-      const f = makeSprite(0xdff2ff, 7, 0.55);
-      f.position.set(smp.pos.x + smp.lat.x * u, heightAt(d, u) - 2 + H, smp.pos.z + smp.lat.z * u);
+      const f = makeSprite(0xdff2ff, 9, 0.5);
+      f.position.set(smp.pos.x + smp.lat.x * (s * U), heightAt(d, s * U) - 3 + H, smp.pos.z + smp.lat.z * (s * U));
       g.add(f);
     }
   }
 
-  // The sea stretches away past each wall to the horizon: a vast churning
-  // surface at the crest height on both sides, the dry corridor cut between.
-  journey.sample(ctx.placement.d, smp);
-  const crestY = heightAt(ctx.placement.d, U) - 2 + H;
-  for (const s of [-1, 1]) {
-    const W = 8000, L = 6000;
-    const off = U + W / 2 + 2;
-    const seaMat = fluidWaterMaterial(0.95, 0x9fd0ea, 0.98, true);   // opaque standing wall-sea
-    const sea = new THREE.Mesh(new THREE.PlaneGeometry(W, L), seaMat);
-    sea.rotation.x = -Math.PI / 2;
-    sea.position.set(smp.pos.x + smp.lat.x * (s * off), crestY, smp.pos.z + smp.lat.z * (s * off));
-    sea.frustumCulled = false;
-    g.add(sea);
-    seaMats.push(seaMat);
-  }
-
   // fish suspended in the standing water
   const fish = [];
-  const fishMat = new THREE.MeshBasicMaterial({ color: 0x0a2a3a, transparent: true, opacity: 0.55 });
-  for (let i = 0; i < 10; i++) {
-    const d = d0 + (0.2 + 0.6 * (i / 10)) * (d1 - d0); journey.sample(d, smp);
-    const s = i % 2 ? 1 : -1, u = s * (U - 2);
+  const fishMat = new THREE.MeshBasicMaterial({ color: 0x0a2a3a, transparent: true, opacity: 0.5 });
+  for (let i = 0; i < 12; i++) {
+    const d = ctx.placement.d - 100 + (i / 12) * 260; journey.sample(d, smp);
+    const s = i % 2 ? 1 : -1, u = s * (U - 1);
     const f = new THREE.Mesh(new THREE.OctahedronGeometry(1.4 + Math.random() * 0.8, 0), fishMat);
     f.scale.set(2.4, 0.9, 0.7);
-    const by = heightAt(d, u) + 8 + Math.random() * 24;
+    const by = heightAt(d, u) + 10 + Math.random() * 40;
     f.position.set(smp.pos.x + smp.lat.x * u, by, smp.pos.z + smp.lat.z * u);
     f.userData.by = by; f.userData.ph = Math.random() * 9;
     fish.push(f); g.add(f);
   }
-  // wet seabed glow on the road floor
   const floor = [];
-  for (let i = 0; i < 5; i++) {
-    const d = d0 + (i + 0.5) / 5 * (d1 - d0); journey.sample(d, smp);
+  for (let i = 0; i < 6; i++) {
+    const d = ctx.placement.d - 100 + (i / 6) * 300; journey.sample(d, smp);
     const fl = makeSprite(0x8fd0e8, 34, 0.14);
     fl.position.set(smp.pos.x, heightAt(d, 0) + 0.4, smp.pos.z);
     floor.push(fl); g.add(fl);
   }
 
   g.userData.isWorldSpace = true;
-  return { group: g, mat, fish, floor, seaMats };
+  g.visible = false;   // gated by proximity in the updater (never a distant "sheet")
+  return { group: g, mat, fish, floor, beatD: ctx.placement.d };
 }
 
 // "The Sun of righteousness shall arise with healing in his wings." A dawn built

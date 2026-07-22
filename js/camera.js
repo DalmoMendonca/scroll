@@ -76,7 +76,8 @@ const INTRO_MOOD = { eye: 8, fov: 4, look: 6, bob: 0.5, sway: 1.0, bank: 0.9, la
 const MOMENTS = [
   { book: 'genesis',      re: /floodwaters/,          type: 'ascend',  mag: 20, range: 175, fov: 6 },
   { book: 'genesis',      re: /floodwaters/,          type: 'shake',   mag: 0.5, range: 150 },
-  { book: 'exodus',       re: /receives the Passover/, type: 'pushin',  mag: 1, range: 80, fov: -4 },
+  { book: 'exodus',       re: /receives the Passover/, type: 'pushin',  mag: 1, range: 80, fov: -3 },
+  { book: 'exodus',       re: /receives the Passover/, type: 'lowskim', mag: 4, range: 70 },
   { book: 'exodus',       re: /arrives at Sinai/,     type: 'ascend',  mag: 30, range: 150, fov: -3 },
   { book: 'exodus',       re: /arrives at Sinai/,     type: 'shake',   mag: 0.6, range: 150 },
   { book: 'exodus',       re: /arrives at Sinai/,     type: 'gloom',   dark: 0.5, range: 175 },
