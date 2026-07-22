@@ -21,6 +21,7 @@ const BEHOLD = [
   { book: 'exodus',  re: /crosses the sea/,     kind: 'corridor', framing: 'corridor', range: 200 },
   { book: 'numbers', re: /star from Jacob/,     kind: 'prop',     framing: 'tower',    range: 200, drop: 4 },
   { book: 'ezekiel', re: /divine chariot/,      kind: 'prop',     framing: 'wide',     range: 240 },
+  { book: 'jeremiah', re: /potter reshape/,     kind: 'prop',     framing: 'closeup',  range: 150 },
 ];
 
 const MOOD_KEYS = ['eye', 'fov', 'look', 'bob', 'sway', 'bank', 'lateral', 'orbit'];

@@ -16,6 +16,7 @@ import { CameraDirector } from './camera.js';
 import { Post } from './post.js';
 import { GPUFlow } from './gpuflow.js';
 import { GPUFlock } from './gpuflock.js';
+import { Potter } from './potter.js';
 import { clamp, lerp, smoothstep, gauss, damp, makeSprite, prefersReducedMotion } from './utils.js';
 
 const canvas = document.getElementById('world');
@@ -83,6 +84,23 @@ for (const r of journey.regions) {
         smpA.pos.z + smpA.lat.z * u,
       );
     }
+  }
+}
+
+// Feature 16: Jeremiah's potter — a clay vessel skinned with a live Gray-Scott
+// reaction-diffusion simulation, forever marred and reshaped on the wheel.
+let potter = null;
+{
+  const jer = journey.regions.find(r => r.book.id === 'jeremiah');
+  const st = jer && jer.stories.find(s => /potter reshape/.test(s.data.title));
+  if (st) {
+    const s = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
+    journey.sample(st.d, s);
+    const u = 30;
+    const anchor = new THREE.Vector3(s.pos.x + s.lat.x * u, heightAt(st.d, u) + 2, s.pos.z + s.lat.z * u);
+    potter = new Potter(renderer, scene, anchor, s.lat);
+    potter.beatD = st.d;
+    st.worldPos = new THREE.Vector3(anchor.x, anchor.y + 13, anchor.z);
   }
 }
 
@@ -295,6 +313,7 @@ function frame(now) {
   particles.update(d, time, camPos, dprLevel);
   if (spiritFlow) spiritFlow.update(dt, time, d, dprLevel);
   if (ravenFlock) ravenFlock.update(dt, time, d, dprLevel);
+  if (potter) potter.update(dt, time, d, dprLevel);
   thread.update(time);
   landmarks.update(d);
   scatter.update(d);
