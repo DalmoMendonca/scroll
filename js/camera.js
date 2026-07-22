@@ -23,6 +23,11 @@ const BEHOLD = [
   { book: 'numbers', re: /star from Jacob/,     kind: 'prop',     framing: 'tower',    range: 200, drop: 4 },
   { book: 'ezekiel', re: /divine chariot/,      kind: 'prop',     framing: 'wide',     range: 240 },
   { book: 'jeremiah', re: /potter reshape/,     kind: 'prop',     framing: 'closeup',  range: 150 },
+  { book: 'kings',   re: /Jerusalem and the temple fall/, kind: 'prop', framing: 'wide', range: 190 },
+  { book: 'kings',   re: /Samaria falls/,       kind: 'prop',     framing: 'wide',     range: 175 },
+  { book: 'exodus',  re: /burning bush/,        kind: 'prop',     framing: 'closeup',  range: 130 },
+  { book: 'genesis', re: /Creation begins/,     kind: 'prop',     framing: 'wide',     range: 220 },
+  { book: 'genesis', re: /covenant promise/,    kind: 'prop',     framing: 'tower',    range: 150, drop: 5 },
 ];
 
 // Cinematic keyframe sequences: for a few marquee beats the camera stops riding
@@ -72,6 +77,7 @@ const MOMENTS = [
   { book: 'joshua',       re: /crosses the Jordan/,   type: 'vista',   mag: 15, range: 175, fov: 9 },
   { book: 'judges',       re: /Samson dies destroying/,type: 'shake',  mag: 0.6, range: 110 },
   { book: 'kings',        re: /Baal on Carmel/,       type: 'pushin',  mag: 4,  range: 120, fov: -9 },
+  { book: 'kings',        re: /Jerusalem and the temple fall/, type: 'gloom', dark: 0.34, range: 150 },
   { book: 'kings',        re: /Elijah ascends/,       type: 'soar',    mag: 78, range: 150, fov: 5, shake: 0.4 },
   { book: 'isaiah',       re: /sees YHWH enthroned/,  type: 'ascend',  mag: 34, range: 150, fov: -2 },
   { book: 'jeremiah',     re: /lowered into a cistern/,type: 'descend', mag: 22, range: 120, fov: -4, dark: 0.42 },

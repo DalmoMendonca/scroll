@@ -396,7 +396,7 @@ const BUILDERS = {
     const g = new THREE.Group();
     const rng = ctx.rng;
     const lonely = ctx.book.id === 'lamentations';
-    const burning = ctx.story && /Sodom falls/.test(ctx.story.data.title);
+    const burning = ctx.story && /Sodom falls|Samaria falls/.test(ctx.story.data.title);
     const ruin = lonely || burning;
     const lit = !ruin && (ctx.book.palette.stars > 0.2 || ctx.book.id === 'chronicles' ||
       ['night', 'predawn', 'dusk', 'starryNight'].includes(ctx.book.palette.timeOfDay));
@@ -477,19 +477,55 @@ const BUILDERS = {
 
   temple(ctx) {
     const g = new THREE.Group();
-    const platform = box(30, 3, 20, MAT.stoneLight); platform.position.y = 1.5; g.add(platform);
-    const hall = box(13, 11, 20, lam(0xc2b193)); hall.position.y = 8.5; g.add(hall);
-    const roofTrim = box(14, 0.7, 21, MAT.gold); roofTrim.position.y = 14.2; g.add(roofTrim);
+    const burning = ctx.story && /Jerusalem and the temple fall/.test(ctx.story.data.title);
+    const wallMat = burning ? lam(0x2e241c) : lam(0xc2b193);
+    const stoneMat = burning ? lam(0x3a2f26) : MAT.stoneLight;
+    const trimMat = burning ? lam(0x4a3820) : MAT.gold;
+    const platform = box(30, 3, 20, stoneMat); platform.position.y = 1.5; g.add(platform);
+    const hall = box(13, 11, 20, wallMat); hall.position.y = 8.5;
+    if (burning) { hall.rotation.z = 0.06; hall.scale.y = 0.82; hall.position.y = 7.2; } g.add(hall);
+    const roofTrim = box(14, 0.7, 21, trimMat); roofTrim.position.y = 14.2;
+    if (burning) { roofTrim.rotation.z = -0.22; roofTrim.position.set(6, 9, 2); } g.add(roofTrim);
     for (const s of [-1, 1]) {
-      const pillar = cyl(1.1, 1.3, 9, lam(0x9a6a3a), 9);
-      pillar.position.set(s * 4.4, 7.5, 11.2); g.add(pillar);
-      const cap = box(3, 1.2, 3, MAT.gold); cap.position.set(s * 4.4, 12.4, 11.2); g.add(cap);
+      const pillar = cyl(1.1, 1.3, 9, burning ? lam(0x352a20) : lam(0x9a6a3a), 9);
+      pillar.position.set(s * 4.4, 7.5, 11.2);
+      if (burning) {   // pillars broken and toppled
+        pillar.rotation.z = s * 0.9; pillar.rotation.x = 0.2; pillar.position.set(s * 8, 3, 13 + s * 2);
+      }
+      g.add(pillar);
+      const cap = box(3, 1.2, 3, trimMat); cap.position.set(s * 4.4, 12.4, 11.2);
+      if (burning) cap.position.set(s * 11, 1.2, 15); g.add(cap);
     }
-    const door = emissivePlane(3, 6.5, ctx.book.palette.accent, 1.2);
-    door.position.set(0, 6.5, 10.05); g.add(door);
-    const doorGlow = makeSprite(0xffe0a0, 10, 0.4); doorGlow.position.set(0, 7, 12); g.add(doorGlow);
+    if (burning) {   // rubble strewn about the ruin
+      for (let i = 0; i < 10; i++) { const r = box(1.5 + ctx.rng() * 2.5, 1.2 + ctx.rng() * 1.6, 1.5 + ctx.rng() * 2, stoneMat); r.position.set((ctx.rng() - 0.5) * 26, 0.8, 6 + ctx.rng() * 16); r.rotation.set(ctx.rng(), ctx.rng(), ctx.rng()); g.add(r); }
+    } else {
+      const door = emissivePlane(3, 6.5, ctx.book.palette.accent, 1.2);
+      door.position.set(0, 6.5, 10.05); g.add(door);
+      const doorGlow = makeSprite(0xffe0a0, 10, 0.4); doorGlow.position.set(0, 7, 12); g.add(doorGlow);
+    }
 
     let update;
+    if (burning) {
+      // the house of God given to the flames (2 Kings 25:9)
+      const flames = [];
+      for (let i = 0; i < 8; i++) {
+        const fl = flameGroup(ctx, 1.6 + ctx.rng() * 1.4, true);
+        fl.position.set((ctx.rng() - 0.5) * 20, 4 + ctx.rng() * 8, 4 + ctx.rng() * 14);
+        flames.push(fl); g.add(fl);
+      }
+      const glow = makeSprite(0xff5a24, 80, 0.45); glow.position.set(0, 12, 4); g.add(glow);
+      const glow2 = makeSprite(0xffab52, 42, 0.5); glow2.position.set(0, 7, 6); g.add(glow2);
+      const smokes = [];
+      for (let i = 0; i < 7; i++) { const sm = makeSprite(0x241d18, 34 + i * 12, 0.35); sm.material.blending = THREE.NormalBlending; smokes.push(sm); g.add(sm); }
+      ctx.facePath = true; ctx.focusH = 16;
+      update = (t) => {
+        flames.forEach(f => f.userData.update(t));
+        glow.material.opacity = 0.4 + 0.14 * Math.sin(t * 3.3);
+        for (let i = 0; i < smokes.length; i++) { const q = ((t * 0.05 + i * 0.17) % 1); smokes[i].position.set(2 + Math.sin(t * 0.3 + i) * 6, 10 + q * 120, 4 + Math.cos(i) * 6); smokes[i].material.opacity = 0.34 * (1 - q); }
+      };
+      g.scale.setScalar(1.15);
+      return { group: g, update };
+    }
     if (ctx.book.id === 'ezekiel') {
       // the river from the threshold — a widening luminous stream
       const pts = [];
@@ -694,30 +730,38 @@ const BUILDERS = {
 
   burningBush(ctx) {
     const g = new THREE.Group();
-    const bush = blob(2.2, lam(0x2a3d24, { emissive: 0x4a1a05, emissiveIntensity: 0.5 }), 1);
-    bush.position.y = 1.6; bush.scale.y *= 0.85; g.add(bush);
-    const sparks = [];
-    for (let i = 0; i < 3; i++) {
-      const s = makeSprite(0xffb36b, 2.4, 0.8, true);
-      s.position.set((ctx.rng() - 0.5) * 2, 1.4 + ctx.rng() * 1.4, (ctx.rng() - 0.5) * 2);
-      sparks.push(s); g.add(s);
+    const rng = ctx.rng;
+    // the bush — green and unconsumed at the heart of the fire
+    const bushMat = lam(0x2e4a2a, { emissive: 0x14260c, emissiveIntensity: 0.5 });
+    const bush = blob(5, bushMat, 1); bush.position.y = 4; bush.scale.y *= 0.9; g.add(bush);
+    const bush2 = blob(3.2, bushMat, 1); bush2.position.set(2.4, 3.4, 1.2); g.add(bush2);
+    const bush3 = blob(2.6, bushMat, 0); bush3.position.set(-2.6, 3, -0.6); g.add(bush3);
+    // tall living tongues of fire wrapping it (emissive mesh, reads against any sky)
+    const fireMat = lam(0xff8a2e, { emissive: 0xff6a1e, emissiveIntensity: 2.8 });
+    const tongues = [];
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * Math.PI * 2, rr = 1.5 + rng() * 4;
+      const tg = new THREE.Mesh(new THREE.ConeGeometry(0.8 + rng() * 0.8, 5 + rng() * 8, 5), fireMat);
+      tg.position.set(Math.cos(a) * rr, 4 + rng() * 5, Math.sin(a) * rr);
+      tongues.push({ m: tg, ph: rng() * 9, b: tg.position.y, h: tg.scale.y }); g.add(tg);
     }
-    const halo = makeSprite(0xff9a4a, 9, 0.4); halo.position.y = 2; g.add(halo);
+    // radiance — holy ground
+    const glow = makeSprite(0xff7a2a, 34, 0.6); glow.position.y = 7; g.add(glow);
+    const core = makeSprite(0xffe6b0, 16, 0.75); core.position.y = 6; g.add(core);
+    const halo = makeSprite(0xffcf8a, 60, 0.22); halo.position.y = 7; g.add(halo);
+    const rays = [];
+    for (let i = 0; i < 8; i++) { const r = makeSprite(0xffe9b8, 1, 0.3); r.scale.set(2.6, 40, 1); r.material.rotation = (i / 8) * Math.PI; r.position.y = 8; rays.push(r); g.add(r); }
     const embers = [];
-    for (let i = 0; i < 5; i++) {
-      const e = makeSprite(0xffcf8a, 0.7, 0.8, true);
-      embers.push(e); g.add(e);
-    }
-    ctx.focusH = 3;
+    for (let i = 0; i < 10; i++) { const e = makeSprite(0xffcf8a, 1.0, 0.8, true); embers.push(e); g.add(e); }
+    ctx.facePath = true; ctx.focusH = 8;
     return {
       group: g,
       update: (t) => {
-        sparks.forEach((s, i) => { s.material.opacity = 0.55 + 0.4 * Math.sin(t * 7 + i * 2.4); });
-        embers.forEach((e, i) => {
-          const q = ((t * 0.5 + i * 0.21) % 1);
-          e.position.set(Math.sin(i * 9 + t) * 1.4, 1.6 + q * 5, Math.cos(i * 7) * 1.4);
-          e.material.opacity = 0.8 * (1 - q);
-        });
+        for (const tg of tongues) { tg.m.scale.y = 0.8 + 0.45 * Math.sin(t * 6 + tg.ph); tg.m.position.y = tg.b + Math.sin(t * 4 + tg.ph) * 0.6; }
+        glow.material.opacity = 0.5 + 0.15 * Math.sin(t * 5);
+        core.material.opacity = 0.6 + 0.2 * Math.sin(t * 7);
+        rays.forEach((r, i) => { r.material.rotation = (i / 8) * Math.PI + t * 0.1; });
+        embers.forEach((e, i) => { const q = ((t * 0.45 + i * 0.13) % 1); e.position.set(Math.sin(i * 9 + t) * 3.4, 3 + q * 11, Math.cos(i * 7) * 3.4); e.material.opacity = 0.8 * (1 - q); });
       },
     };
   },
@@ -1639,6 +1683,78 @@ BUILDERS.sinai = function (ctx) {
         smokes[i].s.position.y = H + 6 + q * 150;
         smokes[i].s.material.opacity = 0.5 * (1 - q);
       }
+    },
+  };
+};
+
+// "Let there be light." Light breaks upon the primordial waters, the Spirit
+// hovering, sun and moon and stars kindled (Genesis 1).
+BUILDERS.creation = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  // the deep — dark primordial waters below
+  const { mesh: water, mat } = infiniteWater(3200, 0.5, 0x40527a, 1.0, true);
+  water.position.y = -4; g.add(water);
+  // the light breaking the darkness, high and ahead
+  const core = makeSprite(0xfff6e0, 70, 0.9); core.position.set(0, 74, 40); g.add(core);
+  const burst = makeSprite(0xffe6b0, 200, 0.5); burst.position.set(0, 74, 38); g.add(burst);
+  const rays = [];
+  for (let i = 0; i < 12; i++) { const r = makeSprite(0xffe9c0, 1, 0.34); r.scale.set(8, 360, 1); r.material.rotation = (i / 12) * Math.PI; r.position.set(0, 74, 36); rays.push(r); g.add(r); }
+  // the Spirit of God hovering over the face of the waters
+  const spirit = makeSprite(0xbfe0ff, 46, 0.3); spirit.position.set(0, 14, 6); g.add(spirit);
+  // sun and moon kindled (the fourth day)
+  const sun = makeSprite(0xffd98c, 26, 0.85); sun.position.set(-84, 84, 10); g.add(sun);
+  const moon = makeSprite(0xcfd8e8, 17, 0.6); moon.position.set(92, 96, -10); g.add(moon);
+  // the host of stars
+  const stars = [];
+  for (let i = 0; i < 60; i++) { const s = makeSprite(0xffffff, 1.1, 0.85, true); s.position.set((rng() - 0.5) * 340, 40 + rng() * 130, -20 - rng() * 120); stars.push({ s, ph: rng() * 9 }); g.add(s); }
+  ctx.overrideU = 0; ctx.alignToPath = true; ctx.focusH = 44; ctx.skyHeight = 4;
+  return {
+    group: g,
+    update: (t) => {
+      mat.uniforms.uTime.value = t;
+      core.material.opacity = 0.78 + 0.16 * Math.sin(t * 1.5);
+      burst.material.opacity = 0.44 + 0.1 * Math.sin(t * 1.1);
+      rays.forEach((r, i) => { r.material.rotation = (i / 12) * Math.PI + t * 0.04; });
+      spirit.position.x = Math.sin(t * 0.4) * 24; spirit.material.opacity = 0.24 + 0.1 * Math.sin(t * 0.8);
+      for (let i = 0; i < stars.length; i++) stars[i].s.material.opacity = 0.45 + 0.5 * Math.sin(t * 2 + stars[i].ph);
+    },
+  };
+};
+
+// "So shall thy seed be." Under countless stars, a smoking firepot and a flaming
+// torch pass between the halved pieces — God binds himself to Abram (Genesis 15).
+BUILDERS.covenant = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  // the pieces of the sacrifice laid opposite, a path of blood between them
+  for (const s of [-1, 1]) {
+    const half = box(5, 1.4, 6, lam(0x452720)); half.position.set(0, 0.7, s * 5.5); half.rotation.y = (rng() - 0.5) * 0.2; g.add(half);
+    const bloodGlow = makeSprite(0x8a1a10, 7, 0.3); bloodGlow.position.set(0, 1, s * 5.5); g.add(bloodGlow);
+  }
+  // the smoking firepot + flaming torch that passes between them
+  const potGroup = new THREE.Group();
+  const pot = box(2.2, 2.4, 2.2, lam(0x241a12)); pot.position.y = 1.2; potGroup.add(pot);
+  const fire = flameGroup(ctx, 2.4, true); fire.position.y = 2.4; potGroup.add(fire);
+  const torch = makeSprite(0xffb35e, 16, 0.75); torch.position.y = 3.4; potGroup.add(torch);
+  g.add(potGroup);
+  // the countless stars ("tell the stars, if thou be able to number them")
+  const stars = [];
+  for (let i = 0; i < 130; i++) { const st = makeSprite(0xffffff, 0.7 + rng() * 0.9, 0.9, true); st.position.set((rng() - 0.5) * 280, 26 + rng() * 150, (rng() - 0.5) * 280 - 20); stars.push({ s: st, ph: rng() * 9 }); g.add(st); }
+  const promise = makeSprite(0xfff2c9, 9, 0.9, true); promise.position.set(24, 104, -46); g.add(promise);
+  // Abram, beholding the heavens
+  const abram = new THREE.Mesh(new THREE.CapsuleGeometry(0.9, 2.4, 4, 8), lam(0x5a4636)); abram.position.set(-12, 1.9, 0); g.add(abram);
+  const aHead = blob(0.7, lam(0x6a5340)); aHead.position.set(-12, 3.7, -0.2); g.add(aHead);
+  ctx.facePath = true; ctx.focusH = 10; ctx.skyHeight = 0;
+  return {
+    group: g,
+    update: (t) => {
+      fire.userData.update(t);
+      const q = Math.sin(t * 0.3) * 0.5 + 0.5;
+      potGroup.position.z = -6 + q * 12;   // drifts through the gap between the pieces
+      torch.material.opacity = 0.6 + 0.2 * Math.sin(t * 4);
+      for (let i = 0; i < stars.length; i++) stars[i].s.material.opacity = 0.4 + 0.55 * Math.sin(t * 2 + stars[i].ph);
+      promise.material.opacity = 0.8 + 0.2 * Math.sin(t * 3);
     },
   };
 };

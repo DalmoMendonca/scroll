@@ -54,7 +54,7 @@ export const BOOKS = [
           "t": "In the beginning was the Word, and the Word was with God, and the Word was God. The same was in the beginning with God.",
           "ref": "John 1:1–2"
         },
-        "prop": null,
+        "prop": "creation",
         "flare": false
       },
       {
@@ -279,7 +279,7 @@ export const BOOKS = [
           "t": "Even as Abraham believed God, and it was accounted to him for righteousness. Know ye therefore that they which are of faith, the same are the children of Abraham.",
           "ref": "Galatians 3:6–7"
         },
-        "prop": null,
+        "prop": "covenant",
         "flare": false
       },
       {
