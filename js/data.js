@@ -2962,7 +2962,7 @@ export const BOOKS = [
           "t": "Verily, verily, I say unto you, The hour is coming, and now is, when the dead shall hear the voice of the Son of God: and they that hear shall live.",
           "ref": "John 5:25–26"
         },
-        "prop": "bones",
+        "prop": "drybones",
         "flare": false
       },
       {
@@ -3208,7 +3208,7 @@ export const BOOKS = [
           "t": "As it is written in the prophets, Behold, I send my messenger before thy face, which shall prepare thy way before thee. The voice of one crying in the wilderness, Prepare ye the way of the Lord, make his paths straight.",
           "ref": "Mark 1:2–3"
         },
-        "prop": "altar",
+        "prop": "dawn",
         "flare": false
       }
     ]
@@ -3493,7 +3493,7 @@ export const BOOKS = [
           "t": "And Salmon begat Booz of Rachab; and Booz begat Obed of Ruth; and Obed begat Jesse; And Jesse begat David the king; and David the king begat Solomon of her that had been the wife of Urias;",
           "ref": "Matthew 1:5–6"
         },
-        "prop": "city",
+        "prop": "barley",
         "flare": true
       }
     ]

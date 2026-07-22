@@ -6,6 +6,31 @@ import { journey } from './path.js';
 import { heightAt, waterLevelAt } from './terrain.js';
 import { mulberry32, makeSprite, clamp, lerp, smoothstep, gauss, getGlowTexture } from './utils.js';
 import { Reflector } from '../vendor/jsm/objects/Reflector.js';
+import { DecalGeometry } from '../vendor/jsm/geometries/DecalGeometry.js';
+
+// A daubed blood-splatter texture (irregular blobs and drips) for projected
+// Passover decals.
+let _bloodTex = null;
+function bloodTexture() {
+  if (_bloodTex) return _bloodTex;
+  const s = 256, cv = document.createElement('canvas'); cv.width = cv.height = s;
+  const c = cv.getContext('2d');
+  c.clearRect(0, 0, s, s);
+  const rnd = mulberry32(99);
+  c.fillStyle = '#8f1d12';
+  for (let i = 0; i < 26; i++) {
+    const x = 40 + rnd() * (s - 80), y = 30 + rnd() * (s - 90), r = 10 + rnd() * 34;
+    c.globalAlpha = 0.55 + rnd() * 0.45;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill();
+    // drips running down
+    if (rnd() > 0.4) { c.fillRect(x - r * 0.18, y, r * 0.36, r + rnd() * 60); }
+  }
+  c.globalAlpha = 1;
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  _bloodTex = tex;
+  return tex;
+}
 
 // ---- shared materials / geometry helpers -----------------------------------
 function lam(color, opts = {}) {
@@ -1967,17 +1992,35 @@ function passoverDoors(ctx) {
   const bloodMat = new THREE.MeshBasicMaterial({
     color: new THREE.Color(0xe83424).multiplyScalar(1.5), side: THREE.DoubleSide,
   });
+  // decal material: the daubed blood projected onto the wood
+  const decalMat = new THREE.MeshBasicMaterial({
+    map: bloodTexture(), transparent: true, color: 0xb52a1a,
+    depthTest: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4,
+  });
   const marks = [];
+  // project a blood decal onto a target box mesh (front +z face) — Exodus 12:22,
+  // "strike the lintel and the two side posts with the blood"
+  const daub = (frame, target, size, seed) => {
+    target.updateWorldMatrix(true, false);
+    const rnd = mulberry32(seed);
+    const pos = new THREE.Vector3(target.position.x + (rnd() - 0.5) * 0.3, target.position.y + (rnd() - 0.5) * 2, 0.45);
+    const orient = new THREE.Euler(0, 0, rnd() * Math.PI);
+    const dg = new DecalGeometry(target, pos, orient, size);
+    const decal = new THREE.Mesh(dg, decalMat);
+    frame.add(decal);
+    return decal;
+  };
   for (const s of [-1, 1]) {
     const frame = new THREE.Group();
     for (const px of [-2.4, 2.4]) {
       const post = box(0.8, 7.6, 0.8, MAT.woodDark); post.position.set(px, 3.8, 0); frame.add(post);
-      const mark = box(0.34, 5.8, 0.9, bloodMat);
-      mark.position.set(px, 4.1, 0); frame.add(mark); marks.push(mark);
+      post.updateMatrix(); post.matrixWorld.copy(post.matrix);
+      marks.push(daub(frame, post, new THREE.Vector3(2.2, 4.4, 1.6), 100 + px * 7 + s));
+      marks.push(daub(frame, post, new THREE.Vector3(1.8, 2.6, 1.6), 200 + px * 5 + s));
     }
     const lintel = box(6.4, 0.9, 0.9, MAT.woodDark); lintel.position.y = 7.9; frame.add(lintel);
-    const lintelMark = box(5.2, 0.4, 0.95, bloodMat); lintelMark.position.y = 7.9; frame.add(lintelMark);
-    marks.push(lintelMark);
+    lintel.updateMatrix(); lintel.matrixWorld.copy(lintel.matrix);
+    marks.push(daub(frame, lintel, new THREE.Vector3(5.4, 1.4, 1.6), 300 + s));
     const doorLight = new THREE.Mesh(unitPlane, new THREE.MeshBasicMaterial({
       color: new THREE.Color(0xffb36b).multiplyScalar(0.5), transparent: true, opacity: 0.5,
       side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false,
@@ -2104,6 +2147,207 @@ function buildSeaWalls(ctx) {
   g.userData.isWorldSpace = true;
   return { group: g, mat, fish, floor };
 }
+
+// "The Sun of righteousness shall arise with healing in his wings." A dawn built
+// from Rayleigh-style atmospheric scattering: a sky dome tinted by the sun's
+// angle blooms in as you reach Malachi, the sun cresting the horizon ahead.
+BUILDERS.dawn = function (ctx) {
+  const g = new THREE.Group();
+  const smp = { pos: new THREE.Vector3(), tan: new THREE.Vector3(), lat: new THREE.Vector3() };
+  journey.sample(ctx.placement.d, smp);
+  const fwd = new THREE.Vector3(smp.tan.x, 0, smp.tan.z).normalize();
+  // the sun rises just above the horizon, ahead down the path
+  const sunDir = new THREE.Vector3(fwd.x, 0.11, fwd.z).normalize();
+  const dome = new THREE.ShaderMaterial({
+    uniforms: { uSun: { value: sunDir }, uFade: { value: 0 } },
+    side: THREE.BackSide, transparent: true, depthWrite: false, depthTest: false,
+    vertexShader: `varying vec3 vDir; void main(){ vDir = normalize(position);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+    fragmentShader: `
+      varying vec3 vDir; uniform vec3 uSun; uniform float uFade;
+      void main(){
+        float up = clamp(vDir.y, 0.0, 1.0);
+        vec3 zenith = vec3(0.11, 0.24, 0.58);
+        vec3 horizon = vec3(1.0, 0.48, 0.26);
+        vec3 sky = mix(horizon, zenith, pow(up, 0.42));
+        float s = max(dot(normalize(vDir), uSun), 0.0);
+        vec3 disc = vec3(1.0, 0.88, 0.66) * pow(s, 300.0) * 3.0;   // the sun's body
+        vec3 halo = vec3(1.0, 0.74, 0.48) * pow(s, 8.0) * 0.45;    // scattering round the sun
+        vec3 col = sky + disc + halo;
+        gl_FragColor = vec4(col, uFade);
+      }`,
+  });
+  const sky = new THREE.Mesh(new THREE.SphereGeometry(1600, 32, 20), dome);
+  sky.renderOrder = -10; g.add(sky);
+  // the sun's body and rays on the horizon ahead, for extra radiance
+  const sunPos = fwd.clone().multiplyScalar(1400); sunPos.y = 150;
+  const sun = makeSprite(0xfff2dc, 90, 0.7); sun.position.copy(sunPos); g.add(sun);
+  const halo = makeSprite(0xffcf90, 240, 0.16); halo.position.copy(sunPos); g.add(halo);
+  const rays = [];
+  for (let i = 0; i < 8; i++) { const r = makeSprite(0xffe6bc, 1, 0.14); r.scale.set(22, 520, 1); r.material.rotation = (i / 8) * Math.PI; r.position.copy(sunPos); g.add(r); rays.push(r); }
+  ctx.overrideU = 0; ctx.alignToPath = true; ctx.skyHeight = 0; ctx.focusH = 60;
+  const beatD = ctx.placement.d;
+  return {
+    group: g,
+    update: (t, dt, camD) => {
+      const prox = 1 - Math.min(1, Math.abs(camD - beatD) / 380);
+      dome.uniforms.uFade.value = prox * 0.72;
+      const pulse = 0.6 + 0.12 * Math.sin(t * 0.8);
+      sun.material.opacity = 0.6 * prox * pulse; halo.material.opacity = 0.16 * prox;
+      rays.forEach((r, i) => { r.material.rotation = (i / 8) * Math.PI + t * 0.03; r.material.opacity = 0.1 * prox; });
+    },
+  };
+};
+
+// "Can these bones live?" A GPU shape-morph: a field of bone-dust particles
+// carries two positions — scattered on the ground, and gathered into standing
+// figures. As you approach, the morph runs bone to bone and an exceeding great
+// army stands upon its feet (Ezekiel 37).
+BUILDERS.drybones = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  const posA = [], posB = [], seeds = [];
+  // a host of standing figures gathered from the dust
+  const rows = 6, cols = 6, PPF = 130;
+  for (let fi = 0; fi < rows * cols; fi++) {
+    const gx = ((fi % cols) - (cols - 1) / 2) * 15 + (rng() - 0.5) * 5;
+    const gz = (Math.floor(fi / cols) - (rows - 1) / 2) * 16 + (rng() - 0.5) * 5;
+    for (let p = 0; p < PPF; p++) {
+      const y = rng() * 17;
+      // a rough standing silhouette: legs, torso, shoulders, head
+      let r;
+      if (y < 8) r = 0.7; else if (y < 14) r = 1.9; else if (y < 15.5) r = 2.4; else r = 1.4;
+      const a = rng() * Math.PI * 2, rr = Math.sqrt(rng()) * r;
+      const legSplit = y < 8 ? (rng() < 0.5 ? -1 : 1) * 1.0 : 0;
+      const bx = gx + Math.cos(a) * rr + legSplit, bz = gz + Math.sin(a) * rr;
+      if (Math.abs(bx) < 4) continue;   // keep a narrow corridor clear down the path
+      posB.push(bx, y, bz);
+      // its scattered dust on the ground nearby
+      posA.push(gx + (rng() - 0.5) * 11, 0.2 + rng() * 0.6, gz + (rng() - 0.5) * 11);
+      seeds.push(rng());
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(posB.slice(), 3)); // dummy, unused
+  geo.setAttribute('aPosA', new THREE.Float32BufferAttribute(posA, 3));
+  geo.setAttribute('aPosB', new THREE.Float32BufferAttribute(posB, 3));
+  geo.setAttribute('aSeed', new THREE.Float32BufferAttribute(seeds, 1));
+  geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 8, 0), 400);
+  const uniforms = { uMorph: { value: 0 }, uPx: { value: 1 }, uMap: { value: getGlowTexture() } };
+  const mat = new THREE.ShaderMaterial({
+    uniforms, transparent: true, depthWrite: false,
+    vertexShader: `
+      attribute vec3 aPosA, aPosB; attribute float aSeed; uniform float uMorph, uPx;
+      varying float vM;
+      void main(){
+        float delay = aSeed * 0.5;                       // staggered assembly, bone to bone
+        float m = clamp((uMorph - delay) / 0.5, 0.0, 1.0);
+        m = m * m * (3.0 - 2.0 * m);
+        vM = m;
+        vec3 p = mix(aPosA, aPosB, m);
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        gl_PointSize = uPx * (2.2 + 1.4 * m) * (300.0 / -mv.z);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: `
+      uniform sampler2D uMap; varying float vM;
+      void main(){ float a = texture2D(uMap, gl_PointCoord).r; if(a < 0.05) discard;
+        vec3 bone = mix(vec3(0.44,0.40,0.33), vec3(0.66,0.62,0.52), vM);
+        gl_FragColor = vec4(bone, a * (0.36 + 0.4 * vM));
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment> }`,
+  });
+  const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; g.add(pts);
+  // a breath-of-life wind wash over the valley
+  const breath = makeSprite(0xdfe8ff, 40, 0.12); breath.position.set(0, 12, 0); g.add(breath);
+  ctx.alignToPath = true; ctx.overrideU = 0; ctx.focusH = 14;
+  const beatD = ctx.placement.d;
+  return {
+    group: g,
+    update: (t, dt, camD) => {
+      uniforms.uPx.value = Math.min(window.devicePixelRatio || 1, 2);
+      // scattered dust as you approach; assembles and stands as you arrive
+      const approach = smoothstep(beatD - 240, beatD + 30, camD);
+      uniforms.uMorph.value = approach;
+      breath.material.opacity = 0.14 * (approach * (1 - approach)) * 4 + 0.02;   // a wind at the joining
+    },
+  };
+};
+
+// Ruth gleaning in Boaz's field: an InstancedMesh of thousands of barley stalks
+// bending in a wind field computed in the vertex shader (Ruth 2).
+BUILDERS.barley = function (ctx) {
+  const g = new THREE.Group();
+  const rng = ctx.rng;
+  const blade = new THREE.PlaneGeometry(0.18, 2.6, 1, 4);
+  blade.translate(0, 1.3, 0);   // base at the ground
+  const mat = new THREE.ShaderMaterial({
+    uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { uTime: { value: 0 } }]),
+    side: THREE.DoubleSide, fog: true,
+    vertexShader: `
+      uniform float uTime; varying float vH;
+      #include <fog_pars_vertex>
+      void main(){
+        vH = uv.y;
+        vec4 wp = modelMatrix * instanceMatrix * vec4(position, 1.0);
+        float ph = wp.x * 0.14 + wp.z * 0.14;
+        float gust = sin(uTime * 1.2 + ph) + 0.5 * sin(uTime * 2.6 + ph * 1.7);
+        float bend = gust * pow(vH, 1.6) * 1.5;
+        wp.x += bend; wp.z += bend * 0.45;
+        vec4 mvPosition = viewMatrix * wp;
+        gl_Position = projectionMatrix * mvPosition;
+        #include <fog_vertex>
+      }`,
+    fragmentShader: `
+      varying float vH;
+      #include <fog_pars_fragment>
+      void main(){
+        vec3 col = mix(vec3(0.40,0.30,0.13), vec3(0.92,0.78,0.36), vH);
+        gl_FragColor = vec4(col, 1.0);
+        #include <fog_fragment>
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  });
+  const N = 6500;
+  const field = new THREE.InstancedMesh(blade, mat, N);
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(), pos = new THREE.Vector3();
+  let n = 0;
+  for (let i = 0; i < N * 2 && n < N; i++) {
+    const x = (rng() - 0.5) * 150, z = (rng() - 0.5) * 150;
+    if (Math.abs(x) < 6) continue;   // leave a corridor down the path
+    const s = 0.7 + rng() * 0.9;
+    q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rng() * Math.PI);
+    sc.set(s, s * (0.8 + rng() * 0.5), s);
+    pos.set(x, 0, z);
+    m4.compose(pos, q, sc);
+    field.setMatrixAt(n++, m4);
+  }
+  field.count = n;
+  field.instanceMatrix.needsUpdate = true;
+  field.frustumCulled = false;
+  g.add(field);
+  // sheaves already bound, standing in the field
+  const sheafMat = lam(0xc9a44a);
+  for (let i = 0; i < 6; i++) {
+    const sheaf = cyl(1.2, 0.5, 3.4, sheafMat, 7);
+    sheaf.position.set((rng() - 0.5) * 90, 1.7, (rng() - 0.5) * 90);
+    sheaf.rotation.z = (rng() - 0.5) * 0.2; g.add(sheaf);
+  }
+  // Ruth, bent to glean; Boaz standing near
+  const ruth = new THREE.Group(); ruth.position.set(-14, 0, 10);
+  const rBody = new THREE.Mesh(new THREE.CapsuleGeometry(1.0, 2.2, 4, 8), lam(0x7a5a48)); rBody.rotation.x = 0.7; rBody.position.y = 2.2; ruth.add(rBody);
+  const rHead = blob(0.8, lam(0x8a6a52)); rHead.position.set(0, 3.4, 1.1); ruth.add(rHead); g.add(ruth);
+  const boaz = new THREE.Group(); boaz.position.set(16, 0, -6);
+  const bBody = new THREE.Mesh(new THREE.CapsuleGeometry(1.2, 3.4, 4, 8), lam(0x4a5340)); bBody.position.y = 3.4; boaz.add(bBody);
+  const bHead = blob(1.0, lam(0x6a5340)); bHead.position.y = 6.6; boaz.add(bHead); g.add(boaz);
+  const warm = makeSprite(0xffd89a, 26, 0.14); warm.position.set(0, 10, 0); g.add(warm);
+  ctx.alignToPath = true; ctx.overrideU = 0; ctx.focusH = 8;
+  return {
+    group: g,
+    update: (t) => { mat.uniforms.uTime.value = t; warm.material.opacity = 0.1 + 0.05 * Math.sin(t * 0.7); },
+  };
+};
 
 // ---- placement manager -----------------------------------------------------
 export function buildProps(scene) {
