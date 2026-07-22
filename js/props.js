@@ -505,6 +505,18 @@ const BUILDERS = {
     }
 
     let update;
+    // "the glory of the LORD had filled the house of the LORD" (1 Kings 8:11)
+    const glorious = ctx.story && /Solomon builds and dedicates/.test(ctx.story.data.title);
+    if (glorious) {
+      const gloryClouds = [];
+      for (let i = 0; i < 10; i++) { const c = makeSprite(0xfff2d0, 22 + i * 5, 0.42); c.position.set((ctx.rng() - 0.5) * 18, 6 + i * 1.8, 2 + (ctx.rng() - 0.5) * 10); gloryClouds.push({ s: c, ph: ctx.rng() * 9, b: c.position.y }); g.add(c); }
+      const gcore = makeSprite(0xffffff, 22, 0.6); gcore.position.set(0, 10, 3); g.add(gcore);
+      ctx.focusH = 18;
+      update = (t) => {
+        gcore.material.opacity = 0.5 + 0.16 * Math.sin(t * 2);
+        for (let i = 0; i < gloryClouds.length; i++) { const c = gloryClouds[i]; c.s.material.opacity = 0.3 + 0.16 * Math.sin(t * 1.4 + c.ph); c.s.position.y = c.b + Math.sin(t * 0.5 + i) * 1.2; }
+      };
+    }
     if (burning) {
       // the house of God given to the flames (2 Kings 25:9)
       const flames = [];
@@ -1755,6 +1767,199 @@ BUILDERS.covenant = function (ctx) {
       torch.material.opacity = 0.6 + 0.2 * Math.sin(t * 4);
       for (let i = 0; i < stars.length; i++) stars[i].s.material.opacity = 0.4 + 0.55 * Math.sin(t * 2 + stars[i].ph);
       promise.material.opacity = 0.8 + 0.2 * Math.sin(t * 3);
+    },
+  };
+};
+
+// David and the giant: a towering armored Goliath beginning to topple, small
+// David with his sling, the stone streaking to the giant's brow (1 Samuel 17).
+BUILDERS.goliath = function (ctx) {
+  const g = new THREE.Group();
+  const giant = new THREE.Group();
+  const legs = box(4.4, 11, 3.2, lam(0x3a4238)); legs.position.y = 5.5; giant.add(legs);
+  const torso = box(6.4, 8, 3.6, lam(0x4a5446, { emissive: 0x1a2018, emissiveIntensity: 0.3 })); torso.position.y = 13.5; giant.add(torso);
+  const helm = blob(2.1, lam(0x6a7460)); helm.position.y = 19; giant.add(helm);
+  const plume = makeSprite(0x8a3a3a, 4, 0.6); plume.position.y = 21.5; giant.add(plume);
+  const spear = cyl(0.32, 0.32, 22, MAT.woodDark, 5); spear.position.set(5.4, 11, 0); spear.rotation.z = 0.16; giant.add(spear);
+  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.9, 2.6, 6), MAT.stoneLight); tip.position.set(7.2, 21.6, 0); giant.add(tip);
+  giant.position.set(7, 0, -4); g.add(giant);
+  // David — small, with sling
+  const david = new THREE.Mesh(new THREE.CapsuleGeometry(0.7, 2, 4, 8), lam(0x8a6a4a)); david.position.set(-15, 2, 7); g.add(david);
+  const dHead = blob(0.6, lam(0x9a7a5a)); dHead.position.set(-15, 3.7, 7); g.add(dHead);
+  const stone = makeSprite(0xffffff, 1.5, 0.95, true); g.add(stone);
+  const streak = makeSprite(0xdfe8ff, 1, 0.5); streak.scale.set(12, 1.3, 1); g.add(streak);
+  ctx.facePath = true; ctx.focusH = 15;
+  return {
+    group: g,
+    update: (t) => {
+      const q = (Math.sin(t * 0.7) * 0.5 + 0.5);
+      stone.position.set(-14 + q * 19, 4 + q * 14, 7 - q * 11);
+      streak.position.copy(stone.position); streak.material.rotation = Math.atan2(14, 19);
+      stone.material.opacity = q < 0.95 ? 0.95 : 0; streak.material.opacity = q < 0.95 ? 0.5 : 0;
+      giant.rotation.z = 0.02 + q * q * 0.12;   // beginning to topple as the stone strikes
+    },
+  };
+};
+
+// "The fire of the LORD fell": a bolt of fire falls from heaven onto Elijah's
+// drenched altar and consumes it (1 Kings 18).
+BUILDERS.carmel = function (ctx) {
+  const g = new THREE.Group();
+  const base = cyl(5, 6.4, 3.4, MAT.stone, 8); base.position.y = 1.7; g.add(base);
+  for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; const s = box(1.3, 1.7, 1.3, i % 2 ? MAT.stone : MAT.stoneLight); s.position.set(Math.cos(a) * 4.8, 1.5, Math.sin(a) * 4.8); g.add(s); }
+  const wood = box(6.4, 1.6, 6.4, MAT.woodDark); wood.position.y = 3.7; g.add(wood);
+  const bolt = makeSprite(0xffffff, 1, 0.9); bolt.scale.set(12, 220, 1); bolt.position.set(0, 108, 0); g.add(bolt);
+  const impact = makeSprite(0xfff2c9, 44, 0.7); impact.position.set(0, 6, 0); g.add(impact);
+  const fire = flameGroup(ctx, 5.5, false); fire.position.y = 4.4; g.add(fire);
+  const glow = makeSprite(0xff6a2a, 54, 0.5); glow.position.y = 6; g.add(glow);
+  const halo = makeSprite(0xffd98c, 130, 0.3); halo.position.set(0, 64, 0); g.add(halo);
+  ctx.facePath = true; ctx.focusH = 8;
+  return {
+    group: g,
+    update: (t) => {
+      fire.userData.update(t);
+      const strike = Math.pow(Math.sin(t * 1.1) * 0.5 + 0.5, 3);   // the fire falls, again and again
+      bolt.material.opacity = 0.25 + strike * 0.75;
+      impact.material.opacity = 0.4 + strike * 0.5;
+      glow.material.opacity = 0.4 + 0.2 * Math.sin(t * 4);
+    },
+  };
+};
+
+// "Hear, O Israel: the LORD our God, the LORD is one." Israel's confession in
+// great radiant Hebrew, rising over the land (Deuteronomy 6).
+BUILDERS.shema = function (ctx) {
+  const g = new THREE.Group();
+  const words = ['שְׁמַע', 'יִשְׂרָאֵל', 'יְהוָה', 'אֶחָד'];
+  const planes = [];
+  for (let i = 0; i < words.length; i++) {
+    const w = hebrewPlane(words[i], 24, 0xffe6a8);
+    w.position.set(0, 10 + i * 9, 0); planes.push(w); g.add(w);
+  }
+  const glow = makeSprite(0xffe6a8, 50, 0.28); glow.position.set(0, 24, -2); g.add(glow);
+  ctx.facePath = true; ctx.focusH = 26;
+  return {
+    group: g,
+    update: (t) => {
+      for (let i = 0; i < planes.length; i++) { planes[i].material.opacity = 0.7 + 0.3 * Math.sin(t * 0.8 + i); planes[i].position.y = 10 + i * 9 + Math.sin(t * 0.5 + i) * 0.5; }
+      glow.material.opacity = 0.24 + 0.1 * Math.sin(t);
+    },
+  };
+};
+
+// "I will write my law in their hearts": the law inscribed on a living, glowing
+// heart — the new covenant (Jeremiah 31).
+BUILDERS.newcovenant = function (ctx) {
+  const g = new THREE.Group();
+  const heartMat = lam(0xd83a3a, { emissive: 0x8a1a1a, emissiveIntensity: 1.3 });
+  const heart = new THREE.Group();
+  for (const s of [-1, 1]) { const lobe = blob(3.6, heartMat, 1); lobe.position.set(s * 2.5, 13, 0); heart.add(lobe); }
+  const point = new THREE.Mesh(new THREE.ConeGeometry(5.6, 8, 7), heartMat); point.rotation.x = Math.PI; point.position.set(0, 6.5, 0); heart.add(point);
+  g.add(heart);
+  const law = hebrewPlane('תּוֹרָה', 9, 0xfff2c9); law.position.set(0, 11.5, 4.4); g.add(law);
+  const glow = makeSprite(0xff6a6a, 44, 0.4); glow.position.set(0, 11, 0); g.add(glow);
+  const halo = makeSprite(0xffd0d0, 76, 0.2); halo.position.set(0, 11, -2); g.add(halo);
+  ctx.facePath = true; ctx.focusH = 12;
+  return {
+    group: g,
+    update: (t) => {
+      const p = 0.94 + 0.06 * Math.sin(t * 1.8);   // a beating heart
+      heart.scale.setScalar(p);
+      glow.material.opacity = 0.35 + 0.15 * Math.sin(t * 1.8);
+      law.material.opacity = 0.8 + 0.2 * Math.sin(t * 2);
+    },
+  };
+};
+
+// The suffering servant: a bowed, wounded figure with arms outstretched, wounds
+// of light, a lamb at his feet — bearing the people's sorrows (Isaiah 53).
+BUILDERS.servant = function (ctx) {
+  const g = new THREE.Group();
+  const skin = lam(0x8a7360);
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(1.2, 3.4, 4, 8), skin); body.rotation.z = 0.18; body.position.y = 3.2; g.add(body);
+  const head = blob(0.95, lam(0x9a8370)); head.position.set(-0.7, 5.6, 0); head.rotation.z = 0.3; g.add(head);
+  for (const s of [-1, 1]) { const arm = cyl(0.26, 0.3, 3.6, skin, 5); arm.position.set(s * 1.7, 4.4, 0); arm.rotation.z = s * 1.15; g.add(arm); }
+  const wounds = [];
+  for (const p of [[-3.1, 4.7, 0.2], [3.1, 4.7, 0.2], [0.5, 3.4, 1.2]]) { const w = makeSprite(0xfff2d0, 2.6, 0.7, true); w.position.set(p[0], p[1], p[2]); wounds.push(w); g.add(w); }
+  const lamb = new THREE.Mesh(new THREE.CapsuleGeometry(0.7, 1.2, 4, 8), lam(0xe8e0cc)); lamb.rotation.z = Math.PI / 2; lamb.position.set(3.4, 1, 2.4); g.add(lamb);
+  const lambHead = blob(0.5, lam(0xf0e8d4)); lambHead.position.set(4.4, 1.2, 2.4); g.add(lambHead);
+  const halo = makeSprite(0xd8d0e8, 44, 0.24); halo.position.y = 5; g.add(halo);
+  ctx.facePath = true; ctx.focusH = 6;
+  return {
+    group: g,
+    update: (t) => {
+      for (let i = 0; i < wounds.length; i++) wounds[i].material.opacity = 0.5 + 0.3 * Math.sin(t * 2 + i * 2);
+      halo.material.opacity = 0.2 + 0.08 * Math.sin(t);
+    },
+  };
+};
+
+// The Davidic covenant: a grand throne on a stepped dais, a beam of everlasting
+// light rising from it and a shining line running on forever — "thy throne shall
+// be established for ever" (2 Samuel 7).
+BUILDERS.davidthrone = function (ctx) {
+  const g = new THREE.Group();
+  for (let i = 0; i < 4; i++) { const step = box(18 - i * 2.6, 1.7, 13 - i * 2, i % 2 ? MAT.stone : MAT.stoneLight); step.position.y = 0.85 + i * 1.7; g.add(step); }
+  const seat = box(7.5, 2.2, 6.4, MAT.gold); seat.position.y = 8.6; g.add(seat);
+  const back = box(7.5, 11, 1.5, MAT.gold); back.position.set(0, 14, -2.8); g.add(back);
+  for (const s of [-1, 1]) { const arm = box(1.3, 3.2, 6.4, MAT.gold); arm.position.set(s * 3.5, 9.2, 0); g.add(arm); }
+  const crownGlow = makeSprite(0xffe6a8, 44, 0.5); crownGlow.position.y = 17; g.add(crownGlow);
+  const beam = makeSprite(0xfff2c9, 1, 0.4); beam.scale.set(16, 220, 1); beam.position.y = 100; g.add(beam);
+  // a shining line running forward — the dynasty established forever
+  const line = [];
+  for (let i = 0; i < 12; i++) { const l = makeSprite(0xffd98c, Math.max(0.6, 3.4 - i * 0.24), 0.4); l.position.set(0, 9.5, 9 + i * 11); line.push(l); g.add(l); }
+  ctx.facePath = true; ctx.focusH = 14;
+  return {
+    group: g,
+    update: (t) => {
+      crownGlow.material.opacity = 0.4 + 0.15 * Math.sin(t * 2);
+      beam.material.opacity = 0.3 + 0.1 * Math.sin(t * 1.3);
+      for (let i = 0; i < line.length; i++) line[i].material.opacity = 0.4 * Math.max(0, Math.sin(t * 1.4 - i * 0.4));
+    },
+  };
+};
+
+// The kingdom torn in two: a dark rift splits the land and two roads diverge,
+// each under its own banner — north and south (1 Kings 12).
+BUILDERS.divide = function (ctx) {
+  const g = new THREE.Group();
+  const rift = box(7, 10, 150, lam(0x120e0c)); rift.position.set(0, -5, 10); g.add(rift);
+  const fissure = [];
+  for (let i = 0; i < 6; i++) { const f = makeSprite(0xff5a2a, 10 + ctx.rng() * 8, 0.35); f.position.set(0, 1, -40 + i * 24); fissure.push(f); g.add(f); }
+  for (const s of [-1, 1]) {
+    const road = box(9, 1.2, 110, s > 0 ? MAT.stoneLight : MAT.stone); road.position.set(s * 30, 0.6, 34); road.rotation.y = s * 0.3; g.add(road);
+    const pole = cyl(0.4, 0.5, 16, MAT.woodDark, 5); pole.position.set(s * 48, 8, 54); g.add(pole);
+    const banner = plane(6, 8, lam(s > 0 ? 0x8a3a3a : 0x3a5a8a)); banner.position.set(s * 51, 9, 54); banner.rotation.y = -s * 0.3; g.add(banner);
+  }
+  ctx.overrideU = 0; ctx.alignToPath = true; ctx.focusH = 8;
+  return {
+    group: g,
+    update: (t) => { for (let i = 0; i < fissure.length; i++) fissure[i].material.opacity = 0.2 + 0.12 * Math.sin(t * 3 + i); },
+  };
+};
+
+// Josiah finds the Book of the Law: the rediscovered scroll, unrolled and blazing
+// before the temple, its words rising in a reform (2 Kings 22).
+BUILDERS.josiah = function (ctx) {
+  const g = new THREE.Group();
+  const facade = box(22, 15, 4, lam(0xb0a080)); facade.position.set(0, 7.5, -15); g.add(facade);
+  for (const s of [-1, 1]) { const p = cyl(1, 1.3, 13, lam(0x9a6a3a), 9); p.position.set(s * 6.5, 6.5, -12); g.add(p); }
+  const roof = box(24, 1, 6, MAT.gold); roof.position.set(0, 15.5, -14); g.add(roof);
+  // the found scroll, unrolled and glowing
+  const scroll = new THREE.Group(); scroll.position.set(0, 8, 3);
+  for (const s of [-1, 1]) { const rod = cyl(0.45, 0.45, 7, MAT.woodDark, 6); rod.rotation.z = Math.PI / 2; rod.position.x = s * 4.4; scroll.add(rod); }
+  const sheet = box(8.4, 5.4, 0.2, MAT.cloth); scroll.add(sheet); g.add(scroll);
+  const word = hebrewPlane('תּוֹרָה', 7.5, 0xffe6a8); word.position.set(0, 8, 3.3); g.add(word);
+  const glow = makeSprite(0xffe6a8, 26, 0.4); glow.position.set(0, 8, 4); g.add(glow);
+  const WD = ['דָּבָר', 'מִצְוָה', 'בְּרִית'];
+  const risers = [];
+  for (let i = 0; i < 3; i++) { const w = hebrewPlane(WD[i], 9, 0xffd98c); risers.push({ m: w, ph: i * 1.1 }); g.add(w); }
+  ctx.facePath = true; ctx.focusH = 12;
+  return {
+    group: g,
+    update: (t) => {
+      glow.material.opacity = 0.35 + 0.12 * Math.sin(t * 2);
+      for (let i = 0; i < risers.length; i++) { const q = ((t * 0.14 + risers[i].ph) % 1); risers[i].m.position.set((i - 1) * 4.5, 10 + q * 16, 3.5); risers[i].m.material.opacity = Math.sin(q * Math.PI) * 0.9; }
     },
   };
 };

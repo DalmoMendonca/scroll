@@ -28,6 +28,13 @@ const BEHOLD = [
   { book: 'exodus',  re: /burning bush/,        kind: 'prop',     framing: 'closeup',  range: 130 },
   { book: 'genesis', re: /Creation begins/,     kind: 'prop',     framing: 'wide',     range: 220 },
   { book: 'genesis', re: /covenant promise/,    kind: 'prop',     framing: 'tower',    range: 150, drop: 5 },
+  { book: 'samuel',  re: /David defeats Goliath/, kind: 'prop',    framing: 'tower',    range: 160, drop: 5 },
+  { book: 'deuteronomy', re: /the Shema/,        kind: 'prop',     framing: 'tower',    range: 170 },
+  { book: 'jeremiah', re: /new covenant/,        kind: 'prop',     framing: 'closeup',  range: 150 },
+  { book: 'isaiah',  re: /suffering servant/,    kind: 'prop',     framing: 'closeup',  range: 150 },
+  { book: 'samuel',  re: /God covenants with David/, kind: 'prop',  framing: 'wide',     range: 170 },
+  { book: 'kings',   re: /Solomon builds and dedicates/, kind: 'prop', framing: 'wide',  range: 180 },
+  { book: 'kings',   re: /Josiah finds/,          kind: 'prop',     framing: 'closeup',  range: 150 },
 ];
 
 // Cinematic keyframe sequences: for a few marquee beats the camera stops riding

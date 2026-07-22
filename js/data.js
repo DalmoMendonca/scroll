@@ -1260,7 +1260,7 @@ export const BOOKS = [
           "t": "And Jesus answered him, The first of all the commandments is, Hear, O Israel; The Lord our God is one Lord: And thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind, and with all thy strength: this is the first commandment.",
           "ref": "Mark 12:29–30"
         },
-        "prop": "tablets",
+        "prop": "shema",
         "flare": false
       },
       {
@@ -1876,7 +1876,7 @@ export const BOOKS = [
           "t": "Forasmuch then as the children are partakers of flesh and blood, he also himself likewise took part of the same; that through death he might destroy him that had the power of death, that is, the devil; And deliver them who through fear of death were all their lifetime subject to bondage.",
           "ref": "Hebrews 2:14–15"
         },
-        "prop": "stones",
+        "prop": "goliath",
         "flare": false
       },
       {
@@ -2026,7 +2026,7 @@ export const BOOKS = [
           "t": "He shall be great, and shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David: And he shall reign over the house of Jacob for ever; and of his kingdom there shall be no end.",
           "ref": "Luke 1:32–33"
         },
-        "prop": "throne",
+        "prop": "davidthrone",
         "flare": false
       },
       {
@@ -2226,7 +2226,7 @@ export const BOOKS = [
           "t": "And this spake he not of himself: but being high priest that year, he prophesied that Jesus should die for that nation; And not for that nation only, but that also he should gather together in one the children of God that were scattered abroad.",
           "ref": "John 11:51–52"
         },
-        "prop": null,
+        "prop": "divide",
         "flare": false
       },
       {
@@ -2301,7 +2301,7 @@ export const BOOKS = [
           "t": "Elias was a man subject to like passions as we are, and he prayed earnestly that it might not rain: and it rained not on the earth by the space of three years and six months. And he prayed again, and the heaven gave rain, and the earth brought forth her fruit.",
           "ref": "James 5:17–18"
         },
-        "prop": "altar",
+        "prop": "carmel",
         "flare": false
       },
       {
@@ -2511,7 +2511,7 @@ export const BOOKS = [
           "t": "And he came to Nazareth, where he had been brought up: and, as his custom was, he went into the synagogue on the sabbath day, and stood up for to read. And there was delivered unto him the book of the prophet Esaias.",
           "ref": "Luke 4:16–17"
         },
-        "prop": "temple",
+        "prop": "josiah",
         "flare": false
       },
       {
@@ -2666,7 +2666,7 @@ export const BOOKS = [
           "t": "Who his own self bare our sins in his own body on the tree, that we, being dead to sins, should live unto righteousness: by whose stripes ye were healed. For ye were as sheep going astray; but are now returned unto the Shepherd and Bishop of your souls.",
           "ref": "1 Peter 2:24–25"
         },
-        "prop": "altar",
+        "prop": "servant",
         "flare": true
       },
       {
@@ -2791,7 +2791,7 @@ export const BOOKS = [
           "t": "And he took bread, and gave thanks, and brake it, and gave unto them, saying, This is my body which is given for you: this do in remembrance of me. Likewise also the cup after supper, saying, This cup is the new testament in my blood, which is shed for you.",
           "ref": "Luke 22:19–20"
         },
-        "prop": "tablets",
+        "prop": "newcovenant",
         "flare": false
       },
       {
