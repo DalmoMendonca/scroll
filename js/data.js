@@ -384,7 +384,7 @@ export const BOOKS = [
           "t": "By faith Abraham, when he was tried, offered up Isaac: and he that had received the promises offered up his only begotten son, Of whom it was said, That in Isaac shall thy seed be called:",
           "ref": "Hebrews 11:17–18"
         },
-        "prop": "altar",
+        "prop": "moriah",
         "flare": true
       },
       {

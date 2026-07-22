@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { journey } from './path.js';
 import { DIRECTIONS } from './direction.js';
 import { heightAt } from './terrain.js';
-import { clamp, smoothstep } from './utils.js';
+import { clamp, smoothstep, lerp } from './utils.js';
 
 // "Behold" moments: as a marquee set piece approaches, the camera stops glancing
 // and turns to admire it — dropping low to look up a tower, rising to take in a
@@ -22,6 +22,24 @@ const BEHOLD = [
   { book: 'numbers', re: /star from Jacob/,     kind: 'prop',     framing: 'tower',    range: 200, drop: 4 },
   { book: 'ezekiel', re: /divine chariot/,      kind: 'prop',     framing: 'wide',     range: 240 },
   { book: 'jeremiah', re: /potter reshape/,     kind: 'prop',     framing: 'closeup',  range: 150 },
+];
+
+// Cinematic keyframe sequences: for a few marquee beats the camera stops riding
+// the path and plays an authored, scroll-scrubbed shot list (the idea behind
+// Theatre.js). Each key gives camera + look-at offsets from the set piece, in a
+// path-aligned frame (x=right/lateral, y=up, z=forward/tangent), plus a fov
+// delta. Progress p (0..1) tracks the traveler across the beat window.
+const SEQUENCES = [
+  {
+    book: 'genesis', re: /binds Isaac/, range: 155,
+    keys: [
+      { p: 0.00, cam: [12, 26, -70], look: [0, 0, 2], fov: 4 },    // establish the mount
+      { p: 0.30, cam: [16, 5, -30], look: [1, 3, -1], fov: -6 },   // push in low: the knife raised over Isaac
+      { p: 0.52, cam: [13, 8, -25], look: [2, 33, 6], fov: -3 },   // the voice from heaven — tilt up to the light
+      { p: 0.76, cam: [1, 5, -20], look: [-16, -4, 6], fov: -5 },  // pan to the ram in the thicket — the substitute
+      { p: 1.00, cam: [9, 21, -60], look: [0, 0, 2], fov: 2 },     // release, pull back
+    ],
+  },
 ];
 
 const MOOD_KEYS = ['eye', 'fov', 'look', 'bob', 'sway', 'bank', 'lateral', 'orbit'];
@@ -103,8 +121,53 @@ export class CameraDirector {
       }
       this.beholds.push({ def: b, sd: story.d, target });
     }
+    // Resolve cinematic sequences: origin at the set piece, plus a horizontal
+    // path-aligned frame (right/forward) to place the authored camera offsets.
+    this.sequences = [];
+    for (const sq of SEQUENCES) {
+      const region = journey.regions.find(r => r.book.id === sq.book);
+      if (!region) continue;
+      const story = region.stories.find(s => sq.re.test(s.data.title));
+      if (!story || !story.worldPos) continue;
+      journey.sample(story.d, smp);
+      const fwd = new THREE.Vector3(smp.tan.x, 0, smp.tan.z).normalize();
+      const right = new THREE.Vector3(smp.lat.x, 0, smp.lat.z).normalize();
+      this.sequences.push({ keys: sq.keys, sd: story.d, range: sq.range, origin: story.worldPos.clone(), fwd, right });
+    }
+
     this._target = new THREE.Vector3();
+    this._v1 = new THREE.Vector3(); this._v2 = new THREE.Vector3();
+    this._up = new THREE.Vector3(0, 1, 0);
     this._m = { eye: 0, fov: 0, look: 0, bob: 0, sway: 0, bank: 0, lateral: 0, orbit: 0 };
+  }
+
+  // Play authored, scroll-scrubbed cinematic shots. Mutates camPos/lookPos;
+  // returns fovAdd. Blends in and out at the window edges so nothing pops.
+  cinematic(d, camPos, lookPos) {
+    let fovAdd = 0;
+    for (const seq of this.sequences) {
+      const p = (d - (seq.sd - seq.range)) / (2 * seq.range);
+      if (p <= 0 || p >= 1) continue;
+      const w = smoothstep(0, 0.12, p) * smoothstep(1, 0.88, p) * 0.92;
+      if (w < 0.001) continue;
+      const k = seq.keys;
+      let a = k[0], b = k[k.length - 1];
+      for (let i = 0; i < k.length - 1; i++) { if (p >= k[i].p && p <= k[i + 1].p) { a = k[i]; b = k[i + 1]; break; } }
+      const span = Math.max(1e-4, b.p - a.p);
+      let lt = clamp((p - a.p) / span, 0, 1); lt = lt * lt * (3 - 2 * lt);
+      const camT = this._v1.copy(seq.origin)
+        .addScaledVector(seq.right, lerp(a.cam[0], b.cam[0], lt))
+        .addScaledVector(this._up, lerp(a.cam[1], b.cam[1], lt))
+        .addScaledVector(seq.fwd, lerp(a.cam[2], b.cam[2], lt));
+      const lookT = this._v2.copy(seq.origin)
+        .addScaledVector(seq.right, lerp(a.look[0], b.look[0], lt))
+        .addScaledVector(this._up, lerp(a.look[1], b.look[1], lt))
+        .addScaledVector(seq.fwd, lerp(a.look[2], b.look[2], lt));
+      camPos.lerp(camT, w);
+      lookPos.lerp(lookT, w);
+      fovAdd += lerp(a.fov, b.fov, lt) * w;
+    }
+    return fovAdd;
   }
 
   // Turn to admire marquee set pieces. Mutates camPos/lookPos; returns fovAdd.

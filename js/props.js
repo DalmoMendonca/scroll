@@ -1905,6 +1905,61 @@ BUILDERS.startrail = function (ctx) {
   };
 };
 
+// The binding of Isaac on Mount Moriah — an altar, the bound son, Abraham with
+// the knife raised, the voice from heaven that stays his hand, and the ram
+// caught in a thicket. A cinematic keyframe sequence (see camera.js) scrubs the
+// camera through the whole scene as you scroll.
+BUILDERS.moriah = function (ctx) {
+  const g = new THREE.Group();
+  // the mount — a raised rocky knoll
+  const mount = blob(15, MAT.stoneDark, 1); mount.scale.set(1.5, 0.7, 1.5); mount.position.y = -5; g.add(mount);
+  const mount2 = blob(9, MAT.stone, 1); mount2.scale.set(1.2, 0.6, 1.2); mount2.position.set(-6, -2, 5); g.add(mount2);
+  // the altar: stacked stones topped with a wood pile
+  const altar = new THREE.Group(); altar.position.y = 3;
+  for (let i = 0; i < 3; i++) { const s = box(9 - i * 1.2, 1.6, 7 - i, i % 2 ? MAT.stone : MAT.stoneLight); s.position.y = i * 1.5; altar.add(s); }
+  for (let i = 0; i < 5; i++) { const w = cyl(0.3, 0.3, 6.2, MAT.woodDark, 5); w.rotation.z = Math.PI / 2; w.rotation.y = i * 0.5; w.position.set((i - 2) * 0.9, 5.0, 0); altar.add(w); }
+  g.add(altar);
+  // Isaac bound upon the wood
+  const isaac = new THREE.Mesh(new THREE.CapsuleGeometry(1.1, 3.6, 4, 8), lam(0xcaa678));
+  isaac.rotation.z = Math.PI / 2; isaac.position.set(0, 8.7, 0); g.add(isaac);
+  // Abraham standing over him, arm and knife lifted
+  const abe = new THREE.Group(); abe.position.set(0, 3, -4.8);
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(1.2, 4, 4, 8), lam(0x5a4636)); body.position.y = 4; abe.add(body);
+  const head = blob(1.1, lam(0x6a5340)); head.position.y = 7.4; abe.add(head);
+  const arm = cyl(0.3, 0.3, 4.2, lam(0x5a4636), 5); arm.position.set(1.6, 8.6, 0); arm.rotation.z = -0.6; abe.add(arm);
+  const knife = box(0.16, 2.6, 0.5, MAT.stoneLight); knife.position.set(3.0, 10.8, 0); knife.rotation.z = -0.35; abe.add(knife);
+  const glint = makeSprite(0xffffff, 2.6, 0.7); glint.position.set(3.0, 10.8, 0); abe.add(glint);
+  g.add(abe);
+  // the voice from heaven that stays the hand — a shaft of light and a burst
+  const beam = new THREE.Mesh(new THREE.CylinderGeometry(2, 7, 60, 12, 1, true), ghostMat(0xfff2c9, 0.14));
+  beam.position.set(2, 34, 4); g.add(beam);
+  const burst = makeSprite(0xfff2c9, 30, 0.4); burst.position.set(2, 42, 6); g.add(burst);
+  const rays = [];
+  for (let i = 0; i < 6; i++) { const r = makeSprite(0xffe9b8, 1, 0.3); r.scale.set(2.4, 40, 1); r.material.rotation = (i / 6) * Math.PI; r.position.set(2, 40, 6); g.add(r); rays.push(r); }
+  // the ram caught in a thicket — the substitute provided
+  const thicket = new THREE.Group(); thicket.position.set(-16, 0, 6);
+  const bush = blob(3.2, MAT.leafDark, 1); bush.scale.set(1.5, 1, 1.2); bush.position.y = 2.6; thicket.add(bush);
+  const bush2 = blob(2.2, MAT.leaf, 0); bush2.position.set(1.6, 2.2, 1); thicket.add(bush2);
+  const ram = new THREE.Mesh(new THREE.CapsuleGeometry(1.3, 2.8, 4, 8), lam(0xe6dcc4, { emissive: 0x2a2213, emissiveIntensity: 0.6 })); ram.rotation.z = Math.PI / 2; ram.position.set(0, 3.4, 1.6); thicket.add(ram);
+  const ramHead = blob(1.1, lam(0xefe6cf, { emissive: 0x2a2213, emissiveIntensity: 0.6 })); ramHead.position.set(2.6, 3.6, 1.6); thicket.add(ramHead);
+  for (const s of [-1, 1]) { const horn = new THREE.Mesh(new THREE.TorusGeometry(0.75, 0.17, 6, 10, Math.PI * 1.3), MAT.bone); horn.position.set(2.9, 4.2, 1.6 + s * 0.5); horn.rotation.set(Math.PI / 2, 0, 0.6); thicket.add(horn); }
+  const ramGlow = makeSprite(0xffe6b0, 11, 0.5); ramGlow.position.set(0.6, 4.2, 1.6); thicket.add(ramGlow);
+  const ramBeam = makeSprite(0xfff2d0, 6, 0.28); ramBeam.scale.set(6, 22, 1); ramBeam.position.set(0.6, 10, 1); thicket.add(ramBeam);
+  g.add(thicket);
+  ctx.alignToPath = true; ctx.overrideU = 22; ctx.focusH = 8;
+  return {
+    group: g,
+    update: (t) => {
+      const stay = 0.6 + 0.4 * Math.sin(t * 1.6);
+      burst.material.opacity = 0.3 + 0.18 * stay;
+      beam.material.opacity = 0.10 + 0.08 * stay;
+      glint.material.opacity = 0.5 + 0.4 * Math.abs(Math.sin(t * 2.2));
+      rays.forEach((r, i) => { r.material.rotation = (i / 6) * Math.PI + t * 0.08; });
+      ramGlow.material.opacity = 0.2 + 0.1 * Math.sin(t * 2 + 1);
+    },
+  };
+};
+
 // Two doorframes alone on the plain, blood-marked, and the traveler passes
 // between them.
 function passoverDoors(ctx) {
